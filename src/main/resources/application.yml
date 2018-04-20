@@ -1,0 +1,41 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    # excluded-view-names:
+    # mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    # template-resolver-order:
+    # view-names:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+  h2:
+    console:
+      enabled: true
+#    http://localhost:8080/h2-console
+
+
+
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:mydb
+#    username: sa
+#    password:
+
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/helloboard?useUnicode=true&characterEncoding=utf8&useSSL=false
+#    username: fastcamp
+#    password: fastcamp
