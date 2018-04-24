@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,14 @@ public class User {
     private String phone3;
     private LocalDateTime regtime;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<UserRole> roles;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserRole> roles = new ArrayList<>();
+
+    // 헬퍼
+    public void addUserRole(UserRole role){
+        this.roles.add(role);
+        if(role.getUser()!=this){
+            role.setUser(this);
+        }
+    }
 }
