@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "boards")
@@ -32,5 +34,8 @@ public class Board {
     private User user;
 
     private int hit; // 조회수
+
+    @OneToMany(mappedBy = "board")
+    private List<BoardFile> boardFiles = new ArrayList<>();
 
 }
