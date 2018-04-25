@@ -20,6 +20,9 @@ public class Product {
     private String price;
     private String size;
     private String imagePath;
+
+    @ManyToOne(targetEntity = ProductCategory.class,fetch=FetchType.LAZY)
+    @JoinColumn(name="category_id")
     private int categoryId;
     private LocalDateTime regtime;
     private LocalDateTime edittime;  // 수정날짜

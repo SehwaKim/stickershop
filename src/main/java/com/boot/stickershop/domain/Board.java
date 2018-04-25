@@ -20,7 +20,10 @@ public class Board {
 
     private LocalDateTime regtime;
     private LocalDateTime edittime;  // 수정날짜
-//    private int categoryNo;  // 공지=1, FAQ=2, Q&A=3
+
+    @ManyToOne(targetEntity = BoardCategory.class,fetch=FetchType.LAZY)
+    @JoinColumn(name="catetory_id")
+    private int categoryId;  // 공지=1, FAQ=2, Q&A=3
     private String title;
     private String content;
 
