@@ -17,12 +17,17 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime regtime;
     private LocalDateTime edittime;  // 수정날짜
 //    private int categoryNo;  // 공지=1, FAQ=2, Q&A=3
     private String title;
     private String content;
-    private String writer;
+
+    @ManyToOne(targetEntity = User.class,fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     private int hit; // 조회수
 
 }

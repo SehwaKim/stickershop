@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "deliveries")
@@ -25,4 +27,16 @@ public class Delivery {
     private String phone2;  // xxxx
     private String phone3;
     private String message;
+    private int status; // 배송상태정보
+
+    @OneToMany(mappedBy = "deliveries",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Order> orders = new ArrayList<>();
+
+    // 헬퍼
+    public void addOrder(Order order){
+        this.orders.add(order);
+        if(order.getDelivery()!=this){
+            order.setDelivery(this);
+        }
+    }
 }

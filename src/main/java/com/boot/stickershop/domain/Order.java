@@ -21,4 +21,24 @@ public class Order {
     private LocalDateTime regtime;
     private int status; // 주문 상태 주문=1, 취소=2,
 
+    @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @ManyToOne(targetEntity = Product.class,fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name="delivery_id")
+    private Delivery delivery;
+
+    // 헬퍼
+    void addDelivery(Delivery delivery){
+        this.delivery = delivery;
+        if(!delivery.getOrders().contains(this)){
+            delivery.getOrders().add(this);
+        }
+    }
+
 }
