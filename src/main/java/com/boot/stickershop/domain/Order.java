@@ -19,5 +19,6 @@ public class Order {
     private String payment;  // 결제 방법
     private int quantity; // 상품 수량.
     private LocalDateTime regtime;
+    private int status; // 주문 상태 주문=1, 취소=2,
 
 }

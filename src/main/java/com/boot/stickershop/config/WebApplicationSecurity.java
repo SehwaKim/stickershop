@@ -26,7 +26,7 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().fullyAuthenticated()
+//                .anyRequest().fullyAuthenticated()
                 .and()
                 .csrf().ignoringAntMatchers("/**")
 //                .ignoringAntMatchers("/h2-console/**")
