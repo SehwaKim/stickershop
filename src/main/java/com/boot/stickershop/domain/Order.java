@@ -26,7 +26,7 @@ public class Order {
     private User user;
 
     @ManyToOne(targetEntity = Product.class,fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="product_id")
     private Product product;
 
     @ManyToOne
