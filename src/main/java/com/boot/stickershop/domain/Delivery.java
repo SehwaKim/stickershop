@@ -29,7 +29,7 @@ public class Delivery {
     private String message;
     private int status; // 배송상태정보
 
-    @OneToMany(mappedBy = "deliveries",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
     // 헬퍼

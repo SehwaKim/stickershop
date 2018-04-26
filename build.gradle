@@ -89,6 +89,10 @@ dependencies {
 	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
 	compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 	runtime('org.springframework.boot:spring-boot-devtools')
+
+	compile 'org.webjars:jquery:3.3.1-1'
+	compile 'org.webjars:bootstrap:4.1.0'
+
 	runtime('com.h2database:h2:1.4.197')
 //    runtime('mysql:mysql-connector-java')
 	compile('org.projectlombok:lombok')
