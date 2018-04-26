@@ -36,9 +36,9 @@ public class Board {
     private List<BoardFile> boardFiles = new ArrayList<>();
 
     public void addBoardFiles(BoardFile boardFile){
-        boardFiles.add(boardFile);
         if(boardFile.getBoard() != this){
             boardFile.setBoard(this);
         }
+        boardFiles.add(boardFile);
     }
 }
