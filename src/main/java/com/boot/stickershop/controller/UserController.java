@@ -45,13 +45,17 @@ public class UserController {
 
         // insert
         userService.addUser(user);
+        System.out.println(user.getId());
+        System.out.println(user.getRoles());
+
+        System.out.println(user.getRegtime());
 
         return "users/login";
     }
 
     @GetMapping("login")
     public String login(){
-        return "users/login";
+        return "/";
     }
 
     // Q. 왜 로그인 후 자동으로 "/" 여기로 갈까? 아무설정 안해줬는데...

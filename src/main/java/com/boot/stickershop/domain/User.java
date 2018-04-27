@@ -37,6 +37,7 @@ public class User {
 
     // 헬퍼
     public void addUserRole(UserRole role){
+        role.setRoleName("회원");
         this.roles.add(role);
         if(role.getUser()!=this){
             role.setUser(this);
