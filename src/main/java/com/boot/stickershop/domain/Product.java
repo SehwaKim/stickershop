@@ -23,13 +23,13 @@ public class Product {
     private String size;
     private String imagePath;
 
-    @ManyToOne(targetEntity = ProductCategory.class,fetch=FetchType.LAZY)
+    @ManyToOne(targetEntity = ProductCategory.class,fetch=FetchType.EAGER)
     @JoinColumn(name="category_id")
-    private int categoryId;
+    private ProductCategory productCategory;
     private LocalDateTime regtime;
     private LocalDateTime edittime;  // 수정날짜
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductFile> productFiles = new ArrayList<>();
 
     public void addProductFile(ProductFile productFile){
