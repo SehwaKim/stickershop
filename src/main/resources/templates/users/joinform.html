@@ -4,21 +4,34 @@
     <title>회원가입</title>
 </th:block>
 
+<script type="text/javascript">
+    function toCheckPw() {
+        var pw = document.getElementById("pw1").value;
+        var pwch = document.getElementById("pw2").value;
+
+        if(pw!=pwch) {
+         document.getElementById('pwsame').innerHTML = '비밀번호 불일치. 다시입력해 주세요!'
+        }
+    }
+
+</script>
+
 <th:block layout:fragment="body_main">
     <br><br><br>
     <h1>회원가입</h1>
-    <form method="post" th:action="@{/users/join}" th:object="${user}" action="#">
-        <p>이름: <input type="text" th:field="*{name}" /></p>
-        <p>이메일: <input type="text" th:field="*{email}" /></p>
-        <p>비밀번호: <input type="password" name = "pw1" th:field="*{password}" /></p>
-        <p>비밀번호 확인: <input type="password" name="pw2" /></p>
-        <p>우편번호: <input type="text" th:field="*{zipcode}" /></p>
-        <p>기본주소: <input type="text" th:field="*{addr1}" /></p>
-        <p>상세주: <input type="text" th:field="*{addr2}" /></p>
+    <form method="post" onsubmit="return toCheckPw()" th:action="@{/users/join}" th:object="${user}" action="#">
+        <p>이름: <input type="text" th:field="*{name}" required></p>
+        <p>이메일: <input type="text" th:field="*{email}" required></p>
+        <p>비밀번호: <input type="password" id = "pw1" name = "pw1" th:field="*{password}" required></p>
+        <p>비밀번호 확인: <input type="password" id = "pw2" name="pw2" required></p>
+        <p id="pwsame" style="color:red;"></p>
+        <p>우편번호: <input type="text" th:field="*{zipcode}" required></p>
+        <p>기본주소: <input type="text" th:field="*{addr1}" required></p>
+        <p>상세주: <input type="text" th:field="*{addr2}" required></p>
         <p>휴대전화:<input type="text" th:field="*{phone1}"maxlength="3"/>-<input type="text" th:field="*{phone2}" maxlength="4" />-<input type="text" th:field="*{phone3}"maxlength="4" /></p>
         <p><input type="submit" class="btn btn-primary" value="Submit" /> <input type="reset" value="Reset" /></p>
-        <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" >Primary</button>
+        <!--<button type="button" class="btn btn-primary">Primary</button>-->
+        <!--<button type="button" >Primary</button>-->
 
     </form>
 </th:block>

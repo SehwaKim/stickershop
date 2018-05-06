@@ -50,7 +50,7 @@ public class UserController {
 
         System.out.println(user.getRegtime());
 
-        return "users/login";
+        return "users/login"; // /login 으로 리다이렉트 되게 해야
     }
 
     @GetMapping("login")
