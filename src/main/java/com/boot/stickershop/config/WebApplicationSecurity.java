@@ -34,7 +34,11 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().ignoringAntMatchers("/**")
 //                .ignoringAntMatchers("/h2-console/**")
                 .and().headers().frameOptions().disable()
-                .and().formLogin().loginPage("/users/login").usernameParameter("email").passwordParameter("password")
+                .and().formLogin()
+                .loginProcessingUrl("/users/login")
+                .loginPage("/users/login").usernameParameter("email").passwordParameter("password")
+                /*.successHandler(customAuthenticationSuccessHandler())
+                .failureHandler(customAuthenticationFailureHandler())*/
 //                .and().rememberMe().tokenRepository(simpleBoardTokenRepositoryImpl).rememberMeParameter("remember-me").tokenValiditySeconds(1209600)
                 .and().logout().permitAll();
 
