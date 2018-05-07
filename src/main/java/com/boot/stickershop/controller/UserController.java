@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/join")
+    @GetMapping("/joinform")
     public String joinform(ModelMap modelMap){
         User user = new User();
         modelMap.addAttribute("user", user);
@@ -37,26 +37,18 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // 권한 부여
-        List<UserRole> list = new ArrayList<>();
         UserRole userRole = new UserRole();
         userRole.setRoleName("USER");
-        list.add(userRole);
-        user.setRoles(list);
+        user.addUserRole(userRole);
 
         // insert
         userService.addUser(user);
-        System.out.println(user.getId());
-        System.out.println(user.getRoles());
 
-        System.out.println(user.getRegtime());
-
-        return "users/login"; // /login 으로 리다이렉트 되게 해야
+        return "users/loginform";
     }
 
     @GetMapping("login")
     public String login(){
-        return "/";
+        return "users/loginform";
     }
-
-    // Q. 왜 로그인 후 자동으로 "/" 여기로 갈까? 아무설정 안해줬는데...
 }

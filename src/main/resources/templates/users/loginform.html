@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>로그인하기</title>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="margin-left: 75px"><h2>로그인 / 회원가입</h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container login">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h6 class="my-0 font-weight-normal">이미 등록된 고객입니다.</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="userForm" th:action="@{/users/login}" action="#">
+                        <div style="text-align: left; padding-bottom: 25px;">
+                            <label for="email"><small>이메일</small></label>
+                            <input type="text" class="form-control" id="email" name="email">
+                            <div class="formMsg">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div style="text-align: left; padding-bottom: 25px;">
+                            <label for="password"><small>비밀번호</small></label>
+                            <input type="password" class="form-control" id="password" name="password">
+                            <div class="formMsg">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div style="text-align: left; padding-bottom: 20px;">
+                            <input type="checkbox" aria-label="Checkbox for following text input">
+                            <span><small>내 정보 기억하기</small></span>
+                        </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-light"><small>로그인</small></button>
+                    <p style="padding-top: 5px"><small>또는</small></p>
+                    <button type="button" class="btn btn-lg btn-block btn-primary"><small>FACEBOOK 계정으로 로그인하기</small></button>
+                    </form>
+                </div>
+            </div>
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h6 class="my-0 font-weight-normal">처음 방문입니다.</h6>
+                </div>
+                <div class="card-body">
+                    <p style="padding: 20px">회원으로 가입하시면 보다 빠르고 편리하게 이용하실 수 있습니다.</p>
+                    <button type="button" class="btn btn-lg btn-block btn-light" onclick="location.href='/users/joinform'"><small>회원 가입</small></button>
+                    <p style="padding-top: 5px"><small>또는</small></p>
+                    <button type="button" class="btn btn-lg btn-block btn-primary"><small>FACEBOOK 계정으로 등록하기</small></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

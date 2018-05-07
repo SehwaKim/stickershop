@@ -32,7 +32,7 @@ public class User {
     private String phone3;
     private LocalDateTime regtime;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserRole> roles = new ArrayList<>();
 
     // 헬퍼
