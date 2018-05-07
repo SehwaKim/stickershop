@@ -24,11 +24,8 @@ public class StickershopApplication implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if(!registry.hasMappingForPattern("/static/**")){
-            registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        }
-		if(!registry.hasMappingForPattern("/webjars/**")){
-            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:META-INF/resources/webjars/**");
-        }
+			registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+		}
 	}
 
 	@Override
