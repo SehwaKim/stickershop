@@ -39,3 +39,18 @@ spring:
 #    url: jdbc:mysql://localhost:3306/helloboard?useUnicode=true&characterEncoding=utf8&useSSL=false
 #    username: fastcamp
 #    password: fastcamp
+
+
+# 페이스북
+facebook:
+  client:
+     clientId: 239960270083636
+     clientSecret: 2d7ea38d12bd90e98f5a3b9ca5da8350
+     accessTokenUri: https://graph.facebook.com/oauth/access_token
+     userAuthorizationUri: https://www.facebook.com/dialog/oauth
+     tokenName: oauth_token
+     authenticationScheme: query
+     clientAuthenticationScheme: form
+     scope: email
+  resource:
+     userInfoUri: https://graph.facebook.com/me?fields=email,name,id
