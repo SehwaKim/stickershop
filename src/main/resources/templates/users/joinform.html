@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
-
+<style>
+    .errDiv{
+        font-size: 8px;
+        color: darkred;
+        text-decoration-color: darkred;
+        text-emphasis-color: darkred;
+    }
+</style>
 <th:block layout:fragment="html_head">
     <title>회원 가입 하기</title>
 </th:block>
@@ -10,56 +17,27 @@
     <hr style="padding-bottom: 40px">
     <div class="container" style="padding-bottom: 100px;">
         <div style="width: 30%; margin: auto;">
-        <form method="post" th:action="@{/users/join}" th:object="${user}" action="#">
+        <form method="post" th:action="@{/users/join}" th:object="${userJoinForm}" action="#">
             <div style="padding-bottom: 25px;">
                 <label for="name"><small>이름</small></label>
                 <input type="text" class="form-control" id="name" th:field="*{name}" />
+                <div class="errDiv" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
             <div style="padding-bottom: 25px;">
                 <label for="email"><small>이메일</small></label>
                 <input type="text" class="form-control" id="email" th:field="*{email}" />
+                <div class="errDiv" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
             </div>
             <div style="padding-bottom: 25px;">
                 <label for="pw1"><small>비밀번호</small></label>
-                <input type="password" class="form-control" id="pw1" name = "pw1" th:field="*{password}" />
+                <input type="password" class="form-control" id="pw1" name = "password" />
+                <div class="errDiv" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
             <div style="padding-bottom: 25px;">
                 <label for="pw2"><small>비밀번호 확인</small></label>
-                <input type="password" class="form-control" id="pw2" name="pw2"/>
-            </div>
-            <div>
-                <label for="zipcode"><small>상세주소</small></label>
-            </div>
-            <div style="padding-bottom: 10px;">
-                <div>
-                    <input type="text" class="form-control" id="zipcode" th:field="*{zipcode}" style="width: 40%;"/>
-                </div>
-                <!--<div>
-                    <button type="submit" class="btn btn-light"><small>주소 검색</small></button>
-                </div>-->
-            </div>
-            <div style="padding-bottom: 10px;">
-                <input type="text" class="form-control" id="addr1" th:field="*{addr1}" />
-            </div>
-            <div style="padding-bottom: 25px;">
-                <input type="text" class="form-control" id="addr2" th:field="*{addr2}" />
-            </div>
-            <div>
-                <label for="phone1"><small>휴대전화</small></label>
-            </div>
-            <div class="row" style="padding-bottom: 25px;">
-                <div class="col">
-                <select class="custom-select mr-sm-2" name="phone1" id="phone1">
-                    <option value="010">010</option>
-                    <option value="011">011</option>
-                </select>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" th:field="*{phone2}" />
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" th:field="*{phone3}" />
-                </div>
+                <input type="password" class="form-control" id="pw2" name="rePassword"/>
+                <div class="errDiv" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></div>
             </div>
             <div style="margin: auto;">
                 <button type="submit" class="btn btn-dark"><small>가입 하기</small></button>
