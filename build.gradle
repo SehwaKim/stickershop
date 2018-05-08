@@ -6,9 +6,10 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-		maven {
-			url "https://plugins.gradle.org/m2/"
+		maven { url "https://plugins.gradle.org/m2/"
+			url 'https://repo.spring.io/snapshot'
 		}
+
 		jcenter()
 	}
 	dependencies {
@@ -52,6 +53,7 @@ sourceSets {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
 }
 
 group = 'examples.boot'
@@ -85,6 +87,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
 	compile('org.springframework.boot:spring-boot-starter-security')
+	compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.2.BUILD-SNAPSHOT'
 	compile("com.querydsl:querydsl-sql-spatial:${querydslVersion}")
 	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
 	compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
