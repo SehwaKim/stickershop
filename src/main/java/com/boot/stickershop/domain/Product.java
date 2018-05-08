@@ -21,6 +21,7 @@ public class Product {
     private String name;
     private String price;
     private String size;
+    private Long sales;
     private String imagePath;
 
     @ManyToOne(targetEntity = ProductCategory.class,fetch=FetchType.EAGER)
