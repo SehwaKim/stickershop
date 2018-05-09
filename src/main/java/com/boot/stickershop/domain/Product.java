@@ -19,12 +19,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String price;
+    private Integer price;
     private String size;
     private Long sales;
+    @Column(name = "image_path")
     private String imagePath;
 
-    @ManyToOne(targetEntity = ProductCategory.class,fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity = ProductCategory.class, fetch=FetchType.EAGER)
     @JoinColumn(name="category_id")
     private ProductCategory productCategory;
     private LocalDateTime regtime;
