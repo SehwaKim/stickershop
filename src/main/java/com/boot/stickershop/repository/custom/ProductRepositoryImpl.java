@@ -35,7 +35,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         }
 
         if(productSearch.getKeyword() != null){
-            jpaQuery.where(qProduct.name.contains(productSearch.getKeyword()));
+            jpaQuery.where(qProduct.name.containsIgnoreCase(productSearch.getKeyword()));
         }
 
         if(productSearch.getMinPrice() != null || productSearch.getMaxPrice() != null){

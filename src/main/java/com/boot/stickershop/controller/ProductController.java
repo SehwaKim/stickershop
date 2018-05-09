@@ -25,6 +25,10 @@ public class ProductController {
         modelMap.addAttribute("list", productPage);
         modelMap.addAttribute("pager", pagination);
 
-        return "/products/list";
+        if(productSearch.getKeyword() == null && productSearch.getMinPrice() == null && productSearch.getMaxPrice() == null){
+            return "/products/list";
+        }else {
+            return "/products/search";
+        }
     }
 }

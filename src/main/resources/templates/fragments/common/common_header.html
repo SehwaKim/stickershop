@@ -81,8 +81,8 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" id="search">
-            <input class="form-control mr-sm-2" type="search" placeholder="상품을 검색하세요" aria-label="Search" id="searchStr">
+        <form class="form-inline my-2 my-lg-0" id="search" method="GET" th:action="@{/products}">
+            <input class="form-control mr-sm-2" type="search" placeholder="상품을 검색하세요" aria-label="Search" id="keyword" name="keyword">
             <a href="#" onclick="document.getElementById('search').submit();">
                 <svg class="i-search" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <circle cx="14" cy="14" r="12" />
