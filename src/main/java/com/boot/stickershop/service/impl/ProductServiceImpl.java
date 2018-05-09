@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -26,5 +28,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return productRepository.getProductsByDSL(productSearch, pageRequest);
+    }
+
+    @Override
+    public List<Product> getProductListMain() {
+        return productRepository.getMainProductsByDSL();
     }
 }
