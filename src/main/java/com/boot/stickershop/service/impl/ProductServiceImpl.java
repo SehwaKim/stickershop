@@ -17,7 +17,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getProductList(ProductSearch productSearch) {
-        Page<Product> list = null;
         PageRequest pageRequest = null;
 
         if("FAVOR".equals(productSearch.getSort().toUpperCase())){

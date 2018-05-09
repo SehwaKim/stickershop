@@ -20,10 +20,10 @@ public class ProductController {
     public String getProductList(@ModelAttribute ProductSearch productSearch, ModelMap modelMap){
         Page<Product> productPage = productService.getProductList(productSearch);
 
-        Pagination pagination = new Pagination((int) productPage.getTotalElements(), 18, productSearch.getPage(), productPage.getTotalPages());
+        Pagination pagination = new Pagination((int) productPage.getTotalElements(), 18, productSearch.getPage(), 5);
 
         modelMap.addAttribute("list", productPage);
-        modelMap.addAttribute("pagination", pagination);
+        modelMap.addAttribute("pager", pagination);
 
         return "/products/list";
     }
