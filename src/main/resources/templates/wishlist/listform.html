@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>로그인하기</title>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="margin-left: 75px"><h2>위시리스트</h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container wishlist">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <form method="post" id="wishlistForm"  action="#">
+                        <div class="container">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th width="10%">id</th>
+                                    <th>상품명</th>
+                                    <th width="25%">사용자</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${not #lists.isEmpty(list)}" th:each="wishlist : ${list}">
+                                    <td th:text="${wishlist.id}"></td>
+                                    <td th:text="${wishlist.product.name}"></td>
+                                    <td th:text="${wishlist.user.name}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-block btn-light"><small>주문</small></button>
+                        <p style="padding-top: 5px"><small>또는</small></p>
+                        <button type="button" class="btn btn-lg btn-block btn-primary" onclick="location.href='/sign-in/facebook'"><small>삭제</small></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+
+
+
+</html>

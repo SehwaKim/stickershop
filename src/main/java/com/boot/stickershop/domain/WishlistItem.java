@@ -12,8 +12,8 @@ import java.util.List;
 @Table(name = "wishlists")
 @Getter
 @Setter
-public class Wishlist {
-    public Wishlist() { regtime = LocalDateTime.now(); }
+public class WishlistItem {
+    public WishlistItem() { regtime = LocalDateTime.now(); }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,13 +21,9 @@ public class Wishlist {
     @ManyToOne(targetEntity = User.class,fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
-    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<WishlistProduct> wishlistProducts = new ArrayList<>();
 
-    public void addWishlistProduct(WishlistProduct wishlistProduct){
-        wishlistProducts.add(wishlistProduct);
-        if(wishlistProduct.getWishlist() != this){
-            wishlistProduct.setWishlist(this);
-        }
-    }
+    @ManyToOne(targetEntity = Product.class, fetch = FetchType.EAGER)
+    @JoinColumn(name="product_id")
+    private Product product;
+
 }
