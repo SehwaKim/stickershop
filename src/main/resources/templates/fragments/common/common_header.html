@@ -59,7 +59,7 @@
     });
 </script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <a class="navbar-brand" th:href="@{/}">StickerShop</a>
+    <a class="navbar-brand" th:href="@{/}">StickerShop&nbsp;<i style="font-size: 14px">for All Developers</i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -71,7 +71,7 @@
                     상품보기
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">전체보기</a>
+                    <a class="dropdown-item" th:href="@{/products}">전체보기</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">백엔드</a>
                     <a class="dropdown-item" href="#">프론트</a>
@@ -81,8 +81,8 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" id="search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchStr">
+        <form class="form-inline my-2 my-lg-0" id="search" method="GET" th:action="@{/products}">
+            <input class="form-control mr-sm-2" type="search" placeholder="상품을 검색하세요" aria-label="Search" id="keyword" name="keyword">
             <a href="#" onclick="document.getElementById('search').submit();">
                 <svg class="i-search" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                     <circle cx="14" cy="14" r="12" />

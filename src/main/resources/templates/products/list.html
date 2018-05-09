@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>상품 보기</title>
+    <style>
+        .product-list {
+            padding-top: 10px;
+            padding-left: 70px;
+            list-style: none;
+            font-size: 19px;
+            line-height: 3em;
+            font-family: Consolas, 돋움;
+        }
+        .card {
+            margin: 10px;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="text-align: center"><h2><strong>Stickers</strong></h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container-fluid" style="width: 68%;">
+        <div class="row justify-content-md-center">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div style="padding-left: 50px">
+                            <a th:href="@{/products}"><h3><strong>Stickers</strong></h3></a>
+                        </div>
+                        <ul class="product-list">
+                            <li><a th:href="@{/products(categoryId=1)}" style="color: MediumVioletRed">FrontEnd</a></li>
+                            <li><a th:href="@{/products(categoryId=2)}" style="color: GoldenRod">BackEnd</a></li>
+                            <li><a th:href="@{/products(categoryId=3)}" style="color: SeaGreen">Linux</a></li>
+                            <li><a th:href="@{/products(categoryId=4)}" style="color: MediumBlue">Tool</a></li>
+                            <li><a th:href="@{/products(categoryId=5)}" style="color: DeepPink">0원상품</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-9">
+                        <div class="row" style="padding-top:20px; padding-bottom: 40px">
+                            <div class="col" style="display: inline-block; text-align: left">
+                                total : <span th:text="${pager.getTotalCnt()}"></span> items
+                            </div>
+                            <div class="col" style="display: inline-block; text-align: right">
+                                <a th:href="@{/products(sort='favor')}">판매량순</a>&nbsp;&nbsp;
+                                <a th:href="@{/products(sort='recent')}">최신순</a>
+                            </div>
+                        </div>
+                        <div class="card-columns">
+                            <div class="card" th:if="${not #lists.isEmpty(list.getContent())}" th:each="product : ${list}">
+                                <div style="text-align: right; margin: 5px">
+                                    <a th:href="@{/}">
+                                        <svg class="i-heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <img class="card-img-top" th:src="@{/static/spring.png}">
+                                <div class="card-body">
+                                    <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
+                                    <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
+                                    <p class="card-text"><h4 th:text="${product.price}"></h4></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="justify-content: center; padding-top: 25px; padding-bottom: 80px;">
+                            <ul class="pagination" th:if="${not #lists.isEmpty(list.getContent())}">
+                                <li class="page-item" th:if="${pager.hasPrev()} == true">
+                                    <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.startPage-1}, sort=${productSearch.sort})}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                                    <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${i}, sort=${productSearch.sort})}" th:text="${i}"></a></li>
+                                <li class="page-item" th:if="${pager.hasNext()} == true">
+                                    <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.endPage+1}, sort=${productSearch.sort})}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

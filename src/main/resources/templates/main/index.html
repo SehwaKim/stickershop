@@ -6,52 +6,35 @@
 </th:block>
 
 <th:block layout:fragment="body_main">
-    <br><br><br>
-    임시 메인
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br><br>
+    <div style="text-align: center"><h2><strong>Best Sellers</strong></h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container-fluid" style="width: 70%;">
+        <div class="row justify-content-md-center">
+            <div class="col">
+                <div class="card-columns">
+                    <div class="card" style="margin: 10px" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
+                        <div style="text-align: right; margin: 5px">
+                            <a th:href="@{/}">
+                                <svg class="i-heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
+                                </svg>
+                            </a>
+                        </div>
+                        <img class="card-img-top" th:src="@{/static/spring.png}">
+                        <div class="card-body">
+                            <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
+                            <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
+                            <p class="card-text"><h4 th:text="${product.price}"></h4></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding-top:20px; padding-bottom: 100px; text-align: center;">
+            <a th:href="@{/products}"><h2><span class="badge badge-pill badge-light">상품 더 보기</span></h2></a>
+        </div>
+    </div>
 </th:block>
 
 </html>
