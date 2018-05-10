@@ -18,9 +18,9 @@
         height: 230px;
         border: 1px solid lightgray;
         display:none;
-        position:absolute;
-        left:1210px;
-        top:57px;
+        position: fixed;
+        left: 80%;
+        top: 8%;
     }
     #userDiv {
         text-align: center;
@@ -45,6 +45,9 @@
         list-style:none;
         font-size: 14px;
         font-weight: normal;
+    }
+    .i-user{
+        fill: black;
     }
 </style>
 <script>
@@ -118,7 +121,7 @@
     </div>
 </nav>
 <div id="userMenu">
-    <div id="userDiv">
+    <div id="userDiv" sec:authorize="!isAuthenticated()">
         <div id="btnDiv"><button type="button" id="userBtn" onclick="window.location.href='users/login'">로그인</button></div>
         <small>아직 계정이 없으신가요?<br/><a th:href="@{users/joinform}"><strong>지금 가입하십시오.</strong></a></small>
     </div>

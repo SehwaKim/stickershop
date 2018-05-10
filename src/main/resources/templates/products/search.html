@@ -27,16 +27,16 @@
                 <div class="form-group row">
                     <label for="keyword" class="col-sm-2 col-form-label">검색어</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keyword" name="keyword" placeholder="">
+                        <input type="text" class="form-control" id="keyword" name="keyword" th:value="${productSearch.keyword}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="price" class="col-sm-2 col-form-label">판매가격대</label>
                     <div class="col">
-                        <input type="text" class="form-control" id="price" name="minPrice">
+                        <input type="text" class="form-control" id="price" name="minPrice" th:value="${productSearch.minPrice}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="price2" name="maxPrice">
+                        <input type="text" class="form-control" id="price2" name="maxPrice" th:value="${productSearch.maxPrice}">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -44,7 +44,7 @@
                     <div class="col-sm-10">
                         <div class="form-check">
                             <select id="inputState" class="form-control" name="sort">
-                                <option value="favor" selected>판매량순</option>
+                                <option value="favor">판매량순</option>
                                 <option value="recent">최신순</option>
                             </select>
                         </div>
