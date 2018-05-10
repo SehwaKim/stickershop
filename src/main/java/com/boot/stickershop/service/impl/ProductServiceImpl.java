@@ -34,4 +34,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductListMain() {
         return productRepository.getMainProductsByDSL();
     }
+
+    @Override
+    public Product getProduct(Long productId) {
+        return productRepository.findProductById(productId);
+    }
 }

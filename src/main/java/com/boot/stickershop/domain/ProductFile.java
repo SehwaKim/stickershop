@@ -23,6 +23,7 @@ public class ProductFile {
     @Column(name = "save_file_name")
     private String saveFileName;
 
+    @Column(name = "content_type")
     private String contentType;
     private Long length;
     private LocalDateTime regtime;
