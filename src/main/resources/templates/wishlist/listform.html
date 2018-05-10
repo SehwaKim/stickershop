@@ -17,6 +17,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
+                                    <td width="10%"></tdwidth>
                                     <th width="10%">id</th>
                                     <th>상품명</th>
                                     <th width="25%">사용자</th>
@@ -24,6 +25,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:if="${not #lists.isEmpty(list)}" th:each="wishlist : ${list}">
+                                    <td><input type="checkbox" name="vehicle" value="Bike"</td>
                                     <td th:text="${wishlist.id}"></td>
                                     <td th:text="${wishlist.product.name}"></td>
                                     <td th:text="${wishlist.user.name}"></td>
