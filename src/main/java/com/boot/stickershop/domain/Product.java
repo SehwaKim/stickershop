@@ -2,6 +2,7 @@ package com.boot.stickershop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "products")
 @Getter
 @Setter
+@ToString
 public class Product {
     public Product() { regtime = LocalDateTime.now(); }
 

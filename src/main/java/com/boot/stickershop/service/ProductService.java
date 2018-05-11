@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductService {
     Page<Product> getProductList(ProductSearch productSearch);
     List<Product> getProductListMain();
+    Product getProduct(Long productId);
 }
