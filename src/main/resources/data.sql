@@ -19,3 +19,6 @@ insert into product_files(id, file_name, save_file_name, content_type, length, r
 insert into product_files(id, file_name, save_file_name, content_type, length, regtime, product_id) VALUES (2, 'python3.jpg', '/static/python3.jpg', 'image/jpg', 19600, now(), 2);
 
 insert into users(id, name, email, password, regtime) VALUES (1, '테스트', 'test', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
+insert into user_roles(id, role_name, user_id) VALUES (1, 'USER', 1);
+insert into user_roles(id, role_name, user_id) VALUES (2, 'ADMIN', 1);
+
