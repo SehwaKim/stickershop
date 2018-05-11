@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>상품 상세보기</title>
+    <style>
+        .product-list {
+            padding-top: 10px;
+            padding-left: 70px;
+            list-style: none;
+            font-size: 19px;
+            line-height: 3em;
+            font-family: Consolas, 돋움;
+        }
+        .card {
+            margin: 10px;
+        }
+    </style>
+    <script>
+        function changeQuant(type){
+            var quant = parseInt($("#quantity").val());
+            var tot = parseInt($("#totalPrice").val());
+
+            if(type == "minus"){
+                if(quant > 1) {
+                    quant = $("#quantity").val(quant - 1);
+                    tot /= 2;
+                    $("#totalPrice").val(tot);
+                    $("#quantity").html(quant);
+                }
+            }else if(type == "plus"){
+                if(quant < 100) {
+                    quant = $("#quantity").val(quant + 1);
+                    tot *= 2;
+                    $("#totalPrice").val(tot);
+                    $("#quantity").html(quant);
+                }else{
+                    alert("주문은 최대 100개 까지 가능합니다. (100개 이상 대량주문은 전화로 문의 주십시오.)");
+                }
+            }
+        }
+    </script>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="text-align: center"><h2><strong>상품 상세보기</strong></h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container-fluid" style="width: 60%;">
+        <div>
+            <nav aria-label="breadcrumb" style="background-color: white;">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">홈</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/products}">상품목록</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">스티커</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img th:src="@{${product.imagePath}}">
+            </div>
+            <div class="col">
+                <div><h2 th:text="${product.name}"></h2></div>
+                <div class="row">
+                    <div class="col">
+                        <div>판매가</div>
+                        <div>배송방법</div>
+                        <div>배송비</div>
+                        <div>Size</div>
+                    </div>
+                    <div class="col">
+                        <div th:text="${product.price}"></div>
+                        <div>고객직접선택</div>
+                        <div>고객직접선택</div>
+                        <div th:text="${product.size}"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div>Quantity</div>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary" id="minusBtn" onclick="changeQuant('minus')">-</button>
+                            <button type="button" class="btn btn-secondary" id="quantity" value="1">1</button>
+                            <button type="button" class="btn btn-secondary" id="plusBtn" onclick="changeQuant('plus')">+</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>Total Price</div>
+                        <div><span id="totalPrice" th:text="${product.price}"></span></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">장바구니</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">위시리스트</button>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">바로 구매</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="width: 60%;">
+        <div th:if="${not #lists.isEmpty(product.productFiles)}" th:each="file : ${product.productFiles}">
+            <img th:src="@{${file.saveFileName}}">
+        </div>
+    </div>
+</th:block>
