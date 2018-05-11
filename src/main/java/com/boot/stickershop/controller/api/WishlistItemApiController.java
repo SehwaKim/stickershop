@@ -1,8 +1,10 @@
 package com.boot.stickershop.controller.api;
 
+import com.boot.stickershop.domain.Product;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.WishlistItem;
 import com.boot.stickershop.repository.WishlistItemRepository;
+import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
 import com.boot.stickershop.service.WishlistItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,24 @@ public class WishlistItemApiController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ProductService productService;
+
     @PostMapping("/add")
-    public String add(@RequestBody Long id){
-        System.out.println("id="+id);
+    public String add(Principal principal,@RequestParam Long id){
+        User user = userService.getUserByEmail(principal.getName());
+
+        Product product = productService.getProduct(id);
+
+        WishlistItem wishlistItem = wishlistItemService.selectOne(id);
+        if(wishlistItem==null){
+            wishlistItem = new WishlistItem();
+            wishlistItem.setUser(user);
+            wishlistItem.setProduct(product);
+            wishlistItemService.addWishlist(wishlistItem);
+        } else {
+            return "이미 있음!";
+        }
         return "add OK";
     }
 
@@ -31,7 +48,6 @@ public class WishlistItemApiController {
         User user = userService.getUserByEmail(principal.getName());
 
         System.out.println("Id = "+id);
-        //WishlistItem wishlistItem = wishlistItemService.selectOne(id);
         wishlistItemService.deleteWishlist(id);
         return "delete OK";
     }

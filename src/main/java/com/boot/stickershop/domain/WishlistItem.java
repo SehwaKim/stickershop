@@ -26,4 +26,9 @@ public class WishlistItem {
     @JoinColumn(name="product_id")
     private Product product;
 
+//    public void addUser(User user){
+//        this.user = user;
+//        if()
+//    }
+
 }

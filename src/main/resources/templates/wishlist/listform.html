@@ -20,12 +20,13 @@
                         success : function (data) {
                             alert('삭제되었습니다.. OK');
                             console.log(data);
+                            document.getElementById(listid).remove();
+
                         },
                         error : function (err) {
                             console.log(err.toString());
                         }
                     });
-                    alert("벨류값확인 : " + listid);
                 });
 
              }); // btn2 click
@@ -53,7 +54,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:if="${not #lists.isEmpty(list)}" th:each="wishlist : ${list}">
+                                <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${wishlist.id}" th:each="wishlist : ${list}">
                                     <td><input type="checkbox"  id="listId" name="listId" th:value="${wishlist.id}"></td>
                                     <td th:text="${wishlist.id}"></td>
                                     <td th:text="${wishlist.product.name}"></td>
