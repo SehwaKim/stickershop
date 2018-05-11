@@ -74,10 +74,14 @@
                                 </svg>
                             </a>
                         </div>
-                        <img class="card-img-top" th:src="@{/static/spring.png}">
+                        <a th:href="@{'/products/' + ${product.id}}">
+                            <img class="card-img-top" th:src="@{${product.imagePath}}">
+                        </a>
                         <div class="card-body">
                             <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
-                            <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
+                            <a th:href="@{'/products/' + ${product.id}}">
+                                <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
+                            </a>
                             <p class="card-text"><h4 th:text="${product.price}"></h4></p>
                         </div>
                     </div>
