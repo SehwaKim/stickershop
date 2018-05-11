@@ -15,6 +15,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -30,18 +34,32 @@ public class OrderApiController {
 
     @PostMapping("/basket")
     public String addBasket(@RequestBody BasketItem basketItem, Principal principal, HttpSession session){
-
         if(principal == null){
-            String productId = basketItem.getProductId().toString();
-            if(session.getAttribute(productId) == null){
-                session.setAttribute(productId, basketItem.getQuantity());
-            }else {
-                int quantity = (int) session.getAttribute(productId);
-                quantity += basketItem.getQuantity();
-                session.setAttribute(productId, quantity);
-            }
+            if(session.getAttribute("basket") == null){
+                // 새 basket 생성
+                Map<Long, Integer> basket = new HashMap<>();
+                basket.put(basketItem.getProductId(), basketItem.getQuantity());
 
-            System.out.println("수량 : "+session.getAttribute(productId));
+                System.out.println("상품id : "+basketItem.getProductId() +", 수량 : "+basket.get(basketItem.getProductId()));
+                session.setAttribute("basket", basket);
+            }else {
+                // basket 이미 존재, 해당 상품이 이미 담겼는지 조사
+                Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+                if(basket.containsKey(basketItem.getProductId())){
+                    int quantity = basket.get(basketItem.getProductId());
+                    quantity += basketItem.getQuantity();
+                    basket.put(basketItem.getProductId(), quantity);
+
+                    System.out.println("상품id : "+basketItem.getProductId() +", 수량 : "+basket.get(basketItem.getProductId()));
+
+                    session.setAttribute("basket", basket);
+                }else{
+                    basket.put(basketItem.getProductId(), basketItem.getQuantity());
+                    System.out.println("상품id : "+basketItem.getProductId() +", 수량 : "+basket.get(basketItem.getProductId()));
+
+                    session.setAttribute("basket", basket);
+                }
+            }
 
         }else{
             User user = userService.getUserByEmail(principal.getName());
