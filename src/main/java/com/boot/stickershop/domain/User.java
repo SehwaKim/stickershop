@@ -38,6 +38,9 @@ public class User {
     @JsonManagedReference
     private List<UserConnection> userConnections = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BasketProduct> basketProducts = new ArrayList<>();
+
     // 헬퍼
     public void addUserRole(UserRole role){
         this.roles.add(role);
@@ -50,6 +53,13 @@ public class User {
         this.userConnections.add(userConnection);
         if(userConnection.getUser()!=this){
             userConnection.setUser(this);
+        }
+    }
+
+    public void addBasketProduct(BasketProduct basketProduct){
+        basketProducts.add(basketProduct);
+        if(basketProduct.getUser() != this){
+            basketProduct.setUser(this);
         }
     }
 }
