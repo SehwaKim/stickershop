@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>장바구니</title>
+    <style>
+        .underline {
+            border-left-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+            border-bottom-width: 1;
+            border-color: lightgray;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="text-align: center"><h2><strong>장바구니</strong></h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container-fluid" style="width: 60%;">
+        <table class="table" style="text-align: center;">
+            <thead class="thead-dark">
+            <tr>
+                <td scope="col"><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                <td scope="col" colspan="3">제품</td>
+                <td scope="col">수량</td>
+                <td scope="col"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="vertical-align: middle"><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" src="/static/radis.png"></td>
+                <td style="vertical-align: middle"><h3>Radis</h3></td>
+                <td style="vertical-align: middle">
+                    <span id="price">1500</span>
+                    <span> x </span>
+                    <span id="cnt">1</span>
+                    <span> = </span>
+                    <span id="totPrice">1500</span>
+                </td>
+                <td style="vertical-align: middle" width="10%">
+                    <div style="padding-bottom: 10px">
+                        <input type="text" class="underline" style="text-align: center" size="3" value="1">
+                    </div>
+                    <div>
+                        <h5><a href="#" class="badge badge-dark" role="button" aria-pressed="true"><small>변경</small></a></h5>
+                    </div>
+                </td>
+                <td style="vertical-align: middle" width="10%">
+                    <div style="padding-bottom: 7px">
+                        <a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><small>주문하기</small></a>
+                    </div>
+                    <div>
+                        <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"><small>삭제</small></a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            상품구매금액 <span id="purchaseTot">1,500</span> + 배송비 <span>0</span> = 합계 : <strong><span id="orderTot">1,500원</span></strong>
+        </div>
+        <div class="text-right" style="padding-top: 20px; padding-bottom: 20px">
+            <a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><small>장바구니 비우기</small></a>
+        </div>
+        <div class="text-center" style="padding-top: 30px; padding-bottom: 80px">
+            <a href="#" class="btn btn-dark btn-sm active" role="button" aria-pressed="true"><small>전체상품주문</small></a>
+            <a href="#" class="btn btn-dark btn-sm active" role="button" aria-pressed="true"><small>선택상품주문</small></a>
+            <a href="#" class="btn btn-dark btn-sm active" role="button" aria-pressed="true"><small>쇼핑계속하기</small></a>
+        </div>
+    </div>
+</th:block>

@@ -18,16 +18,16 @@ public class BasketProduct {
     @ManyToOne(targetEntity = Product.class, fetch=FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
-    private int quantity; // 상품 수량.
+    private int quantity;
     private LocalDateTime regtime;
     @ManyToOne
-    @JoinColumn(name = "basket_id")
-    private Basket basket;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public void addBasket(Basket basket){
-        this.basket = basket;
-        if(!basket.getBasketProducts().contains(this)){
-            basket.getBasketProducts().add(this);
+    public void addUser(User user){
+        this.user = user;
+        if(!user.getBasketProducts().contains(this)){
+            user.getBasketProducts().add(this);
         }
     }
 }

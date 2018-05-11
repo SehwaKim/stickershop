@@ -41,6 +41,8 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/users/**").permitAll()
+                .antMatchers("/orders/**").permitAll()
+                .antMatchers("/api/orders/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().fullyAuthenticated()

@@ -3,19 +3,6 @@
 
 <th:block layout:fragment="html_head">
     <title>상품 상세보기</title>
-    <style>
-        .product-list {
-            padding-top: 10px;
-            padding-left: 70px;
-            list-style: none;
-            font-size: 19px;
-            line-height: 3em;
-            font-family: Consolas, 돋움;
-        }
-        .card {
-            margin: 10px;
-        }
-    </style>
     <script>
         function changeQuant(type){
             var quant = parseInt($("#quantity").val());
@@ -39,6 +26,39 @@
                 }
             }
         }
+        
+        function addBasket(productId) {
+            var quantity = $("#quantity").val();
+
+            var JSONObject= {
+                "productId" : productId,
+                "quantity" : quantity
+            };
+            var jsonData = JSON.stringify( JSONObject );
+            $.ajax({
+                url : '/api/orders/basket',
+                method : 'post',
+                data : jsonData,
+                dataType: "json",
+                contentType: "application/json",
+                success : function (data) {
+                    alert('등록되었습니다.. OK');
+                    console.log(data);
+                },
+                error : function (err) {
+                    console.log(err.toString());
+                }
+            });
+        }
+
+        function addWishlist(productId) {
+            alert(productId);
+        }
+
+        function buyNow(productId) {
+            alert(productId);
+        }
+
     </script>
 </th:block>
 <th:block layout:fragment="body_main">
@@ -91,14 +111,14 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">장바구니</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:addBasket(' + ${product.id} + ')'"><small>장바구니</small></button>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">위시리스트</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'"><small>위시리스트</small></button>
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">바로 구매</button>
+                    <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:buyNow(' + ${product.id} + ')'"><small>바로 구매</small></button>
                 </div>
             </div>
         </div>
