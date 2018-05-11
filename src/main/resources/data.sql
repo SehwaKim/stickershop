@@ -17,3 +17,5 @@ insert into products(id, name, price, size, sales, image_path, category_id, regt
 
 insert into product_files(id, file_name, save_file_name, content_type, length, regtime, product_id) VALUES (1, 'python2.jpg', '/static/python2.jpg', 'image/jpg', 19600, now(), 2);
 insert into product_files(id, file_name, save_file_name, content_type, length, regtime, product_id) VALUES (2, 'python3.jpg', '/static/python3.jpg', 'image/jpg', 19600, now(), 2);
+
+insert into users(id, name, email, password, regtime) VALUES (1, '테스트', 'test', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
