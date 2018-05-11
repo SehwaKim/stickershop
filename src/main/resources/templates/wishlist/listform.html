@@ -3,6 +3,35 @@
 
 <th:block layout:fragment="html_head">
     <title>로그인하기</title>
+
+    <script src="/js/bower_components/jquery/dist/jquery.js"></script>
+
+    <script>
+        $(function () {
+            $("#deleteButton").click(function () {
+                $("input[name=listId]:checked").each(function() {
+                    var listid = $(this).val();
+                    $.ajax({
+                        url : '/api/users/delete',
+                        method : 'post',
+                        data : {"id" : listid},
+
+                        dataType: "text",
+                        success : function (data) {
+                            alert('삭제되었습니다.. OK');
+                            console.log(data);
+                        },
+                        error : function (err) {
+                            console.log(err.toString());
+                        }
+                    });
+                    alert("벨류값확인 : " + listid);
+                });
+
+             }); // btn2 click
+
+        });
+    </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
@@ -25,7 +54,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:if="${not #lists.isEmpty(list)}" th:each="wishlist : ${list}">
-                                    <td><input type="checkbox" name="vehicle" value="Bike"</td>
+                                    <td><input type="checkbox"  id="listId" name="listId" th:value="${wishlist.id}"></td>
                                     <td th:text="${wishlist.id}"></td>
                                     <td th:text="${wishlist.product.name}"></td>
                                     <td th:text="${wishlist.user.name}"></td>
@@ -35,7 +64,7 @@
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-light"><small>주문</small></button>
                         <p style="padding-top: 5px"><small>또는</small></p>
-                        <button type="button" class="btn btn-lg btn-block btn-primary" onclick="location.href='/sign-in/facebook'"><small>삭제</small></button>
+                        <button type="button" class="btn btn-lg btn-block btn-primary" id="deleteButton" name="deleteButton" ><small>삭제</small></button>
                     </form>
                 </div>
             </div>

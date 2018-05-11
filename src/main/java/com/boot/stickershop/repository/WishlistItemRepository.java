@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface WishlistItemRepository extends JpaQueryDslPredicateRepository<WishlistItem, Long> {
     public List<WishlistItem> findWishlistItemsById(Long id);
-
+    public WishlistItem findWishlistItemById(Long id);
 }

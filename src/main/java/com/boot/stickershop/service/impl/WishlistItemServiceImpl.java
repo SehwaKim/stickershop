@@ -24,4 +24,18 @@ public class WishlistItemServiceImpl implements WishlistItemService {
         WishlistItem wishlistItem = repository.save(item);
         return wishlistItem;
     }
+
+    @Override
+    @Transactional
+    public void deleteWishlist(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public WishlistItem selectOne(Long id) {
+        WishlistItem item = repository.findWishlistItemById(id);
+        return item;
+    }
+
 }

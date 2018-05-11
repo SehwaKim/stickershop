@@ -5,6 +5,7 @@ import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.WishlistItem;
 import com.boot.stickershop.repository.WishlistItemRepository;
 import com.boot.stickershop.service.UserService;
+import com.boot.stickershop.service.WishlistItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,9 @@ public class WishListItemController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    WishlistItemService wishlistItemService;
+
     @GetMapping("/list")
     public String list(Model model, Principal principal) {
         User user = userService.getUserByEmail(principal.getName());
@@ -32,7 +36,6 @@ public class WishListItemController {
 
         WishlistItem item = new WishlistItem();
         item.setId(1L);
-
         item.setUser(user);
         Product product = new Product();
         product.setName("JAVA");
@@ -58,6 +61,9 @@ public class WishListItemController {
         item3.setProduct(product2);
         wishlistItems.add(item3);
 
+        wishlistItemService.addWishlist(item);
+        wishlistItemService.addWishlist(item2);
+        wishlistItemService.addWishlist(item3);
         model.addAttribute("list",wishlistItems);
 
         return "wishlist/listform";
