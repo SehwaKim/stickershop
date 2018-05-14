@@ -34,7 +34,7 @@ public class Order {
     private String phone2;  // xxxx
     private String phone3;
     private String message;
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     // 헬퍼
