@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 public class LoginUserInfo extends User implements Serializable {
+    private Long id;
     private String name;
     private String email;
 
@@ -18,6 +19,14 @@ public class LoginUserInfo extends User implements Serializable {
                          boolean credentialsNonExpired, boolean accountNonLocked,
                          Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail(){

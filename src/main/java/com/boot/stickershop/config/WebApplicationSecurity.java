@@ -56,10 +56,10 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 /*.successHandler(customAuthenticationSuccessHandler())
                 .failureHandler(customAuthenticationFailureHandler())*/
 //                .and().rememberMe().tokenRepository(simpleBoardTokenRepositoryImpl).rememberMeParameter("remember-me").tokenValiditySeconds(1209600)
-                .and().logout().permitAll()
-                .and()
-                    .addFilterBefore(new AlreadyLoginCheckFilter(), BasicAuthenticationFilter.class)
-                    .addFilterBefore((Filter) context.getBean("sso.filter"),BasicAuthenticationFilter.class);
+                .and().logout().permitAll();
+                //.and()
+                //    .addFilterBefore(new AlreadyLoginCheckFilter(), BasicAuthenticationFilter.class)
+                //    .addFilterBefore((Filter) context.getBean("sso.filter"),BasicAuthenticationFilter.class);
 
 
     }

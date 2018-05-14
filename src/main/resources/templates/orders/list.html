@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+    <title>주문 내역</title>
+    <style>
+        .underline {
+            border-left-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+            border-bottom-width: 1;
+            border-color: lightgray;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="body_main">
+    <br><br>
+    <div style="text-align: center"><h2><strong>내 주문 내역</strong></h2></div>
+    <hr style="padding-bottom: 40px">
+    <div class="container-fluid" style="width: 60%;">
+    </div>
+</th:block>

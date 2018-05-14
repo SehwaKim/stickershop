@@ -28,16 +28,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
                 <td style="vertical-align: middle"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" src="/static/radis.png"></td>
-                <td style="vertical-align: middle"><h3>Radis</h3></td>
+                <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}"></td>
+                <td style="vertical-align: middle"><h3 th:text="${item.product.name}"></h3></td>
                 <td style="vertical-align: middle">
-                    <span id="price">1500</span>
+                    <span id="price" th:text="${item.product.price}"></span>
                     <span> x </span>
-                    <span id="cnt">1</span>
+                    <span id="cnt" th:text="${item.quantity}"></span>
                     <span> = </span>
-                    <span id="totPrice">1500</span>
+                    <span id="totPrice" th:text="${item.product.price*item.quantity}"></span>
                 </td>
                 <td style="vertical-align: middle" width="10%">
                     <div style="padding-bottom: 10px">
@@ -58,9 +58,11 @@
             </tr>
             </tbody>
         </table>
-        <div>
-            상품구매금액 <span id="purchaseTot">1,500</span> + 배송비 <span>0</span> = 합계 : <strong><span id="orderTot">1,500원</span></strong>
-        </div>
+        <!--<div th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
+            상품구매금액 <span id="purchaseTot"></span>
+            + 배송비 <span>0</span>
+            = 합계 : <strong><span id="orderTot"></span></strong>
+        </div>-->
         <div class="text-right" style="padding-top: 20px; padding-bottom: 20px">
             <a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><small>장바구니 비우기</small></a>
         </div>
