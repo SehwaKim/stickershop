@@ -12,6 +12,36 @@
             border-color: lightgray;
         }
     </style>
+
+    <script src="/js/bower_components/jquery/dist/jquery.js"></script>
+
+    <script>
+        $(function () {
+            $("#deleteAllButton").click(function () {
+                $("input[name=listId]:checked").each(function() {
+                    var listid = $(this).val();
+                    $.ajax({
+                        url : '/api/basket/deleteAll',
+                        method : 'post',
+                        data : {"id" : listid},
+
+                        dataType: "text",
+                        success : function (data) {
+                            alert('삭제되었습니다.. OK');
+                            console.log(data);
+                            document.getElementById(listid).remove();
+
+                        },
+                        error : function (err) {
+                            console.log(err.toString());
+                        }
+                    });
+                });
+
+            }); // btn2 click
+
+        });
+    </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
@@ -29,7 +59,8 @@
             </thead>
             <tbody>
             <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
-                <td style="vertical-align: middle"><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                <td style="vertical-align: middle"><input type="checkbox" aria-label="Checkbox for following text input" id="listId"
+                                                                                                    name="listId"></td>
                 <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}"></td>
                 <td style="vertical-align: middle"><h3 th:text="${item.product.name}"></h3></td>
                 <td style="vertical-align: middle">
@@ -52,7 +83,8 @@
                         <a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><small>주문하기</small></a>
                     </div>
                     <div>
-                        <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"><small>삭제</small></a>
+                        <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"
+                                                            id="deleteAllButton" name="deleteAllButton"><small>삭제</small></a>
                     </div>
                 </td>
             </tr>
@@ -64,7 +96,8 @@
             = 합계 : <strong><span id="orderTot"></span></strong>
         </div>-->
         <div class="text-right" style="padding-top: 20px; padding-bottom: 20px">
-            <a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><small>장바구니 비우기</small></a>
+            <a href="/api/basket/delete" class="btn btn-dark btn-sm" role="button" aria-pressed="true"
+                                                    id="deleteButton" name="deleteButton"><small>장바구니 비우기</small></a>
         </div>
         <div class="text-center" style="padding-top: 30px; padding-bottom: 80px">
             <a href="#" class="btn btn-dark btn-sm active" role="button" aria-pressed="true"><small>전체상품주문</small></a>
