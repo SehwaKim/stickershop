@@ -62,4 +62,8 @@ public class User {
             basketProduct.setUser(this);
         }
     }
+
+    public Long getUserId(){
+        return getUserId();
+    }
 }

@@ -4,6 +4,7 @@ import com.boot.stickershop.domain.BasketProduct;
 import com.boot.stickershop.domain.Product;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.dto.BasketItem;
+import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.OrderService;
 import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
@@ -31,6 +32,9 @@ public class OrderApiController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BasketProductService basketProductService;
 
     @PostMapping("/basket")
     public String addBasket(@RequestBody BasketItem basketItem, Principal principal, HttpSession session){
@@ -64,13 +68,13 @@ public class OrderApiController {
         }else{
             User user = userService.getUserByEmail(principal.getName());
 
-            BasketProduct basketProduct = orderService.getBasketProduct(user.getId(), basketItem.getProductId());
+            BasketProduct basketProduct = basketProductService.getBasketProduct(user.getId(), basketItem.getProductId());
             if(basketProduct != null){
                 // 수량 update
                 int quantity = basketProduct.getQuantity();
                 quantity += basketItem.getQuantity();
                 basketProduct.setQuantity(quantity);
-                orderService.updateBasketProduct(basketProduct);
+                basketProductService.updateBasketProduct(basketProduct);
 
             }else{
                 // save
@@ -78,7 +82,7 @@ public class OrderApiController {
                 basketProduct.setUser(user);
                 basketProduct.setProduct(productService.getProduct(basketItem.getProductId()));
                 basketProduct.setQuantity(basketItem.getQuantity());
-                orderService.addBasket(basketProduct);
+                basketProductService.addBasket(basketProduct);
             }
         }
 

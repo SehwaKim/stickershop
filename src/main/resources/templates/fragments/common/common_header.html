@@ -128,14 +128,14 @@
 <div id="userMenu">
     <div class="userDiv">
         <div id="btnDiv">
-            <a sec:authorize="!isAuthenticated()" th:href="@{users/login}"><button type="button" class="userBtn">
+            <a sec:authorize="!isAuthenticated()" th:href="@{/users/login}"><button type="button" class="userBtn">
                 로그인
             </button></a>
             <a sec:authorize="isAuthenticated()" th:href="@{/logout}"><button type="button" class="userBtn">
                 로그아웃
             </button></a>
         </div>
-        <small sec:authorize="!isAuthenticated()">아직 계정이 없으신가요?<br/><a th:href="@{users/joinform}"><strong>지금 가입하십시오.</strong></a></small>
+        <small sec:authorize="!isAuthenticated()">아직 계정이 없으신가요?<br/><a th:href="@{/users/joinform}"><strong>지금 가입하십시오.</strong></a></small>
     </div>
     <hr sec:authorize="!isAuthenticated()">
     <ul id="userList">

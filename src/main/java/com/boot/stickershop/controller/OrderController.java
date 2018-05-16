@@ -3,6 +3,7 @@ package com.boot.stickershop.controller;
 import com.boot.stickershop.domain.*;
 import com.boot.stickershop.dto.BasketItem;
 import com.boot.stickershop.dto.OrderSearch;
+import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.OrderService;
 import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
@@ -33,6 +34,9 @@ public class OrderController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    BasketProductService basketProductService;
 
     @GetMapping
     public String getOrderList(@ModelAttribute OrderSearch orderSearch, Principal principal, ModelMap modelMap){
@@ -76,7 +80,7 @@ public class OrderController {
             }
         }else {
             User user = userService.getUserByEmail(principal.getName());
-            list = orderService.getBasket(user.getId());
+            list = basketProductService.getBasket(user.getId());
         }
 
         modelMap.addAttribute("list", list);
