@@ -5,32 +5,33 @@
 <th:block layout:fragment="html_head">
     <title>상품 상세보기</title>
     <script>
-        function changeQuant(type){
-            var quant = parseInt($("#quantity").val());
-            var tot = parseInt($("#totalPrice").val());
-
-            if(type == "minus"){
-                if(quant > 1) {
-                    quant = $("#quantity").val(quant - 1);
-                    tot /= 2;
-                    $("#totalPrice").val(tot);
-                    $("#quantity").html(quant);
-                }
-            }else if(type == "plus"){
-                if(quant < 100) {
-                    quant = $("#quantity").val(quant + 1);
-                    tot *= 2;
-                    $("#totalPrice").val(tot);
-                    $("#quantity").html(quant);
-                }else{
-                    alert("주문은 최대 100개 까지 가능합니다. (100개 이상 대량주문은 전화로 문의 주십시오.)");
-                }
-            }
-        }
+        // function changeQuant(type){
+        //     var quant = parseInt($("#quantity").val());
+        //     var tot = parseInt($("#totalPrice").val());
+        //     alert(totalPrice);
+        //     if(type == "minus"){
+        //         if(quant > 1) {
+        //             quant = $("#quantity").val(quant - 1);
+        //             tot /= 2;
+        //             $("#totalPrice").val(tot);
+        //             $("#quantity").html(quant);
+        //         }
+        //     }else if(type == "plus"){
+        //         if(quant < 100) {
+        //
+        //             quant = $("#quantity").val(quant + 1);
+        //             document.getElementById("spanCno").innerHTML=quant;
+        //             tot *= 2;
+        //             $("#totalPrice").val(tot);
+        //             $("#quantity").html(quant);
+        //         }else{
+        //             alert("주문은 최대 100개 까지 가능합니다. (100개 이상 대량주문은 전화로 문의 주십시오.)");
+        //         }
+        //     }
+        // }
         
         function addBasket(productId) {
             var quantity = $("#quantity").val();
-
             var JSONObject= {
                 "productId" : productId,
                 "quantity" : quantity
@@ -47,12 +48,13 @@
                     console.log(data);
                 },
                 error : function (err) {
+                    alert('실패'+quantity);
                     console.log(err.toString());
                 }
             });
         }
 
-        function addWishlist(id) {
+        function addWishlist(id){
             $.ajax({
                 url : '/api/users/add',
                 method : 'post',
@@ -91,6 +93,41 @@
             document.body.appendChild(form);
             form.submit();
         }
+
+        $(function(){
+            $('#minusBtn').click(function(e){
+                e.preventDefault();
+                var stat = $('#quantity').text();
+                var num = parseInt(stat,10);
+                var tot = parseInt($("#totalPrice").text(),10);  // 10 진수로 변환
+                num--;
+                alert(num);
+
+                if(num<=0){
+                    alert('더이상 줄일수 없습니다.');
+                    num =1;
+                }
+                tot /= 2;
+                $("#totalPrice").text(tot);
+                $('#quantity').text(num);
+            });
+            $('#plusBtn').click(function(e){
+                e.preventDefault();
+                var stat = $('#quantity').text();
+                var num = parseInt(stat,10);
+                var tot = parseInt($("#totalPrice").text(),10);
+                num++;
+                tot *= 2;
+                alert(tot);
+                if(num>10){
+                    alert('더이상 늘릴수 없습니다.');
+                    num=10;
+                }
+                $("#totalPrice").text(tot);
+                $('#quantity').text(num);
+            });
+        });
+
 
     </script>
 </th:block>
@@ -133,7 +170,7 @@
                         <div>Quantity</div>
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-secondary" id="minusBtn" onclick="changeQuant('minus')">-</button>
-                            <button type="button" class="btn btn-secondary" id="quantity" value="1">1</button>
+                            <span class="btn btn-secondary" id="quantity">1</span>
                             <button type="button" class="btn btn-secondary" id="plusBtn" onclick="changeQuant('plus')">+</button>
                         </div>
                     </div>
