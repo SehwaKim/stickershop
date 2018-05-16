@@ -28,29 +28,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderProductRepository orderProductRepository;
 
-    @Autowired
-    BasketProductRepository basketProductRepository;
-
-    @Override
-    public void addBasket(BasketProduct basketProduct) {
-        basketProductRepository.save(basketProduct);
-    }
-
-    @Override
-    public BasketProduct getBasketProduct(Long userId, Long productId) {
-        return basketProductRepository.findBasketProductByUserIdAndProductId(userId, productId);
-    }
-
-    @Override
-    public void updateBasketProduct(BasketProduct basketProduct) {
-        basketProductRepository.saveAndFlush(basketProduct);
-    }
-
-    @Override
-    public List<BasketProduct> getBasket(Long id) {
-        return basketProductRepository.findAllByUserId(id);
-    }
-
     @Override
     public Page<Order> getOrderList(OrderSearch orderSearch) {
         PageRequest pageRequest = null;

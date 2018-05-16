@@ -29,6 +29,9 @@ public class WishListItemController {
 
     @GetMapping("/list")
     public String list(Model model, Principal principal) {
+        if(principal==null){
+            return "redirect:/users/login";
+        }
         User user = userService.getUserByEmail(principal.getName());
 
         List<WishlistItem> wishlistItems = wishlistItemService.selectAll();
