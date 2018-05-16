@@ -20,4 +20,9 @@ public interface BasketProductRepository extends JpaQueryDslPredicateRepository<
     @Transactional
     @Query(value="delete from BasketProduct c where c.user.id = ?1")
     public void deleteAllByUserId(Long id);
+
+    @Modifying
+    @Transactional
+    @Query(value="delete from BasketProduct c where c.product.id = ?1")
+    public void deleteByProductId(Long id);
 }

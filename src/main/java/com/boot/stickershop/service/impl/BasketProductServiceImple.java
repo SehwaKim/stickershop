@@ -52,7 +52,7 @@ public class BasketProductServiceImple implements BasketProductService {
 
     @Override
     public void deleteByBasketId(Long id) {
-        basketProductRepository.deleteById(id);
+        basketProductRepository.deleteByProductId(id);
     }
 
 

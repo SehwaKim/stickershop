@@ -2,6 +2,8 @@ package com.boot.stickershop.controller;
 
 import com.boot.stickershop.domain.*;
 import com.boot.stickershop.dto.OrderSearch;
+import com.boot.stickershop.repository.BasketProductRepository;
+import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.OrderService;
 import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
@@ -26,6 +28,9 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    BasketProductService basketProductService;
 
     @Autowired
     UserService userService;
@@ -55,12 +60,12 @@ public class OrderController {
             if(quantity != null && !"".equals(quantity)){
                 directOrder(productId[0], quantity, list);
             }else {
-                list = orderService.getBasket(user.getId());
+                List<BasketProduct> tmp = basketProductService.getBasket(user.getId());
 
                 for(String id : productId){
-                    for(int i=0; i<list.size(); i++){
-                        if(list.get(i).getProduct().getId() == Long.parseLong(id)){
-                            list.remove(list.get(i));
+                    for(int i=0; i<tmp.size(); i++){
+                        if(tmp.get(i).getProduct().getId() == Long.parseLong(id)){
+                            list.add(tmp.get(i));
                             break;
                         }
                     }
@@ -121,7 +126,7 @@ public class OrderController {
         if(principal != null){
             List<BasketProduct> list;
             User user = userService.getUserByEmail(principal.getName());
-            list = orderService.getBasket(user.getId());
+            list = basketProductService.getBasket(user.getId());
 
             for(String id : productId){
                 for(int i=0; i<list.size(); i++){
@@ -186,7 +191,7 @@ public class OrderController {
             }
         }else {
             User user = userService.getUserByEmail(principal.getName());
-            list = orderService.getBasket(user.getId());
+            list = basketProductService.getBasket(user.getId());
         }
 
         modelMap.addAttribute("list", list);
