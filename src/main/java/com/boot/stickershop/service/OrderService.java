@@ -15,4 +15,6 @@ public interface OrderService {
     void updateBasketProduct(BasketProduct basketProduct);
     List<BasketProduct> getBasket(Long id);
     Page<Order> getOrderList(OrderSearch orderSearch);
+    Order getOrder(Long userId);
+    Order insertOrder(Order order);
 }

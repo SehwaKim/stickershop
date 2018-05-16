@@ -26,7 +26,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         QOrder qOrder = QOrder.order;
         JPAQuery<Order> jpaQuery = jpaQueryFactory.selectFrom(qOrder);
 
-        // nullable - searchStr, status
+        // nullable - orderNo, searchStr, status
+
+        if(orderSearch.getOrderNo() != null){ // 주문번호로만 찾기(orderNo)
+            jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo()));
+
+            return new PageImpl<Order>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        }
 
         jpaQuery.where(qOrder.user.id.eq(orderSearch.getUserId()));
         jpaQuery.where(qOrder.regtime.between(orderSearch.getDateFrom(), orderSearch.getDateTo()));

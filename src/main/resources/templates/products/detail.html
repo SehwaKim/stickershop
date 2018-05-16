@@ -56,7 +56,26 @@
         }
 
         function buyNow(productId) {
-            alert(productId);
+            var quantity = parseInt($("#quantity").val());
+
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/orders/orderform");
+
+            var hiddenIdField = document.createElement("input");
+            hiddenIdField.setAttribute("type", "hidden");
+            hiddenIdField.setAttribute("name", "productId");
+            hiddenIdField.setAttribute("value", productId);
+
+            var hiddenQuantField = document.createElement("input");
+            hiddenQuantField.setAttribute("type", "hidden");
+            hiddenQuantField.setAttribute("name", "quantity");
+            hiddenQuantField.setAttribute("value", quantity.toString());
+
+            form.appendChild(hiddenIdField);
+            form.appendChild(hiddenQuantField);
+            document.body.appendChild(form);
+            form.submit();
         }
 
     </script>

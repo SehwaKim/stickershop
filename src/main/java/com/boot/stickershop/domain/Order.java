@@ -1,5 +1,6 @@
 package com.boot.stickershop.domain;
 
+import com.boot.stickershop.util.OrderCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,16 +14,18 @@ import java.util.List;
 @Getter
 @Setter
 public class Order {
-    public Order() { regtime = LocalDateTime.now(); }
+    public Order() {
+        status = OrderCode.STATUS_ORDERED;
+        regtime = LocalDateTime.now();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String payment;  // 결제 방법
-    //private int quantity; // 상품 수량.
+    private int payment;
     private LocalDateTime regtime;
     @Column(name = "status")
-    private int status; // 주문 상태 주문=1, 취소=2,
+    private int status;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
@@ -34,11 +37,13 @@ public class Order {
     private String phone2;  // xxxx
     private String phone3;
     private String message;
+    @Column(name = "order_no")
+    private String orderNo;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     // 헬퍼
-    public void addorderProducts(OrderProduct orderProduct){
+    public void addOrderProducts(OrderProduct orderProduct){
         this.orderProducts.add(orderProduct);
         if(orderProduct.getOrder()!=this){
             orderProduct.setOrder(this);

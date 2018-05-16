@@ -15,7 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -58,5 +61,24 @@ public class OrderServiceImpl implements OrderService{
             pageRequest = PageRequest.of(orderSearch.getPage() - 1, 10, new Sort(Sort.Direction.ASC, "regtime"));
         }
         return orderRepository.getOrdersByDSL(orderSearch, pageRequest);
+    }
+
+    @Override
+    public Order getOrder(Long userId) {
+        return orderRepository.findFirstByUserIdOrderByRegtimeDesc(userId);
+    }
+
+    @Override
+    public Order insertOrder(Order order) {
+        Order savedOrder = orderRepository.save(order);
+
+        String orderNo;
+        Random random = new Random(savedOrder.getId());
+        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+        String dateStr = format.format(new Date());
+        orderNo = "S" + dateStr + random.nextInt(100000);
+        savedOrder.setOrderNo(orderNo);
+
+        return orderRepository.saveAndFlush(savedOrder);
     }
 }

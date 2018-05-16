@@ -17,6 +17,7 @@ public class OrderSearch {
     주문상태별 status
     */
     private Long userId;
+    private String orderNo;
     private int page;
     private String searchType;
     private String searchStr;

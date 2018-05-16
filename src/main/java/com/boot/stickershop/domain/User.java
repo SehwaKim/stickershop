@@ -17,6 +17,7 @@ import java.util.List;
 public class User {
     public User(){
         regtime = LocalDateTime.now();
+        isUsed = "Y";
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,22 +27,19 @@ public class User {
     @JsonIgnore
     private String password;
     private LocalDateTime regtime;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserRole> roles = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "user_connection_id")
     private UserConnection userConnection;
-
     @OneToMany(mappedBy ="user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<UserConnection> userConnections = new ArrayList<>();
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BasketProduct> basketProducts = new ArrayList<>();
+    @Column(name = "is_used")
+    private String isUsed;
 
-    // 헬퍼
     public void addUserRole(UserRole role){
         this.roles.add(role);
         if(role.getUser()!=this){
