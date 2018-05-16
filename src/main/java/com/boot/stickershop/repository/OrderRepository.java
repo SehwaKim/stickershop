@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface OrderRepository extends JpaQueryDslPredicateRepository<Order, Long>, OrderRepositoryCustom {
-
+    Order findFirstByUserIdOrderByRegtimeDesc(Long userId);
 }

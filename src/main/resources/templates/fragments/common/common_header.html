@@ -137,18 +137,14 @@
         </div>
         <small sec:authorize="!isAuthenticated()">아직 계정이 없으신가요?<br/><a th:href="@{/users/joinform}"><strong>지금 가입하십시오.</strong></a></small>
     </div>
-    <hr sec:authorize="!isAuthenticated()">
+    <div class="userDiv" sec:authorize="isAuthenticated()">
+        <span><small>아래의 이메일로 로그인 되었습니다.</small></span>
+        <p><a th:href="@{/users/info}"><small><strong th:text="${#authentication.name}"></strong></small></a></p>
+    </div>
+    <hr>
     <ul id="userList">
         <li>내 계정</li>
         <li>내 주문</li>
         <li>반품</li>
     </ul>
-    <!--<hr sec:authorize="isAuthenticated()">
-    <div class="userDiv" sec:authorize="isAuthenticated()">
-        <small>아래의 이메일로 로그인 되었습니다.</small>
-        <a th:href="@{/users/info}"><small><strong th:text="${loginUser.email}"></strong></small></a>
-    </div>
-    <div sec:authorize="isAuthenticated()">
-        <a th:href="@{/logout}"><small><i>로그아웃</i></small></a>
-    </div>-->
 </div>

@@ -12,4 +12,6 @@ import java.util.List;
 public interface OrderService {
 
     Page<Order> getOrderList(OrderSearch orderSearch);
+    Order getOrder(Long userId);
+    Order insertOrder(Order order);
 }
