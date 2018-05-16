@@ -1,5 +1,6 @@
 package com.boot.stickershop.controller.api;
 
+import com.boot.stickershop.domain.BasketProduct;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.UserService;
@@ -42,4 +43,15 @@ public class BasketApiController {
         return "Not User!";
     }
 
+    @PutMapping("/update")
+    public String update(Principal principal, @RequestParam Long id, @RequestParam int quantity){
+        if(principal!=null){
+            User user = userService.getUserByEmail(principal.getName());
+            BasketProduct product = basketService.getBasketProduct(user.getId(),id);
+            product.setQuantity(quantity);
+            basketService.addBasket(product);
+            return "update OK";
+        }
+        return "update Error";
+    }
 }
