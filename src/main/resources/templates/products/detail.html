@@ -52,8 +52,21 @@
             });
         }
 
-        function addWishlist(productId) {
-            alert(productId);
+        function addWishlist(id) {
+            $.ajax({
+                url : '/api/users/add',
+                method : 'post',
+                data : {"id" : id},
+
+                dataType: "text",
+                success : function (data) {
+                    alert(data);
+                    console.log(data);
+                },
+                error : function (err) {
+                    console.log(err.toString());
+                }
+            });
         }
 
         function buyNow(productId) {
