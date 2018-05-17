@@ -90,8 +90,8 @@
 
     <script>
         function updateBasketlist(id, quantity){
-            var quantity = $('.product_cno').val();
-            // alert(quantity);
+            var quantity = $('#product_cno_'+id).val();
+            alert(quantity);
             $.ajax({
                 url : '/api/basket/update',
                 method : 'put',
@@ -134,14 +134,14 @@
                 <td style="vertical-align: middle">
                     <span id="price" th:text="${item.product.price}"></span>
                     <span> x </span>
-                    <span id="cnt" th:text="${item.quantity}"></span>
+                    <span id="cnt" th:text="${item.quantity}">1</span>
                     <span> = </span>
                     <span id="totPrice" th:text="${item.product.price*item.quantity}"></span>
                     <input type="hidden" name="productId" th:value="${item.product.id}">
                 </td>
                 <td style="vertical-align: middle" width="10%">
                     <div style="padding-bottom: 10px">
-                        <input type="text" class="product_cno" style="text-align: center" size="3" th:value="${item.quantity}">
+                        <input type="text" th:attrappend="id='product_cno_'+${item.product.id}" style="text-align: center" size="3" th:value="${item.quantity}">
                     </div>
                     <div>
                         <h5><a href="javascript:void(0);" class="badge badge-dark" role="button" aria-pressed="true"
