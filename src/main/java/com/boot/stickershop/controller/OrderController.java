@@ -107,7 +107,13 @@ public class OrderController {
 
     @GetMapping
     public String getOrderList(@ModelAttribute OrderSearch orderSearch, Principal principal, ModelMap modelMap){
-        if(principal == null){
+        if(principal == null && orderSearch.getOrderNo() == null){
+            modelMap.addAttribute("isGuestAccess", true);
+
+            return "/orders/list";
+        }
+
+        if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
             orderSearch.setUserId(user.getId());
         }

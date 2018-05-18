@@ -33,7 +33,8 @@ public class OrderServiceImpl implements OrderService{
         PageRequest pageRequest = null;
 
         if("RECENT".equals(orderSearch.getSort().toUpperCase())){
-            pageRequest = PageRequest.of(orderSearch.getPage() - 1, 10, new Sort(Sort.Direction.DESC, "regtime"));
+            //pageRequest = PageRequest.of(orderSearch.getPage() - 1, 10, new Sort(Sort.Direction.DESC, "regtime"));
+            pageRequest = PageRequest.of(orderSearch.getPage() - 1, 10);
         }else if("OLD".equals(orderSearch.getSort().toUpperCase())){
             pageRequest = PageRequest.of(orderSearch.getPage() - 1, 10, new Sort(Sort.Direction.ASC, "regtime"));
         }

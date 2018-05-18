@@ -18,6 +18,10 @@ public class OrderSearch {
     */
     private Long userId;
     private String orderNo;
+    private String receiver;
+    private String phone1;
+    private String phone2;
+    private String phone3;
     private int page;
     private String searchType;
     private String searchStr;
