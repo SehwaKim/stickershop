@@ -33,7 +33,7 @@ public class OrderSearch {
     public OrderSearch() {
         page = 1;
         sort = "Recent"; // 최근순
-        dateFrom = LocalDateTime.now();
-        dateTo = dateFrom.minusMonths(3); // 기본 3개월
+        dateTo = LocalDateTime.now();
+        dateFrom = dateTo.minusMonths(3); // 기본 3개월
     }
 }

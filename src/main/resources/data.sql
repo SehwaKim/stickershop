@@ -22,3 +22,9 @@ insert into users(id, name, email, password, regtime) VALUES (1, '테스트', 't
 insert into user_roles(id, role_name, user_id) VALUES (1, 'USER', 1);
 insert into user_roles(id, role_name, user_id) VALUES (2, 'ADMIN', 1);
 
+insert into users(id, name, email, password, regtime) VALUES (2, '타노스', 'test2', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
+insert into user_roles(id, role_name, user_id) VALUES (3, 'USER', 2);
+insert into user_roles(id, role_name, user_id) VALUES (4, 'ADMIN', 2);
+
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id) values (1, 2, '100', '010', '111', '222', '라쿤', now(), '3','111-111','지구','한국','1');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2) values (2, 2, '200', '010', '8757', '9087', '타조', now(), '3','222-234','지구','한국');

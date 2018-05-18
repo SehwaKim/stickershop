@@ -4,6 +4,7 @@ import com.boot.stickershop.util.OrderCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int payment;
+    private Integer payment;
     private LocalDateTime regtime;
     @Column(name = "status")
-    private int status;
+    private Integer status;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;

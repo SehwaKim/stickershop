@@ -28,19 +28,24 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
         // nullable - orderNo, searchStr, status
 
-        if(orderSearch.getOrderNo() != null){ // 주문번호로만 찾기(orderNo)
+        /* 주문번호로만 찾기(orderNo) */
+        if(orderSearch.getOrderNo() != null && !"".equals(orderSearch.getOrderNo())){
             jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo()));
 
             return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
         }
-
-        if(orderSearch.getReceiver() != null && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
+        /* 수령인 + 전화번호 찾기 */
+        if(orderSearch.getReceiver() != null && !"".equals(orderSearch.getReceiver()) && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
             jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver()));
             jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone1()));
-            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone2()));
-            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone3()));
+            jpaQuery.where(qOrder.phone2.eq(orderSearch.getPhone2()));
+            jpaQuery.where(qOrder.phone3.eq(orderSearch.getPhone3()));
 
             return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        }
+
+        if(orderSearch.getUserId() == null){
+            return null;
         }
 
         jpaQuery.where(qOrder.user.id.eq(orderSearch.getUserId()));
@@ -63,7 +68,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         JPQLQuery<Order> query = querydsl.applyPagination(pageable, jpaQuery);
         Long total = jpaQuery.fetchCount();
         jpaQuery.orderBy(qOrder.regtime.desc()); // TODO 오래된순으로 정렬도 추가하기
-
+        System.out.println(orderSearch);
         return new PageImpl(query.fetch(), pageable, total);
     }
 }

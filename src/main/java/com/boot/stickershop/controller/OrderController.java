@@ -119,8 +119,16 @@ public class OrderController {
         }
 
         Page<Order> orderPage = orderService.getOrderList(orderSearch);
-        Pagination pagination = new Pagination((int) orderPage.getTotalElements(), 10, orderSearch.getPage(), 5);
+        Pagination pagination = null;
 
+        if(orderPage != null){
+            if(orderPage.getContent().size() > 0) {
+                pagination = new Pagination((int) orderPage.getTotalElements(), 10, orderSearch.getPage(), 5);
+            }
+
+        }
+
+        modelMap.addAttribute("isGuestAccess", false);
         modelMap.addAttribute("list", orderPage);
         modelMap.addAttribute("pager", pagination);
 

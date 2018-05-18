@@ -88,8 +88,36 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="width: 60%;" th:if="${isGuestAccess} == null">
-        <div style="padding-bottom: 90px">
+    <div class="container-fluid" style="width: 65%;" th:if="${isGuestAccess} == false">
+        <table class="table" style="text-align: center;">
+            <thead class="thead-dark">
+            <tr>
+                <td scope="col">주문번호</td>
+                <td scope="col">주문일자</td>
+                <td scope="col">주문내역</td>
+                <td scope="col">수량</td>
+                <td scope="col">결제금액</td>
+                <td scope="col">수령자</td>
+                <td scope="col">주문처리상태</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(pager)}">
+                    <td colspan="8">주문 내역이 없습니다.</td>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(list)}" th:each="order : ${list}">
+                    <td th:text="${order.orderNo}"></td>
+                    <td th:text="${order.regtime}"></td>
+                    <td>주문내역</td>
+                    <td>수량</td>
+                    <td>결제금액</td>
+                    <td th:text="${order.receiver}"></td>
+                    <td th:if=${} th:text="${order.status}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--<div style="padding-bottom: 90px">
             <form method="get" th:action="@{/orders}">
                 <div class="form-group row">
                     <label for="keyword" class="col-sm-2 col-form-label">검색어</label>
@@ -121,6 +149,6 @@
                     <button type="submit" class="btn btn-dark">검색하기</button>
                 </div>
             </form>
-        </div>
+        </div>-->
     </div>
 </th:block>
