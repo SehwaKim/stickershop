@@ -31,7 +31,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         if(orderSearch.getOrderNo() != null){ // 주문번호로만 찾기(orderNo)
             jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo()));
 
-            return new PageImpl<Order>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+            return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        }
+
+        if(orderSearch.getReceiver() != null && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
+            jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver()));
+            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone1()));
+            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone2()));
+            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone3()));
+
+            return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
         }
 
         jpaQuery.where(qOrder.user.id.eq(orderSearch.getUserId()));
@@ -53,7 +62,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         Querydsl querydsl = new Querydsl(entityManager, pathBuilder);
         JPQLQuery<Order> query = querydsl.applyPagination(pageable, jpaQuery);
         Long total = jpaQuery.fetchCount();
+        jpaQuery.orderBy(qOrder.regtime.desc()); // TODO 오래된순으로 정렬도 추가하기
 
-        return new PageImpl<Order>(query.fetch(), pageable, total);
+        return new PageImpl(query.fetch(), pageable, total);
     }
 }
