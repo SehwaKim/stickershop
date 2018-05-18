@@ -26,7 +26,3 @@
 /nbdist/
 /.nb-gradle/
 /target
-
-*.png
-*.PNG
-*.jpg
