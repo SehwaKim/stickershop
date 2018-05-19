@@ -3,6 +3,25 @@
 
 <th:block layout:fragment="html_head">
     <title>주문 내역</title>
+    <script>
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년'
+        });
+
+        $(function() {
+            $("#datepicker1, #datepicker2").datepicker();
+        });
+
+    </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
@@ -88,60 +107,41 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="width: 65%;" th:if="${isGuestAccess} == false">
-        <table class="table" style="text-align: center;">
-            <thead class="thead-dark">
-            <tr>
-                <td scope="col">주문번호</td>
-                <td scope="col">주문일자</td>
-                <td scope="col">주문내역</td>
-                <td scope="col">수량</td>
-                <td scope="col">결제금액</td>
-                <td scope="col">수령자</td>
-                <td scope="col">주문처리상태</td>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${#lists.isEmpty(pager)}">
-                    <td colspan="8">주문 내역이 없습니다.</td>
-                </tr>
-                <tr th:if="${not #lists.isEmpty(list)}" th:each="order : ${list}">
-                    <td th:text="${order.orderNo}"></td>
-                    <td th:text="${order.regtime}"></td>
-                    <td>주문내역</td>
-                    <td>수량</td>
-                    <td>결제금액</td>
-                    <td th:text="${order.receiver}"></td>
-                    <td th:if=${} th:text="${order.status}"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!--<div style="padding-bottom: 90px">
-            <form method="get" th:action="@{/orders}">
+    <div class="container-fluid" style="width: 45%;" th:if="${isGuestAccess} == false">
+        <div style="padding-bottom: 90px">
+            <form method="get" th:action="@{/orders}" th:object="${orderSearch}">
                 <div class="form-group row">
-                    <label for="keyword" class="col-sm-2 col-form-label">검색어</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keyword" name="keyword" th:value="${productSearch.keyword}">
+                    <label for="order_no" class="col-sm-2 col-form-label">주문번호</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="order_no" th:field="*{orderNo}">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="price" class="col-sm-2 col-form-label">판매가격대</label>
-                    <div class="col">
-                        <input type="text" class="form-control" id="price" name="minPrice" th:value="${productSearch.minPrice}">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" id="price2" name="maxPrice" th:value="${productSearch.maxPrice}">
+                    <label for="datepicker1" class="col-sm-2 col-form-label">주문일자</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" id="datepicker1" class="form-control" th:field="*{dateFrom}" readonly>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="datepicker2" class="form-control" th:field="*{dateTo}" readonly>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">검색정렬기준</label>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <select id="inputState" class="form-control" name="sort">
-                                <option value="favor">판매량순</option>
-                                <option value="recent">최신순</option>
-                            </select>
+                    <label for="status" class="col-sm-2 col-form-label">주문상태</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-check">
+                                <select id="status" class="form-control" th:field="*{status}">
+                                    <option value="3">주문완료/배송대기</option>
+                                    <option value="4">배송중</option>
+                                    <option value="5">배송완료</option>
+                                    <option value="6">주문취소</option>
+                                    <option value="7">반품</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,6 +149,45 @@
                     <button type="submit" class="btn btn-dark">검색하기</button>
                 </div>
             </form>
-        </div>-->
+        </div>
+    </div>
+    <div class="container-fluid" style="width: 65%;" th:if="${isGuestAccess} == false">
+        <table class="table" style="text-align: center;">
+            <thead class="thead-dark">
+            <tr>
+                <td scope="col">주문번호</td>
+                <td scope="col">주문일자</td>
+                <td scope="col" colspan="2">주문내역</td>
+                <td scope="col">수량</td>
+                <td scope="col">결제금액</td>
+                <td scope="col">수령자</td>
+                <td scope="col">주문처리상태</td>
+            </tr>
+            </thead>
+            <tbody th:if="${#lists.isEmpty(pager)}">
+                <tr>
+                    <td colspan="8">주문 내역이 없습니다.</td>
+                </tr>
+            </tbody>
+            <tbody th:if="${not #lists.isEmpty(list)}" th:each="order : ${list}">
+                <tr>
+                    <td th:text="${order.orderNo}"></td>
+                    <td th:text="${#temporals.format(order.regtime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td colspan="2">주문내역</td>
+                    <td>수량</td>
+                    <td>결제금액</td>
+                    <td th:text="${order.receiver}"></td>
+                    <td th:text="${order.status}"></td>
+                </tr>
+                <tr th:each="op : ${order.orderProducts}">
+                    <td colspan="2"></td>
+                    <td><img class="img-thumbnail" width="100" height="100" th:src="@{${op.product.imagePath}}"></td>
+                    <td th:text="${op.product.name}"></td>
+                    <td th:text="${op.quantity}"></td>
+                    <td th:text="${op.price}"></td>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </th:block>

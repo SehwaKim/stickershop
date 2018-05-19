@@ -2,6 +2,7 @@ package com.boot.stickershop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "order_products")
 @Getter
 @Setter
+@ToString
 public class OrderProduct {
     public OrderProduct() { regtime = LocalDateTime.now(); }
     @Id
@@ -18,8 +20,8 @@ public class OrderProduct {
     @ManyToOne(targetEntity = Product.class, fetch=FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-    private int quantity;
-    private int price;
+    private Integer quantity;
+    private Integer price;
     private LocalDateTime regtime;
     @ManyToOne
     @JoinColumn(name = "order_id")

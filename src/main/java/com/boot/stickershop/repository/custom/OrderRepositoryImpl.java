@@ -1,8 +1,11 @@
 package com.boot.stickershop.repository.custom;
 
 import com.boot.stickershop.domain.Order;
+import com.boot.stickershop.domain.OrderProduct;
 import com.boot.stickershop.domain.QOrder;
 import com.boot.stickershop.dto.OrderSearch;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -13,7 +16,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.Querydsl;
 
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @Autowired
@@ -49,7 +56,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         }
 
         jpaQuery.where(qOrder.user.id.eq(orderSearch.getUserId()));
-        jpaQuery.where(qOrder.regtime.between(orderSearch.getDateFrom(), orderSearch.getDateTo()));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime from = LocalDateTime.from(LocalDate.parse(orderSearch.getDateFrom(), formatter).atStartOfDay());
+        LocalDateTime to = LocalDateTime.from(LocalDate.parse(orderSearch.getDateTo(), formatter).atStartOfDay());
+        jpaQuery.where(qOrder.regtime.between(from, to));
 
         if(orderSearch.getSearchStr() != null){
             if("수령자".equals(orderSearch.getSearchType())){
@@ -68,7 +79,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         JPQLQuery<Order> query = querydsl.applyPagination(pageable, jpaQuery);
         Long total = jpaQuery.fetchCount();
         jpaQuery.orderBy(qOrder.regtime.desc()); // TODO 오래된순으로 정렬도 추가하기
-        System.out.println(orderSearch);
+
         return new PageImpl(query.fetch(), pageable, total);
     }
 }

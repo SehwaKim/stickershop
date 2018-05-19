@@ -3,8 +3,8 @@ package com.boot.stickershop.domain;
 import com.boot.stickershop.util.OrderCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
+@ToString
 public class Order {
     public Order() {
         status = OrderCode.STATUS_ORDERED;
