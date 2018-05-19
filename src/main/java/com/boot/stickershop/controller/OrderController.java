@@ -7,6 +7,7 @@ import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.OrderService;
 import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
+import com.boot.stickershop.util.OrderCode;
 import com.boot.stickershop.util.Pagination;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,16 +127,34 @@ public class OrderController {
                 pagination = new Pagination((int) orderPage.getTotalElements(), 10, orderSearch.getPage(), 5);
             }
 
+            for(Order order : orderPage.getContent()){
+                Integer pCode = order.getPayment();
+                Integer sCode = order.getStatus();
+
+                if(pCode == OrderCode.PAYMENT_CARD){
+                    order.setPaymentStr("카드결제");
+                }else if(pCode == OrderCode.PAYMENT_CASH){
+                    order.setPaymentStr("무통장입금");
+                }
+
+                if(sCode == OrderCode.STATUS_ORDERED){
+                    order.setStatusStr("주문완료/배송대기");
+                }else if(sCode == OrderCode.STATUS_ONSHPPING){
+                    order.setStatusStr("배송중");
+                }else if(sCode == OrderCode.STATUS_DELIVERED){
+                    order.setStatusStr("배송완료");
+                }else if(sCode == OrderCode.STATUS_CANCEL){
+                    order.setStatusStr("주문취소");
+                }else if(sCode == OrderCode.STATUS_REFUND){
+                    order.setStatusStr("반품");
+                }
+            }
         }
+
         modelMap.addAttribute("isGuestAccess", false);
         modelMap.addAttribute("list", orderPage);
         modelMap.addAttribute("pager", pagination);
-        System.out.println("----");
-        List<OrderProduct> list = orderPage.getContent().get(0).getOrderProducts();
-        for(OrderProduct orderProduct : list){
-            System.out.println(orderProduct);
-        }
-        System.out.println("----");
+
         return "/orders/list";
     }
 
@@ -182,7 +201,7 @@ public class OrderController {
             Product selected = productService.getProduct(productId);
             orderProduct.setProduct(selected);
             orderProduct.setQuantity(quantities.get(idx++));
-            orderProduct.setPrice(selected.getPrice());
+            orderProduct.setPurchasePrice(selected.getPrice());
             order.addOrderProducts(orderProduct);
         }
     }

@@ -3,6 +3,38 @@
 
 <th:block layout:fragment="html_head">
     <title>주문 내역</title>
+    <style>
+        #searchDiv {
+            border-radius: 20px;
+            background: #f8f8f8;
+            padding: 30px;
+        }
+        .detail a:hover {
+            cursor: pointer;
+        }
+        .orderInfo {
+            width: 100%;
+            font-size: 14px;
+            border-collapse:collapse
+        }
+        .orderInfo thead {
+            font-size: 13px;
+        }
+        .orderInfo tr {
+            border-bottom: 1pt solid lightgray;
+        }
+        .orderInfo tr td {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .underline {
+            border-left-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+            border-bottom-width: 2px;
+            background-color:transparent;
+        }
+    </style>
     <script>
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',
@@ -21,6 +53,9 @@
             $("#datepicker1, #datepicker2").datepicker();
         });
 
+        function showDetails(id){
+            $("."+id).toggle();
+        }
     </script>
 </th:block>
 <th:block layout:fragment="body_main">
@@ -107,34 +142,16 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="width: 45%;" th:if="${isGuestAccess} == false">
-        <div style="padding-bottom: 90px">
+    <div class="container-fluid" style="width: 70%;" th:if="${isGuestAccess} == false">
+        <div id="searchDiv">
             <form method="get" th:action="@{/orders}" th:object="${orderSearch}">
+                <div><span><strong>검색 기간 설정</strong></span></div>
                 <div class="form-group row">
-                    <label for="order_no" class="col-sm-2 col-form-label">주문번호</label>
                     <div class="form-row">
-                        <div class="col">
-                            <input type="text" class="form-control" id="order_no" th:field="*{orderNo}">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="datepicker1" class="col-sm-2 col-form-label">주문일자</label>
-                    <div class="form-row">
-                        <div class="col">
-                            <input type="text" id="datepicker1" class="form-control" th:field="*{dateFrom}" readonly>
-                        </div>
-                        <div class="col">
-                            <input type="text" id="datepicker2" class="form-control" th:field="*{dateTo}" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="status" class="col-sm-2 col-form-label">주문상태</label>
-                    <div class="form-row">
-                        <div class="col">
+                        <div class="col" style="margin: auto; padding-right: 20px">
                             <div class="form-check">
-                                <select id="status" class="form-control" th:field="*{status}">
+                                <select id="status" th:field="*{status}">
+                                    <option value="">[주문처리상태]</option>
                                     <option value="3">주문완료/배송대기</option>
                                     <option value="4">배송중</option>
                                     <option value="5">배송완료</option>
@@ -143,26 +160,45 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col" style="margin: auto; padding-right: 15px">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-secondary"><small>오늘</small></button>
+                                <button type="button" class="btn btn-secondary"><small>1주일</small></button>
+                                <button type="button" class="btn btn-secondary"><small>1개월</small></button>
+                                <button type="button" class="btn btn-secondary"><small>3개월</small></button>
+                                <button type="button" class="btn btn-secondary"><small>6개월</small></button>
+                            </div>
+                        </div>
+                        <div class="col" style="margin: auto;">
+                            <input type="text" id="datepicker1" class="underline" size="10" th:field="*{dateFrom}" readonly>
+                        </div>
+                        <div class="col">
+                            <span>~</span>
+                        </div>
+                        <div class="col" style="margin: auto;">
+                            <input type="text" id="datepicker2" class="underline" size="10" th:field="*{dateTo}" readonly>
+                        </div>
+                        <div class="col" style="margin: auto;">
+                            <button type="submit" class="btn btn-dark"><small>조회</small></button>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center" style="padding-top: 20px;">
-                    <button type="submit" class="btn btn-dark">검색하기</button>
                 </div>
             </form>
         </div>
     </div>
-    <div class="container-fluid" style="width: 65%;" th:if="${isGuestAccess} == false">
-        <table class="table" style="text-align: center;">
-            <thead class="thead-dark">
-            <tr>
-                <td scope="col">주문번호</td>
-                <td scope="col">주문일자</td>
-                <td scope="col" colspan="2">주문내역</td>
-                <td scope="col">수량</td>
-                <td scope="col">결제금액</td>
-                <td scope="col">수령자</td>
-                <td scope="col">주문처리상태</td>
-            </tr>
+    <div class="container-fluid" style="width: 70%; padding-top: 100px; padding-bottom: 150px" th:if="${isGuestAccess} == false">
+        <div style="text-align: center; padding-bottom: 40px;"><span><small><strong>주문 상품 정보</strong></small></span></div>
+        <table class="orderInfo" style="text-align: center;">
+            <thead>
+                <tr>
+                    <td scope="col" width="15%">주문번호</td>
+                    <td scope="col" width="15%">주문일자</td>
+                    <td scope="col" colspan="2" width="*">주문내역</td>
+                    <td scope="col" width="7%" style="text-align: right;">수량</td>
+                    <td scope="col" width="10%" style="text-align: right;">결제금액</td>
+                    <td scope="col" width="10%">수령자</td>
+                    <td scope="col" width="15%">주문처리상태</td>
+                </tr>
             </thead>
             <tbody th:if="${#lists.isEmpty(pager)}">
                 <tr>
@@ -171,20 +207,24 @@
             </tbody>
             <tbody th:if="${not #lists.isEmpty(list)}" th:each="order : ${list}">
                 <tr>
-                    <td th:text="${order.orderNo}"></td>
+                    <td style="text-decoration: underline; font-weight: bold;">
+                        <a href="#" th:text="'['+${order.orderNo}+']'"></a>
+                    </td>
                     <td th:text="${#temporals.format(order.regtime, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td colspan="2">주문내역</td>
-                    <td>수량</td>
-                    <td>결제금액</td>
+                    <td class="detail" style="text-decoration: underline;" colspan="2">
+                        <a th:onclick="'javascript:showDetails(' + ${order.id} + ')'" th:text="${order.orderProducts[0].product.name}+' 외 '+${order.orderProducts.size() - 1}+'개'"></a>
+                    </td>
+                    <td style="text-align: right;" th:text="${#aggregates.sum(order.orderProducts.![quantity])}"></td>
+                    <td style="text-align: right;" th:text="${#numbers.formatCurrency(#aggregates.sum(order.orderProducts.![purchasePrice * quantity]))}"></td>
                     <td th:text="${order.receiver}"></td>
-                    <td th:text="${order.status}"></td>
+                    <td th:text="${order.statusStr}"></td>
                 </tr>
-                <tr th:each="op : ${order.orderProducts}">
+                <tr th:attrappend="class=${order.id}" style="display: none;" th:each="op : ${order.orderProducts}">
                     <td colspan="2"></td>
-                    <td><img class="img-thumbnail" width="100" height="100" th:src="@{${op.product.imagePath}}"></td>
-                    <td th:text="${op.product.name}"></td>
-                    <td th:text="${op.quantity}"></td>
-                    <td th:text="${op.price}"></td>
+                    <td><a th:href="@{'/products/' + ${op.product.id}}"><img class="img-thumbnail" width="80" height="80" th:src="@{${op.product.imagePath}}"></a></td>
+                    <td style="text-align: left; font-family: Consolas; font-size: 18px"><a th:href="@{'/products/' + ${op.product.id}}"><span th:text="${op.product.name}"></span></a></td>
+                    <td style="text-align: right;" th:text="${op.purchasePrice} + ' x ' + ${op.quantity}"></td>
+                    <td style="text-align: right;" th:text="${#numbers.formatCurrency(op.purchasePrice * op.quantity)}"></td>
                     <td colspan="2"></td>
                 </tr>
             </tbody>

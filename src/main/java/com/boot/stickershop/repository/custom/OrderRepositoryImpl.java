@@ -37,13 +37,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
         /* 주문번호로만 찾기(orderNo) */
         if(orderSearch.getOrderNo() != null && !"".equals(orderSearch.getOrderNo())){
-            jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo()));
+            jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo().trim()));
 
             return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
         }
         /* 수령인 + 전화번호 찾기 */
         if(orderSearch.getReceiver() != null && !"".equals(orderSearch.getReceiver()) && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
-            jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver()));
+            jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver().trim()));
             jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone1()));
             jpaQuery.where(qOrder.phone2.eq(orderSearch.getPhone2()));
             jpaQuery.where(qOrder.phone3.eq(orderSearch.getPhone3()));

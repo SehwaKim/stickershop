@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
-@ToString
 public class Order {
     public Order() {
         status = OrderCode.STATUS_ORDERED;
@@ -25,9 +24,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer payment;
+    @Column(name = "payment_str")
+    private String paymentStr;
     private LocalDateTime regtime;
-    @Column(name = "status")
     private Integer status;
+    @Column(name = "status_str")
+    private String statusStr;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;

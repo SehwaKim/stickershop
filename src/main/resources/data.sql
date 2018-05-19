@@ -26,5 +26,15 @@ insert into users(id, name, email, password, regtime) VALUES (2, '타노스', 't
 insert into user_roles(id, role_name, user_id) VALUES (3, 'USER', 2);
 insert into user_roles(id, role_name, user_id) VALUES (4, 'ADMIN', 2);
 
-insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id) values (1, 2, '100', '010', '111', '222', '라쿤', now(), '3','111-111','지구','한국','1');
-insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2) values (2, 2, '200', '010', '8757', '9087', '타조', now(), '3','222-234','지구','한국');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id) values (1, 2, 'S2018052056412', '010', '111', '222', '타조', now(), '3','111-111','지구','한국','1');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2) values (2, 2, 'S2018052078945', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2) values (3, 2, 'S2018052045632', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국');
+
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (1, 3, 5, 1200, now(), 1);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (2, 5, 4, 1200, now(), 1);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (3, 7, 3, 1200, now(), 1);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (4, 4, 5, 1200, now(), 2);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (5, 6, 8, 1200, now(), 2);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (6, 8, 2, 1200, now(), 2);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (7, 2, 6, 1200, now(), 3);
+insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (8, 9, 1, 1200, now(), 3);
