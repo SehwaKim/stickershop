@@ -167,7 +167,7 @@ public class OrderController {
             for(Long productId : productIds){
                 for(int i=0; i<basket.size(); i++){
                     if(basket.get(i).getProduct().getId().equals(productId)){
-                        // TODO 장바구니에서 해당 BasketProduct 삭제 (장바구니 삭제 메소드 이용하기)
+                        basketProductService.deleteByBasketId(productId);
                         break;
                     }
                 }
