@@ -42,17 +42,13 @@
 
             $("#deleteAll").click(function() {
                 $.ajax({
-                    url : '/api/basket/deleteAll',
-                    async: false,
+                    url : '/api/basket',
                     method : 'delete',
                     success : function (data) {
                         if(data == "ok"){
                             $("#listBody").empty();
                             $("#listBody").append('<tr style="text-align: center;"><td colspan="6">장바구니에 담긴 상품이 없습니다.</td></tr>');
                         }
-                    },
-                    error : function (err) {
-                        // console.log(err.toString());
                     }
                 });
 
@@ -85,20 +81,15 @@
     </script>
 
     <script>
-        function deleteBasketlist(productId){
+        function deleteBasketItem(productId){
             $.ajax({
-                url : '/api/basket/delete',
-                async : false,
-                method : 'post',
-                data : {"id" : productId},
-                dataType: "text",
+                url : '/api/basket/'+productId,
+                method : 'delete',
                 success : function (data) {
-                    alert("success");
-                    console.log(data);
-                },
-                error : function (err) {
-                    alert("fail");
-                    console.log(err.toString());
+                    $("#tr_"+productId).remove();
+                    if(data == 0){
+                        $("#listBody").append('<tr style="text-align: center;"><td colspan="6">장바구니에 담긴 상품이 없습니다.</td></tr>');
+                    }
                 }
             });
         }
@@ -142,7 +133,7 @@
                 <tr style="text-align: center;" th:if="${#lists.isEmpty(list)}">
                     <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
                 </tr>
-                <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${item.id}" th:each="item : ${list}">
+                <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}" th:attrappend="id='tr_'+${item.product.id}">
                     <td style="vertical-align: middle">
                         <input type="checkbox" name="checkSub" aria-label="Checkbox for following text input" th:attrappend="id=${item.product.id}">
                     </td>
@@ -171,7 +162,7 @@
                         </div>
                         <div>
                             <a href="javascript:void(0);" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"
-                               th:onclick="'javascript:deleteBasketlist(' + ${item.product.id}  + ')'" id="deleteButton" name="deleteButton"><small>삭제</small></a>
+                               th:onclick="'javascript:deleteBasketItem(' + ${item.product.id}  + ')'" id="deleteButton" name="deleteButton"><small>삭제</small></a>
                         </div>
                     </td>
                 </tr>
