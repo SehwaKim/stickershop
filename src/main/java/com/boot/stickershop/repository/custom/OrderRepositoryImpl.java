@@ -59,7 +59,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime from = LocalDateTime.from(LocalDate.parse(orderSearch.getDateFrom(), formatter).atStartOfDay());
-        LocalDateTime to = LocalDateTime.from(LocalDate.parse(orderSearch.getDateTo(), formatter).atStartOfDay());
+        LocalDateTime to = LocalDateTime.from(LocalDate.parse(orderSearch.getDateTo(), formatter).atStartOfDay()).plusDays(1);
         jpaQuery.where(qOrder.regtime.between(from, to));
 
         if(orderSearch.getSearchStr() != null){

@@ -37,7 +37,7 @@ public class OrderSearch {
         page = 1;
         sort = "Recent"; // 최근순
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        dateTo = LocalDateTime.now().plusDays(1).format(formatter).toString();
+        dateTo = LocalDateTime.now().format(formatter).toString();
         dateFrom = LocalDateTime.now().minusMonths(3).format(formatter).toString(); // 기본 3개월
     }
 }
