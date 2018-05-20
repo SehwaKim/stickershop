@@ -61,15 +61,23 @@
             $("."+id).toggle();
         }
 
+        function getFormatDate(date){
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth());
+            month = month >= 10 ? month : '0' + month;
+            var day = date.getDate();
+            day = day >= 10 ? day : '0' + day;
+            return  year + '-' + month + '-' + day;
+        }
+
         function changeDateAndSubmit(range){
-            alert("d");
             var dateTo = new Date();
-            var dateFrom = today;
+            var dateFrom = new Date();
 
             dateFrom.setDate(dateFrom.getDate()-range);
 
-            $("#datepicker1").val(dateFrom.format("yyyy-MM-dd"));
-            $("#datepicker2").val(dateTo.format("yyyy-MM-dd"));
+            $("#datepicker1").val(getFormatDate(dateFrom));
+            $("#datepicker2").val(getFormatDate(dateTo));
             $("#searchForm").submit();
         }
     </script>
