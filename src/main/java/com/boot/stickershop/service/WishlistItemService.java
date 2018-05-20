@@ -1,5 +1,6 @@
 package com.boot.stickershop.service;
 
+import com.boot.stickershop.domain.Product;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.UserConnection;
 import com.boot.stickershop.domain.WishlistItem;
@@ -12,4 +13,5 @@ public interface WishlistItemService {
     public void deleteWishlist(Long id);
     public WishlistItem selectOne(Long id);
     public List<WishlistItem> selectAll();
+    public WishlistItem selectOneByProduct(Product product);
 }

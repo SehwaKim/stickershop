@@ -54,7 +54,6 @@
                     console.log(data);
                 },
                 error : function (err) {
-                    alert(quantity);
                     console.log(err.toString());
                 }
             });
@@ -108,13 +107,14 @@
                 var num = parseInt(stat,10);
                 var tot = parseInt($("#totalPrice").text(),10);  // 10 진수로 변환
                 num--;
-                alert(num);
 
                 if(num<=0){
                     alert('더이상 줄일수 없습니다.');
                     num =1;
+                } else {
+                    tot /= 2;
                 }
-                tot /= 2;
+
                 $("#totalPrice").text(tot);
                 $('#quantity').text(num);
             });
@@ -124,11 +124,11 @@
                 var num = parseInt(stat,10);
                 var tot = parseInt($("#totalPrice").text(),10);
                 num++;
-                tot *= 2;
-                alert(tot);
                 if(num>10){
                     alert('더이상 늘릴수 없습니다.');
                     num=10;
+                } else {
+                    tot *= 2;
                 }
                 $("#totalPrice").text(tot);
                 $('#quantity').text(num);
