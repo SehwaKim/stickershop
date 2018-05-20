@@ -18,7 +18,7 @@ public class BasketProduct {
     @ManyToOne(targetEntity = Product.class, fetch=FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
-    private int quantity;
+    private Integer quantity;
     private LocalDateTime regtime;
     @ManyToOne
     @JoinColumn(name = "user_id")

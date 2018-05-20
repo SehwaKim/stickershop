@@ -4,6 +4,14 @@
 <th:block layout:fragment="html_head">
     <title>상품 검색</title>
     <style>
+        #searchDiv {
+            border-radius: 20px;
+            background: #f8f8f8;
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
         .product-list {
             padding-top: 10px;
             padding-left: 70px;
@@ -26,8 +34,8 @@
     <br><br>
     <div style="text-align: center"><h2><strong>상품 검색</strong></h2></div>
     <hr style="padding-bottom: 40px">
-    <div class="container-fluid" style="width: 50%;">
-        <div style="padding-bottom: 90px">
+    <div class="container-fluid" style="width: 60%;">
+        <div id="searchDiv">
             <form method="get" th:action="@{/products}">
                 <div class="form-group row">
                     <label for="keyword" class="col-sm-2 col-form-label">검색어</label>
@@ -61,7 +69,7 @@
             </form>
         </div>
     </div>
-    <div class="container-fluid" style="width: 60%;">
+    <div class="container-fluid" style="width: 60%; padding-top: 90px;">
         <div style="text-align: center; padding-bottom: 40px">
             총 <span th:text="${pager.getTotalCnt()}"></span> 개 의 상품이 검색되었습니다.
             <hr style="padding-bottom: 40px">

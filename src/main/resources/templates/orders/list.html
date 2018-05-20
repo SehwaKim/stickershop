@@ -3,6 +3,84 @@
 
 <th:block layout:fragment="html_head">
     <title>주문 내역</title>
+    <style>
+        #searchDiv {
+            border-radius: 20px;
+            background: #f8f8f8;
+            padding-left: 40px;
+            padding-right: 30px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        .detail a:hover {
+            cursor: pointer;
+        }
+        .orderInfo {
+            width: 100%;
+            font-size: 14px;
+            border-collapse:collapse
+        }
+        .orderInfo thead {
+            font-size: 13px;
+        }
+        .orderInfo tr {
+            border-bottom: 1pt solid lightgray;
+        }
+        .orderInfo tr td {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .underline {
+            border-left-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+            border-bottom-width: 2px;
+            background-color:transparent;
+            text-align: center;
+        }
+    </style>
+    <script>
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년'
+        });
+
+        $(function() {
+            $("#datepicker1, #datepicker2").datepicker();
+        });
+
+        function showDetails(id){
+            $("."+id).toggle();
+        }
+
+        function getFormatDate(date){
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth());
+            month = month >= 10 ? month : '0' + month;
+            var day = date.getDate();
+            day = day >= 10 ? day : '0' + day;
+            return  year + '-' + month + '-' + day;
+        }
+
+        function changeDateAndSubmit(range){
+            var dateTo = new Date();
+            var dateFrom = new Date();
+
+            dateFrom.setDate(dateFrom.getDate()-range);
+
+            $("#datepicker1").val(getFormatDate(dateFrom));
+            $("#datepicker2").val(getFormatDate(dateTo));
+            $("#searchForm").submit();
+        }
+    </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
@@ -88,39 +166,98 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="width: 60%;" th:if="${isGuestAccess} == null">
-        <div style="padding-bottom: 90px">
-            <form method="get" th:action="@{/orders}">
+    <div class="container-fluid" style="width: 70%;" th:if="${isGuestAccess} == false">
+        <div id="searchDiv">
+            <form id="searchForm" method="get" th:action="@{/orders}" th:object="${orderSearch}">
+                <div style="text-align: center; padding-bottom: 30px;"><span><strong>검색 기간 설정</strong></span></div>
                 <div class="form-group row">
-                    <label for="keyword" class="col-sm-2 col-form-label">검색어</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keyword" name="keyword" th:value="${productSearch.keyword}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="price" class="col-sm-2 col-form-label">판매가격대</label>
-                    <div class="col">
-                        <input type="text" class="form-control" id="price" name="minPrice" th:value="${productSearch.minPrice}">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" id="price2" name="maxPrice" th:value="${productSearch.maxPrice}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">검색정렬기준</label>
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <select id="inputState" class="form-control" name="sort">
-                                <option value="favor">판매량순</option>
-                                <option value="recent">최신순</option>
-                            </select>
+                    <div class="form-row">
+                        <div class="col" style="margin: auto; padding-right: 20px">
+                            <div class="form-check">
+                                <select id="status" th:field="*{status}">
+                                    <option value="">[주문처리상태]</option>
+                                    <option value="3">주문완료/배송대기</option>
+                                    <option value="4">배송중</option>
+                                    <option value="5">배송완료</option>
+                                    <option value="6">주문취소</option>
+                                    <option value="7">반품</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col" style="margin: auto; padding-right: 10px">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" onclick="changeDateAndSubmit('0')" class="btn btn-secondary active"><small>오늘</small></button>
+                                <button type="button" onclick="changeDateAndSubmit('6')" class="btn btn-secondary active"><small>1주일</small></button>
+                                <button type="button" onclick="changeDateAndSubmit('29')" class="btn btn-secondary active"><small>1개월</small></button>
+                                <button type="button" onclick="changeDateAndSubmit('89')" class="btn btn-secondary active"><small>3개월</small></button>
+                                <button type="button" onclick="changeDateAndSubmit('179')" class="btn btn-secondary active"><small>6개월</small></button>
+                            </div>
+                        </div>
+                        <div class="col" style="margin: auto;">
+                            <input type="text" id="datepicker1" class="underline" size="10" th:field="*{dateFrom}" readonly>
+                        </div>
+                        <div class="col">
+                            <span>~</span>
+                        </div>
+                        <div class="col" style="margin: auto; padding-right: 10px">
+                            <input type="text" id="datepicker2" class="underline" size="10" th:field="*{dateTo}" readonly>
+                        </div>
+                        <div class="col" style="margin: auto;">
+                            <button type="submit" class="btn btn-dark btn-sm"><small>조회</small></button>
                         </div>
                     </div>
                 </div>
-                <div class="text-center" style="padding-top: 20px;">
-                    <button type="submit" class="btn btn-dark">검색하기</button>
+                <div>
+                    <p>
+                        <br><span><small>- 기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</small></span><br>
+                        <span><small>- 주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</small></span>
+                    </p>
                 </div>
             </form>
         </div>
+    </div>
+    <div class="container-fluid" style="width: 70%; padding-top: 100px; padding-bottom: 150px" th:if="${isGuestAccess} == false">
+        <div style="text-align: center; padding-bottom: 40px;"><span><small><strong>주문 상품 정보</strong></small></span></div>
+        <table class="orderInfo" style="text-align: center;">
+            <thead>
+                <tr>
+                    <td scope="col" width="15%">주문번호</td>
+                    <td scope="col" width="15%">주문일자</td>
+                    <td scope="col" colspan="2" width="*">주문내역</td>
+                    <td scope="col" width="7%" style="text-align: right;">수량</td>
+                    <td scope="col" width="10%" style="text-align: right;">결제금액</td>
+                    <td scope="col" width="10%">수령자</td>
+                    <td scope="col" width="15%">주문처리상태</td>
+                </tr>
+            </thead>
+            <tbody th:if="${#lists.isEmpty(pager)}">
+                <tr>
+                    <td colspan="8">주문 내역이 없습니다.</td>
+                </tr>
+            </tbody>
+            <tbody th:if="${not #lists.isEmpty(list)}" th:each="order : ${list}">
+                <tr>
+                    <td style="text-decoration: underline; font-weight: bold;">
+                        <a href="#" th:text="'['+${order.orderNo}+']'"></a>
+                    </td>
+                    <td th:text="${#temporals.format(order.regtime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td class="detail" style="text-decoration: underline;" colspan="2">
+                        <a th:onclick="'javascript:showDetails(' + ${order.id} + ')'" th:text="${order.orderProducts[0].product.name}+' 외 '+${order.orderProducts.size() - 1}+'개'"></a>
+                    </td>
+                    <td style="text-align: right;" th:text="${#aggregates.sum(order.orderProducts.![quantity])}"></td>
+                    <td style="text-align: right;" th:text="${#numbers.formatCurrency(#aggregates.sum(order.orderProducts.![purchasePrice * quantity]))}"></td>
+                    <td th:text="${order.receiver}"></td>
+                    <td th:text="${order.statusStr}"></td>
+                </tr>
+                <tr th:attrappend="class=${order.id}" style="display: none;" th:each="op : ${order.orderProducts}">
+                    <td colspan="2"></td>
+                    <td><a th:href="@{'/products/' + ${op.product.id}}"><img class="img-thumbnail" width="80" height="80" th:src="@{${op.product.imagePath}}"></a></td>
+                    <td style="text-align: left; font-family: Consolas; font-size: 18px"><a th:href="@{'/products/' + ${op.product.id}}"><span th:text="${op.product.name}"></span></a></td>
+                    <td style="text-align: right;" th:text="${op.purchasePrice} + ' x ' + ${op.quantity}"></td>
+                    <td style="text-align: right;" th:text="${#numbers.formatCurrency(op.purchasePrice * op.quantity)}"></td>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </th:block>

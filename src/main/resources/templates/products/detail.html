@@ -4,6 +4,11 @@
 
 <th:block layout:fragment="html_head">
     <title>상품 상세보기</title>
+    <style>
+        #quantity:hover {
+            cursor: initial;
+        }
+    </style>
     <script>
         // function changeQuant(type){
         //     var quant = parseInt($("#quantity").val());
@@ -151,46 +156,46 @@
             <div class="col">
                 <img th:src="@{${product.imagePath}}">
             </div>
-            <div class="col">
-                <div><h2 th:text="${product.name}"></h2></div>
-                <div class="row">
+            <div class="col" style="padding-top: 35px;">
+                <div style="font-family: Consolas, 돋움"><h2 th:text="${product.name}"></h2></div>
+                <div class="row" style="padding: 20px;">
                     <div class="col">
-                        <div>판매가</div>
-                        <div>배송방법</div>
-                        <div>배송비</div>
-                        <div>Size</div>
+                        <div style="padding-bottom: 10px"><h5>판매가</h5></div>
+                        <div style="padding-bottom: 10px">배송방법</div>
+                        <div style="padding-bottom: 10px">배송비</div>
+                        <div style="padding-bottom: 10px">Size</div>
                     </div>
-                    <div class="col">
-                        <div th:text="${product.price}"></div>
-                        <div>고객직접선택</div>
-                        <div>고객직접선택</div>
-                        <div th:text="${product.size}"></div>
+                    <div class="col-8">
+                        <div style="padding-bottom: 10px"><h5><span th:text="${#numbers.formatCurrency(product.price)}"></span></h5></div>
+                        <div style="padding-bottom: 10px">고객직접선택</div>
+                        <div style="padding-bottom: 10px">고객직접선택</div>
+                        <div style="padding-bottom: 10px" th:text="${product.size}"></div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="padding-top: 30px">
                     <div class="col">
-                        <div>Quantity</div>
+                        <div style="font-family: Consolas, 돋움; padding-bottom: 10px;"><h5>Quantity</h5></div>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary" id="minusBtn" onclick="changeQuant('minus')">-</button>
-                            <span class="btn btn-secondary" id="quantity">1</span>
-                            <button type="button" class="btn btn-secondary" id="plusBtn" onclick="changeQuant('plus')">+</button>
+                            <button type="button" class="btn btn-outline-secondary" id="minusBtn" onclick="changeQuant('minus')">-</button>
+                            <span class="btn btn-outline-secondary" id="quantity">1</span>
+                            <button type="button" class="btn btn-outline-secondary" id="plusBtn" onclick="changeQuant('plus')">+</button>
                         </div>
                     </div>
-                    <div class="col">
-                        <div>Total Price</div>
-                        <div><span id="totalPrice" th:text="${product.price}"></span></div>
+                    <div class="col-8">
+                        <div style="font-family: Consolas, 돋움; padding-bottom: 10px;"><h5>Total Price</h5></div>
+                        <div><h5><span id="totalPrice" th:text="${#numbers.formatCurrency(product.price)}"></span></h5></div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="form-row" style="padding-top: 25px">
                     <div class="col">
-                        <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:addBasket(' + ${product.id} + ')'"><small>장바구니</small></button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addBasket(' + ${product.id} + ')'"><small>장바구니</small></button>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'"><small>위시리스트</small></button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'"><small>위시리스트</small></button>
                     </div>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-dark btn-lg btn-block" th:onclick="'javascript:buyNow(' + ${product.id} + ')'"><small>바로 구매</small></button>
+                <div style="padding-top: 10px">
+                    <button type="button" class="btn btn-success btn-lg btn-block" th:onclick="'javascript:buyNow(' + ${product.id} + ')'"><small>바로 구매</small></button>
                 </div>
             </div>
         </div>

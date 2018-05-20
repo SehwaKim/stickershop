@@ -3,6 +3,7 @@ package com.boot.stickershop.domain;
 import com.boot.stickershop.util.OrderCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,10 +23,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int payment;
+    private Integer payment;
+    @Column(name = "payment_str")
+    private String paymentStr;
     private LocalDateTime regtime;
-    @Column(name = "status")
-    private int status;
+    private Integer status;
+    @Column(name = "status_str")
+    private String statusStr;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;

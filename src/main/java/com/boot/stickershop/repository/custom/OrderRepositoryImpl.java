@@ -1,8 +1,11 @@
 package com.boot.stickershop.repository.custom;
 
 import com.boot.stickershop.domain.Order;
+import com.boot.stickershop.domain.OrderProduct;
 import com.boot.stickershop.domain.QOrder;
 import com.boot.stickershop.dto.OrderSearch;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -13,7 +16,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.Querydsl;
 
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @Autowired
@@ -28,23 +35,32 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
         // nullable - orderNo, searchStr, status
 
-        if(orderSearch.getOrderNo() != null){ // 주문번호로만 찾기(orderNo)
-            jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo()));
+        /* 주문번호로만 찾기(orderNo) */
+        if(orderSearch.getOrderNo() != null && !"".equals(orderSearch.getOrderNo())){
+            jpaQuery.where(qOrder.orderNo.eq(orderSearch.getOrderNo().trim()));
+
+            return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        }
+        /* 수령인 + 전화번호 찾기 */
+        if(orderSearch.getReceiver() != null && !"".equals(orderSearch.getReceiver()) && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
+            jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver().trim()));
+            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone1()));
+            jpaQuery.where(qOrder.phone2.eq(orderSearch.getPhone2()));
+            jpaQuery.where(qOrder.phone3.eq(orderSearch.getPhone3()));
 
             return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
         }
 
-        if(orderSearch.getReceiver() != null && orderSearch.getPhone1() != null && orderSearch.getPhone2() != null && orderSearch.getPhone3() != null){
-            jpaQuery.where(qOrder.receiver.eq(orderSearch.getReceiver()));
-            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone1()));
-            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone2()));
-            jpaQuery.where(qOrder.phone1.eq(orderSearch.getPhone3()));
-
-            return new PageImpl(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        if(orderSearch.getUserId() == null){
+            return null;
         }
 
         jpaQuery.where(qOrder.user.id.eq(orderSearch.getUserId()));
-        jpaQuery.where(qOrder.regtime.between(orderSearch.getDateFrom(), orderSearch.getDateTo()));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime from = LocalDateTime.from(LocalDate.parse(orderSearch.getDateFrom(), formatter).atStartOfDay());
+        LocalDateTime to = LocalDateTime.from(LocalDate.parse(orderSearch.getDateTo(), formatter).atStartOfDay()).plusDays(1);
+        jpaQuery.where(qOrder.regtime.between(from, to));
 
         if(orderSearch.getSearchStr() != null){
             if("수령자".equals(orderSearch.getSearchType())){

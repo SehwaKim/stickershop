@@ -34,7 +34,8 @@
                 </td>
                 <td style="vertical-align: middle" width="10%">
                     <span id="totPrice" th:text="${item.product.price*item.quantity}"></span>
-                    <input type="hidden" name="productId" th:attrappend="id='id_'+${item.product.id}" th:value="${item.product.id}">
+                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                    <input type="hidden" name="quantity" th:value="${item.quantity}">
                 </td>
             </tr>
             </tbody>

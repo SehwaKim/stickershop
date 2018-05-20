@@ -1,11 +1,14 @@
 package com.boot.stickershop.dto;
 
 import com.boot.stickershop.domain.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -25,15 +28,16 @@ public class OrderSearch {
     private int page;
     private String searchType;
     private String searchStr;
-    private LocalDateTime dateFrom;
-    private LocalDateTime dateTo;
+    private String dateFrom;
+    private String dateTo;
     private String sort;
     private Integer status;
 
     public OrderSearch() {
         page = 1;
         sort = "Recent"; // 최근순
-        dateFrom = LocalDateTime.now();
-        dateTo = dateFrom.minusMonths(3); // 기본 3개월
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dateTo = LocalDateTime.now().format(formatter).toString();
+        dateFrom = LocalDateTime.now().minusMonths(3).format(formatter).toString(); // 기본 3개월
     }
 }
