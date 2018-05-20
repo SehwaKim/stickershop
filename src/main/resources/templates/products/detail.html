@@ -107,12 +107,12 @@
                 num--;
 
                 if(num<=0){
-                    alert('더이상 줄일수 없습니다.');
+                    alert('더이상 줄일 수 없습니다.');
                     num =1;
                 } else {
                     tot /= 2;
                 }
-
+                // "${#numbers.formatCurrency(product.price)}"
                 $("#totalPrice").text(tot);
                 $('#quantity').text(num);
             });
@@ -123,11 +123,12 @@
                 var tot = parseInt($("#totalPrice").text(),10);
                 num++;
                 if(num>10){
-                    alert('더이상 늘릴수 없습니다.');
+                    alert('더이상 늘릴 수 없습니다.');
                     num=10;
                 } else {
                     tot *= 2;
                 }
+                // "${#numbers.formatCurrency(product.price)}"
                 $("#totalPrice").text(tot);
                 $('#quantity').text(num);
             });
@@ -181,7 +182,7 @@
                     </div>
                     <div class="col-8">
                         <div style="font-family: Consolas, 돋움; padding-bottom: 10px;"><h5>Total Price</h5></div>
-                        <div><h5><span id="totalPrice" th:text="${#numbers.formatCurrency(product.price)}"></span></h5></div>
+                        <div><h5><span id="totalPrice" th:text="${product.price}"></span></h5></div>
                     </div>
                 </div>
                 <div class="form-row" style="padding-top: 25px">
