@@ -48,10 +48,10 @@
                         </a>
                         <div class="card-body">
                             <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
-                            <a th:href="@{'/products/' + ${product.id}}">
+                            <a style="font-family: Consolas, 돋움;" th:href="@{'/products/' + ${product.id}}">
                                 <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
                             </a>
-                            <p class="card-text"><h4 th:text="${product.price}"></h4></p>
+                            <p class="card-text"><h4 th:text="${#numbers.formatCurrency(product.price)}"></h4></p>
                         </div>
                     </div>
                 </div>

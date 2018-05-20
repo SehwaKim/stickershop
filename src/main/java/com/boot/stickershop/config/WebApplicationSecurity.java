@@ -43,7 +43,7 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/orders/**").permitAll()
-                .antMatchers("/api/orders/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().fullyAuthenticated()

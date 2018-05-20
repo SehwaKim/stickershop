@@ -9,9 +9,14 @@
     <div style="text-align: center"><h2><strong>주문이 완료되었습니다.</strong></h2></div>
     <hr style="padding-bottom: 40px">
     <div class="container-fluid" style="width: 60%;">
-        <div>
-            <p>주문번호는 <span th:text="${order.orderNo}"></span> 입니다.</p>
-            <p>비회원 주문일 경우 주문확인을 위해 주문번호를 반드시 메모해두시길 바랍니다.</p>
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <h6 style="display: inline-block">주문번호 : </h6>
+                <h3 style="display: inline-block" th:text="${order.orderNo}"></h3>
+            </div>
         </div>
+        <p style="padding-top: 20px; padding-bottom: 60px">
+            <small>비회원 주문일 경우 주문확인을 위해 주문번호를 반드시 메모해두시길 바랍니다.</small>
+        </p>
     </div>
 </th:block>

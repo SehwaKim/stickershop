@@ -3,62 +3,102 @@
 
 <th:block layout:fragment="html_head">
     <title>주문서 작성</title>
+    <script>
+        function searchAddr() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    $("#addr1").val(data.zonecode);
+                    $("#addr2").val(data.roadAddress);
+                }
+            }).open();
+        }
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function changeAddrForm(type){
+            if(type == "new"){
+                $("#receiver").val('');
+                $("#addr1").val('');
+                $("#addr2").val('');
+                $("#addr3").val('');
+                $("#phone1").val('010');
+                $("#phone2").val('');
+                $("#phone3").val('');
+            }else if(type == "recent"){
+                $("#receiver").val([[${order.receiver}]]);
+                $("#addr1").val([[${order.zipcode}]]);
+                $("#addr2").val([[${order.addr1}]]);
+                $("#addr3").val([[${order.addr2}]]);
+                $("#phone1").val([[${order.phone1}]]);
+                $("#phone2").val([[${order.phone2}]]);
+                $("#phone3").val([[${order.phone3}]]);
+            }
+        }
+        /*]]>*/
+    </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
-    <div style="text-align: center"><h2><strong>주문서 작성</strong></h2></div>
+    <div style="text-align: left; padding-left: 100px"><h2>주문서 작성</h2></div>
     <hr style="padding-bottom: 40px">
     <form method="post" th:action="@{/orders}" th:object="${order}">
     <div class="container-fluid" style="width: 60%;">
-        <p><h4>주문내역</h4><small>상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</small></p>
+        <p><h4>주문내역&nbsp;&nbsp;</h4><small>상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</small><br></p>
         <table class="table" style="text-align: center;">
-            <thead class="thead-dark">
+            <thead>
             <tr>
-                <td scope="col" colspan="2" width="70%">제품</td>
-                <td scope="col">수량</td>
-                <td scope="col">합계</td>
+                <td scope="col" colspan="2" width="*"><small>제품</small></td>
+                <td scope="col" style="text-align: right" width="20%"><small>수량</small></td>
+                <td scope="col" style="text-align: right" width="20%"><small>합계</small></td>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
                 <td style="vertical-align: middle;" width="17%">
-                    <img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}">
+                    <a th:href="@{'/products/'+${item.product.id}}">
+                        <img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}">
+                    </a>
                 </td>
-                <td style="vertical-align: middle; text-align: left">
-                    <h3 th:text="${item.product.name}"></h3>
+                <td style="vertical-align: middle; text-align: left; font-family: Consolas, 돋움">
+                    <a th:href="@{'/products/'+${item.product.id}}">
+                        <h3 th:text="${item.product.name}"></h3>
+                    </a>
                 </td>
-                <td style="vertical-align: middle">
-                    <span id="price" th:text="${item.product.price}"></span>
+                <td style="vertical-align: middle; text-align: right;">
+                    <span id="price" th:text="${#numbers.formatCurrency(item.product.price)}"></span>
                     <span> x </span>
                     <span id="cnt" th:text="${item.quantity}"></span>
                 </td>
-                <td style="vertical-align: middle" width="10%">
-                    <span id="totPrice" th:text="${item.product.price*item.quantity}"></span>
+                <td style="vertical-align: middle; text-align: right;">
+                    <span id="totPrice" th:text="${#numbers.formatCurrency(item.product.price*item.quantity)}"></span>
                     <input type="hidden" name="productId" th:value="${item.product.id}">
                     <input type="hidden" name="quantity" th:value="${item.quantity}">
                 </td>
             </tr>
             </tbody>
         </table>
-        <!--<div th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
-            상품구매금액 <span id="purchaseTot"></span>
-            + 배송비 <span>0</span>
-            = 합계 : <strong><span id="orderTot"></span></strong>
-        </div>-->
+        <div th:if="${not #lists.isEmpty(list)}" style="padding-top: 20px; font-size: 15px;">
+            <span>상품구매금액&nbsp;</span>
+            <span th:text="${#numbers.formatCurrency(#aggregates.sum(list.![product.price*quantity]))}"></span>
+            <span>&nbsp;&nbsp;+&nbsp;&nbsp;배송비&nbsp;</span>
+            <span th:text="${#numbers.formatCurrency(0)}"></span>
+            <span>&nbsp;&nbsp;=&nbsp;&nbsp;</span>
+            <strong><span style="font-size: 18px;" th:text="'합계 :&nbsp;'+${#numbers.formatCurrency(#aggregates.sum(list.![product.price*quantity]))}"></span></strong>
+        </div>
     </div>
-    <div class="container-fluid" style="width: 60%; padding-top: 80px">
-        <p><h4>배송정보</h4><small><span style="color: red">*</span>필수입력사항</small></p>
+    <div class="container-fluid" style="width: 60%; padding-top: 130px">
+        <p><h4 style="display: inline-block;">배송정보&nbsp;&nbsp;</h4><small><span style="color: red">*</span>필수입력사항</small><br></p>
             <table style="width: 100%">
                 <tr>
                     <td style="width: 15%"><small><strong>배송지 선택</strong></small></td>
                     <td style="padding: 15px">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                            <label class="form-check-label" for="inlineRadio1"><small>최근 배송지</small></label>
+                            <input class="form-check-input" type="radio" name="addrRadio" onchange="changeAddrForm('recent')" id="recentAddr" value="option1" checked>
+                            <label class="form-check-label" for="recentAddr"><small>최근 배송지</small></label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                            <label class="form-check-label" for="inlineRadio2"><small>새로운 배송지</small></label>
+                            <input class="form-check-input" type="radio" name="addrRadio" onchange="changeAddrForm('new')" id="newAddr" value="option2">
+                            <label class="form-check-label" for="newAddr"><small>새로운 배송지</small></label>
                         </div>
                     </td>
                 </tr>
@@ -70,29 +110,49 @@
                 <tr>
                     <td style="width: 15%"><small><strong>주소<span style="color: red"> *</span></strong></small></td>
                     <td style="padding: 15px">
-                        <div class="row">
-                            <div class="col" style="width: 30%">
-                                <input type="text" class="form-control" id="addr1" th:value="${order.zipcode}" th:field="*{zipcode}">
+                        <div class="form-row" style="width: 30%;">
+                            <div class="col">
+                                <input type="text" class="form-control" id="addr1" style="background-color:transparent;" th:value="${order.zipcode}" th:field="*{zipcode}" readonly>
                             </div>
                             <div class="col">
-                                <button>버튼</button>
+                                <button type="button" class="btn btn-dark btn-sm" onclick="searchAddr()"><small>검색</small></button>
                             </div>
                         </div>
-                        <div style="width: 70%">
-                            <input type="text" class="form-control" style="width: 80%" id="addr2" th:value="${order.addr1}" th:field="*{addr1}"><small> 상세주소</small>
-                        </div>
-                        <div style="width: 70%">
-                            <input type="text" class="form-control" style="width: 80%" id="addr3" th:value="${order.addr2}" th:field="*{addr2}"><small> 나머지주소</small>
+                        <div class="form-row" style="padding-top: 7px">
+                            <div class="col">
+                                <input type="text" class="form-control" id="addr2" style="background-color:transparent;" th:value="${order.addr1}" th:field="*{addr1}" readonly>
+                            </div>
+                            <div class="col">
+                                <small> 상세주소</small>
+                            </div>
+                            </div>
+                        <div class="form-row" style="padding-top: 7px">
+                            <div class="col">
+                                <input type="text" class="form-control" id="addr3" th:value="${order.addr2}" th:field="*{addr2}">
+                            </div>
+                            <div class="col">
+                                <small>나머지주소</small>
+                            </div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 15%"><small><strong>휴대전화<span style="color: red"> *</span></strong></small></td>
-                    <td style="padding: 15px">
-                        <div style="width: 40%;">
-                            <input type="text" class="form-control" style="width: 30%" id="phone1"  th:value="${order.phone1}" th:field="*{phone1}">
-                            <input type="text" class="form-control" style="width: 30%; text-align: center;" id="phone2" th:value="${order.phone2}" th:field="*{phone2}">
-                            <input type="text" class="form-control" style="width: 30%; text-align: center;" id="phone3" th:value="${order.phone3}" th:field="*{phone3}">
+                    <td style="padding: 15px;">
+                        <div class="form-row" style="width: 35%;">
+                            <div class="col">
+                                <select class="custom-select mr-sm-2" th:value="${order.phone1}" th:field="*{phone1}">
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" th:value="${order.phone2}" th:field="*{phone2}">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" th:value="${order.phone3}" th:field="*{phone3}">
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -101,9 +161,49 @@
                     <td style="padding: 15px"><input type="text" class="form-control" id="orderMsg" th:field="*{message}"></td>
                 </tr>
             </table>
-        <p style="padding-top: 80px"><h4>결제 예정 금액</h4></p>
-        <p style="padding-top: 80px"><h4>결제 방법 선택</h4></p>
-        <button type="submit" class="btn btn-success btn-block">결제하기</button>
+        <p style="padding-top: 100px"><h4>결제 예정 금액</h4></p>
+        <div>
+            <h1><strong><span th:text="${#numbers.formatCurrency(#aggregates.sum(list.![product.price*quantity]))}"></span></strong></h1>
+        </div>
+        <p style="padding-top: 100px"><h4>결제 방법 선택</h4></p>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="paymentRadio" onchange="changePayment('cash')" id="p_cash" value="option1" checked>
+                <label class="form-check-label" for="p_cash"><small>무통장 입금</small></label>
+            </div>
+            <!--<div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="paymentRadio" onchange="changePayment('card')" id="p_card" value="option2">
+                <label class="form-check-label" for="p_card"><small>카드 결제</small></label>
+            </div>-->
+        </div>
+        <div style="width: 30%; padding-top: 15px; padding-bottom: 40px; padding-left: 25px;">
+            <div class="form-group row">
+                <div class="col" style="text-align: center;">
+                    <label for="depositor"><small><strong>입금자명</strong></small></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="depositor" class="form-control form-control-sm" th:field="*{depositor}">
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h6 class="card-title">무통장 입금 정보</h6>
+                <p class="card-text">
+                    <small>신한은행 110-423-123752<br>예금주 : 스티커샵</small>
+                </p>
+                <p class="card-text">
+                    <small>우리은행 1002-340-864309<br>예금주 : 스티커샵</small>
+                </p>
+                <p class="card-text">
+                    <small>카카오뱅크 5689-56-7854456<br>예금주 : 스티커샵</small>
+                </p>
+            </div>
+        </div>
+        <input type="hidden" th:value="${order.payment}" th:field="*{payment}">
+        <div style="padding-top: 60px; padding-bottom: 100px;">
+            <button type="submit" class="btn btn-success btn-block">결제하기</button>
+        </div>
     </div>
     </form>
 </th:block>

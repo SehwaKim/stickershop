@@ -17,6 +17,7 @@ import java.util.List;
 public class Order {
     public Order() {
         status = OrderCode.STATUS_ORDERED;
+        payment = OrderCode.PAYMENT_CASH;
         regtime = LocalDateTime.now();
     }
 
@@ -41,6 +42,7 @@ public class Order {
     private String phone2;  // xxxx
     private String phone3;
     private String message;
+    private String depositor;
     @Column(name = "order_no")
     private String orderNo;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

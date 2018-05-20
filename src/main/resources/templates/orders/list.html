@@ -84,7 +84,7 @@
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
-    <div style="text-align: center"><h2><strong>내 주문 내역</strong></h2></div>
+    <div style="margin-left: 75px"><h2>내 주문 내역</h2></div>
     <hr style="padding-bottom: 40px">
     <div class="container-fluid" th:if="${isGuestAccess} == true">
         <div class="container login">
@@ -253,7 +253,7 @@
                     <td colspan="2"></td>
                     <td><a th:href="@{'/products/' + ${op.product.id}}"><img class="img-thumbnail" width="80" height="80" th:src="@{${op.product.imagePath}}"></a></td>
                     <td style="text-align: left; font-family: Consolas; font-size: 18px"><a th:href="@{'/products/' + ${op.product.id}}"><span th:text="${op.product.name}"></span></a></td>
-                    <td style="text-align: right;" th:text="${op.purchasePrice} + ' x ' + ${op.quantity}"></td>
+                    <td style="text-align: right;" th:text="${#numbers.formatCurrency(op.purchasePrice)} + ' x ' + ${op.quantity}"></td>
                     <td style="text-align: right;" th:text="${#numbers.formatCurrency(op.purchasePrice * op.quantity)}"></td>
                     <td colspan="2"></td>
                 </tr>

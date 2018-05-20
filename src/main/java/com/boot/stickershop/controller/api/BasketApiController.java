@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/basket")
@@ -20,27 +22,37 @@ public class BasketApiController {
     @Autowired
     UserService userService;
 
-    // 장바구니 비우기
     @DeleteMapping("/deleteAll")
-    public String deleteAll(Principal principal){
-        // 회원이면 해당 회원 장바구니 비우기
+    public String deleteAll(Principal principal, HttpSession session){
         if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
             basketService.deleteAllByUserId(user.getId());
-        } else {
-            // 손님이면
+        }else {
+            Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+            if(basket != null){
+                for(Long productId : basket.keySet()){
+                    basket.remove(productId);
+                }
+            }
         }
-        return "delete OK";
+        return "ok";
     }
 
     @PostMapping("/delete")
-    public String delete(Principal principal,@RequestParam Long id){
-        if(principal!=null){
+    public String delete(@RequestParam Long productId, Principal principal, HttpSession session){
+        if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
-            basketService.deleteByBasketId(id);
-            return "delete OK";
+            basketService.deleteByBasketId(productId);
+        }else {
+            Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+            if(basket != null && basket.size() > 0){
+                if(basket.containsKey(productId)){
+                    basket.remove(productId);
+                    session.setAttribute("basket", basket);
+                }
+            }
         }
-        return "Not User!";
+        return "ok";
     }
 
     @PutMapping("/update")

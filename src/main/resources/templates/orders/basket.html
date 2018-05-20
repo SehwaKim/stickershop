@@ -19,7 +19,8 @@
                 form.setAttribute("method", "post");
                 form.setAttribute("action", "/orders/orderform");
 
-                $("input[type=checkbox]:checked").each(function () {
+                var checkedAny = false;
+                $("input[name=checkSub]:checked").each(function () {
                     var productId = this.id;
                     var hiddenField = document.createElement("input");
                     hiddenField.setAttribute("type", "hidden");
@@ -27,10 +28,42 @@
                     hiddenField.setAttribute("value", productId);
 
                     form.appendChild(hiddenField);
+                    checkedAny = true;
                 });
+
+                if(!checkedAny){
+                    alert("상품이 선택되지 않았습니다.");
+                    return false;
+                }
 
                 document.body.appendChild(form);
                 form.submit();
+            });
+
+            $("#deleteAll").click(function() {
+                $.ajax({
+                    url : '/api/basket/deleteAll',
+                    async: false,
+                    method : 'delete',
+                    success : function (data) {
+                        if(data == "ok"){
+                            $("#listBody").empty();
+                            $("#listBody").append('<tr style="text-align: center;"><td colspan="6">장바구니에 담긴 상품이 없습니다.</td></tr>');
+                        }
+                    },
+                    error : function (err) {
+                        // console.log(err.toString());
+                    }
+                });
+
+            });
+
+            $("#checkAll").click(function(){
+                if($("#checkAll").prop("checked")){
+                    $("input[name=checkSub]").prop("checked", true);
+                }else{
+                    $("input[name=checkSub]").prop("checked", false);
+                }
             });
 
         });
@@ -52,51 +85,24 @@
     </script>
 
     <script>
-        $(function () {
-            $("#deleteAll").click(function() {
-                    $.ajax({
-                        url : '/api/basket/deleteAll',
-                        async: false,
-                        method : 'delete',
-
-                        success : function (data) {
-                            alert('삭제되었습니다.. OK');
-                            console.log(data);
-                            document.getElementById(listDiv).remove();
-                            location.reload();
-                        },
-                        error : function (err) {
-                            console.log(err.toString());
-                        }
-                    });
-
-            }); // btn2 click
-
-        });
-    </script>
-
-    <script>
-        function deleteBasketlist(id){
+        function deleteBasketlist(productId){
             $.ajax({
                 url : '/api/basket/delete',
+                async : false,
                 method : 'post',
-                data : {"id" : id},
-
+                data : {"id" : productId},
                 dataType: "text",
                 success : function (data) {
-                    alert(id);
+                    alert("success");
                     console.log(data);
                 },
                 error : function (err) {
-                    alert("erroe"+id);
-
+                    alert("fail");
                     console.log(err.toString());
                 }
             });
         }
-    </script>
 
-    <script>
         function updateBasketlist(id, quantity){
             var quantity = $('#product_cno_'+id).val();
             alert(quantity);
@@ -119,53 +125,56 @@
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
-    <div style="text-align: center"><h2><strong>장바구니</strong></h2></div>
+    <div style="margin-left: 75px"><h2>장바구니</h2></div>
     <hr style="padding-bottom: 40px">
     <div class="container-fluid" style="width: 60%;">
         <form id="basketForm" th:action="@{/orders/orderform}" method="post">
         <table class="table" style="text-align: center;">
             <thead class="thead-dark">
-            <tr>
-                <td scope="col"><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                <td scope="col" colspan="3">제품</td>
-                <td scope="col">수량</td>
-                <td scope="col"></td>
-            </tr>
+                <tr>
+                    <td scope="col"><input type="checkbox" id="checkAll" aria-label="Checkbox for following text input"></td>
+                    <td scope="col" colspan="3"><small>제품</small></td>
+                    <td scope="col"><small>수량</small></td>
+                    <td scope="col"></td>
+                </tr>
             </thead>
-            <tbody>
-            <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${item.id}" th:each="item : ${list}">
-                <td style="vertical-align: middle">
-                    <input type="checkbox" aria-label="Checkbox for following text input" th:attrappend="id=${item.product.id}">
-                </td>
-                <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}"></td>
-                <td style="vertical-align: middle"><h3 th:text="${item.product.name}"></h3></td>
-                <td style="vertical-align: middle">
-                    <span id="price" th:text="${item.product.price}"></span>
-                    <span> x </span>
-                    <span id="cnt" th:text="${item.quantity}">1</span>
-                    <span> = </span>
-                    <span id="totPrice" th:text="${item.product.price*item.quantity}"></span>
-                    <input type="hidden" name="productId" th:value="${item.product.id}">
-                </td>
-                <td style="vertical-align: middle" width="10%">
-                    <div style="padding-bottom: 10px">
-                        <input class="underline" type="text" th:attrappend="id='product_cno_'+${item.product.id}" style="text-align: center" size="2" th:value="${item.quantity}">
-                    </div>
-                    <div>
-                        <h5><a href="javascript:void(0);" class="badge badge-dark" role="button" aria-pressed="true"
-                               th:onclick="'javascript:updateBasketlist(' + ${item.product.id} +','+ ${item.quantity} + ')'"><small>변경</small></a></h5>
-                    </div>
-                </td>
-                <td style="vertical-align: middle" width="10%">
-                    <div style="padding-bottom: 7px">
-                        <button type="button" class="btn btn-dark btn-sm" th:onclick="'javascript:orderOne(' + ${item.product.id} + ')'"><small>주문하기</small></button>
-                    </div>
-                    <div>
-                        <a href="javascript:void(0);" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"
-                           th:onclick="'javascript:deleteBasketlist(' + ${item.product.id}  + ')'" id="deleteButton" name="deleteButton"><small>삭제</small></a>
-                    </div>
-                </td>
-            </tr>
+            <tbody id="listBody">
+                <tr style="text-align: center;" th:if="${#lists.isEmpty(list)}">
+                    <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
+                </tr>
+                <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${item.id}" th:each="item : ${list}">
+                    <td style="vertical-align: middle">
+                        <input type="checkbox" name="checkSub" aria-label="Checkbox for following text input" th:attrappend="id=${item.product.id}">
+                    </td>
+                    <td style="vertical-align: middle"><img class="img-thumbnail" width="100" height="100" th:src="@{${item.product.imagePath}}"></td>
+                    <td style="vertical-align: middle; font-family: Consolas, 돋움;"><h3 th:text="${item.product.name}"></h3></td>
+                    <td style="vertical-align: middle">
+                        <span id="price" th:text="${#numbers.formatCurrency(item.product.price)}"></span>
+                        <span> x </span>
+                        <span id="cnt" th:text="${item.quantity}">1</span>
+                        <span> = </span>
+                        <span id="totPrice" th:text="${#numbers.formatCurrency(item.product.price*item.quantity)}"></span>
+                        <input type="hidden" name="productId" th:value="${item.product.id}">
+                    </td>
+                    <td style="vertical-align: middle" width="10%">
+                        <div style="padding-bottom: 10px">
+                            <input class="underline" type="text" th:attrappend="id='product_cno_'+${item.product.id}" style="text-align: center" size="2" th:value="${item.quantity}">
+                        </div>
+                        <div>
+                            <h5><a href="javascript:void(0);" class="badge badge-dark" role="button" aria-pressed="true"
+                                   th:onclick="'javascript:updateBasketlist(' + ${item.product.id} +','+ ${item.quantity} + ')'"><small>변경</small></a></h5>
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle" width="10%">
+                        <div style="padding-bottom: 7px">
+                            <button type="button" class="btn btn-dark btn-sm" th:onclick="'javascript:orderOne(' + ${item.product.id} + ')'"><small>주문하기</small></button>
+                        </div>
+                        <div>
+                            <a href="javascript:void(0);" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true"
+                               th:onclick="'javascript:deleteBasketlist(' + ${item.product.id}  + ')'" id="deleteButton" name="deleteButton"><small>삭제</small></a>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <!--<div th:if="${not #lists.isEmpty(list)}" th:each="item : ${list}">
@@ -176,7 +185,7 @@
         <div class="text-right" style="padding-top: 20px; padding-bottom: 20px">
             <!--<a  th:href="@{/api/basket/deleteAll}" role="button" aria-pressed="true" th:onclick="deleteAll"-->
                                                     <!--th:id="deleteAllButton" th:name="deleteAllButton"><small>장바구니 비우기</small></a>-->
-            <button type="button"class="btn btn-lg btn-block btn-primary" id="deleteAll" name="deleteAll" >
+            <button type="button"class="btn btn-outline-secondary" id="deleteAll" name="deleteAll" >
                                                                                 <small>장바구니 비우기</small></button>
         </div>
         <div class="text-center" style="padding-top: 30px; padding-bottom: 80px">
