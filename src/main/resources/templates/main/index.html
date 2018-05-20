@@ -32,28 +32,24 @@
     <div style="text-align: center"><h2><strong>Best Sellers</strong></h2></div>
     <hr style="padding-bottom: 40px">
     <div class="container-fluid" style="width: 70%;">
-        <div class="row justify-content-md-center">
-            <div class="col">
-                <div class="card-columns">
-                    <div class="card" style="margin: 10px" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
-                        <div style="text-align: right; margin: 5px">
-                            <a href="javascript:void(0);" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'">
-                                <svg class="i-heart" id="heart" name="heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
-                                </svg>
-                            </a>
-                        </div>
-                        <a th:href="@{'/products/' + ${product.id}}">
-                            <img class="card-img-top" th:src="@{${product.imagePath}}">
-                        </a>
-                        <div class="card-body">
-                            <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
-                            <a style="font-family: Consolas, 돋움;" th:href="@{'/products/' + ${product.id}}">
-                                <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
-                            </a>
-                            <p class="card-text"><h4 th:text="${#numbers.formatCurrency(product.price)}"></h4></p>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="card" style="width: 31%; margin-left: 15px; margin-bottom: 15px;" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
+                <div style="text-align: right; margin: 5px">
+                    <a href="javascript:void(0);" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'">
+                        <svg class="i-heart" id="heart" name="heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
+                        </svg>
+                    </a>
+                </div>
+                <a th:href="@{'/products/' + ${product.id}}">
+                    <img class="card-img-top" th:src="@{${product.imagePath}}">
+                </a>
+                <div class="card-body">
+                    <h6><span class="badge badge-pill badge-success">best</span>&nbsp;<span class="badge badge-pill badge-info">new</span></h6>
+                    <a style="font-family: Consolas, 돋움;" th:href="@{'/products/' + ${product.id}}">
+                        <h3 class="card-title"><strong th:text="${product.name}"></strong></h3>
+                    </a>
+                    <p class="card-text"><h4 th:text="${#numbers.formatCurrency(product.price)}"></h4></p>
                 </div>
             </div>
         </div>

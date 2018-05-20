@@ -40,7 +40,7 @@
     <br><br>
     <div style="text-align: center"><h2><strong>Stickers</strong></h2></div>
     <hr style="padding-bottom: 40px">
-    <div class="container-fluid" style="width: 72%;">
+    <div class="container-fluid" style="width: 75%;">
         <div class="row justify-content-md-center">
             <div class="col">
                 <div class="row">
@@ -66,8 +66,9 @@
                                 <a th:href="@{/products(sort='recent')}">최신순</a>
                             </div>
                         </div>
-                        <div class="card-columns">
-                            <div class="card" th:if="${not #lists.isEmpty(list.getContent())}" th:each="product : ${list}">
+                        <!-- 상품 리스트 시작 -->
+                        <div class="row">
+                            <div class="card" style="width: 30%" th:if="${not #lists.isEmpty(list.getContent())}" th:each="product : ${list}">
                                 <div style="text-align: right; margin: 5px">
                                     <a href="javascript:void(0);" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'">
                                         <svg class="i-heart" id="heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -87,8 +88,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="justify-content: center; padding-top: 25px; padding-bottom: 80px;">
-                            <ul class="pagination" th:if="${not #lists.isEmpty(list.getContent())}">
+                        <!-- 상품 리스트 끝 -->
+                        <!-- 페이징 시작 -->
+                        <nav style="padding-top: 50px; padding-bottom: 80px;">
+                            <ul class="pagination justify-content-center" th:if="${not #lists.isEmpty(list.getContent())}">
                                 <li class="page-item" th:if="${pager.hasPrev()} == true">
                                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.startPage-1}, sort=${productSearch.sort})}" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
@@ -104,11 +107,11 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
+                        <!-- 페이징 끝 -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </th:block>
