@@ -1,5 +1,6 @@
 package com.boot.stickershop.service.impl;
 
+import com.boot.stickershop.domain.Product;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.UserConnection;
 import com.boot.stickershop.domain.WishlistItem;
@@ -43,6 +44,11 @@ public class WishlistItemServiceImpl implements WishlistItemService {
     @Override
     public List<WishlistItem> selectAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public WishlistItem selectOneByProduct(Product product) {
+        return repository.findWishlistItemByProduct(product);
     }
 
 }

@@ -31,7 +31,7 @@ public class WishlistItemApiController {
 
         Product product = productService.getProduct(id);
 
-        WishlistItem wishlistItem = wishlistItemService.selectOne(id);
+        WishlistItem wishlistItem = wishlistItemService.selectOneByProduct(product);
         if(wishlistItem==null){
             wishlistItem = new WishlistItem();
             wishlistItem.setUser(user);
