@@ -56,15 +56,21 @@ public class BasketApiController {
         return basketSize;
     }
 
-    @PutMapping("/update")
-    public String update(Principal principal, @RequestParam Long id, @RequestParam int quantity){
+    @PutMapping
+    public void update(@RequestParam Long productId, @RequestParam Integer quantity, Principal principal, HttpSession session){
         if(principal!=null){
             User user = userService.getUserByEmail(principal.getName());
-            BasketProduct product = basketService.getBasketProduct(user.getId(),id);
-            product.setQuantity(quantity);
-            basketService.addBasket(product);
-            return "update OK";
+            BasketProduct basketProduct = basketService.getBasketProduct(user.getId(), productId);
+            basketProduct.setQuantity(quantity);
+            basketService.addBasket(basketProduct);
+        }else{
+            Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+            if(basket != null && basket.size() > 0){
+                if(basket.containsKey(productId)){
+                    basket.put(productId, quantity);
+                    session.setAttribute("basket", basket);
+                }
+            }
         }
-        return "update Error";
     }
 }

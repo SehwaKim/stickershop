@@ -94,21 +94,14 @@
             });
         }
 
-        function updateBasketlist(id, quantity){
-            var quantity = $('#product_cno_'+id).val();
-            alert(quantity);
+        function updateBasketlist(productId, quantity){
+            var quantity = $('#product_cno_'+productId).val();
             $.ajax({
-                url : '/api/basket/update',
+                url : '/api/basket',
                 method : 'put',
-                data : {"id" : id, "quantity" : quantity},
+                data : {"productId" : productId, "quantity" : quantity},
                 dataType: "text",
                 success : function (data) {
-                    // alert(id);
-                    console.log(data);
-                },
-                error : function (err) {
-                    alert("error");
-                    console.log(err.toString());
                 }
             });
         }
