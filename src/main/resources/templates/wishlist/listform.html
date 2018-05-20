@@ -2,77 +2,94 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main_layout">
 
 <th:block layout:fragment="html_head">
-    <title>로그인하기</title>
-
+    <title>내 위시리스트</title>
     <script src="/js/bower_components/jquery/dist/jquery.js"></script>
-
     <script>
         $(function () {
             $("#deleteButton").click(function () {
+                var checkedAny = false;
                 $("input[name=listId]:checked").each(function() {
+                    checkedAny = true;
                     var listid = $(this).val();
                     $.ajax({
-                        url : '/api/users/delete',
-                        method : 'post',
-                        data : {"id" : listid},
-
-                        dataType: "text",
+                        url : '/api/wishlist/'+listid,
+                        method : 'delete',
                         success : function (data) {
-                            console.log(data);
                             document.getElementById(listid).remove();
-
-                        },
-                        error : function (err) {
-                            console.log(err.toString());
+                            if(data == 0){
+                                $("#listBody").append('<tr><td colspan="4" style="text-align: center;">위시리스트가 비어있습니다.</td></tr>');
+                            }
                         }
                     });
                 });
+                if(!checkedAny){
+                    alert("아이템을 선택해 주십시오.");
+                }
+             });
 
-             }); // btn2 click
-
+            $("#checkAll").click(function(){
+                if($("#checkAll").prop("checked")){
+                    $("input[name=listId]").prop("checked", true);
+                }else{
+                    $("input[name=listId]").prop("checked", false);
+                }
+            });
         });
     </script>
 </th:block>
 <th:block layout:fragment="body_main">
     <br><br>
-    <div style="margin-left: 75px"><h2>위시리스트</h2></div>
+    <div style="margin-left: 85px"><h2>위시리스트</h2></div>
     <hr style="padding-bottom: 40px">
-    <div class="container wishlist">
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 box-shadow">
-                <div class="card-body">
-                    <form method="post" id="wishlistForm"  action="#">
-                        <div class="container">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <td width="10%"></tdwidth>
-                                    <th width="10%">번호</th>
-                                    <th>상품명</th>
-                                    <th width="25%">사용자</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${wishlist.id}" th:each="wishlist : ${list}">
-                                    <td><input type="checkbox"  id="listId" name="listId" th:value="${wishlist.id}"></td>
-                                    <td th:text="${wishlist.id}"></td>
-                                    <td th:text="${wishlist.product.name}"></td>
-                                    <td th:text="${wishlist.user.name}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-block btn-light"><small>주문</small></button>
-                        <p style="padding-top: 5px"><small>또는</small></p>
-                        <button type="button" class="btn btn-lg btn-block btn-primary" id="deleteButton" name="deleteButton" ><small>삭제</small></button>
-                    </form>
+    <div class="container-fluid" style="width: 60%;">
+        <div class="container wishlist" style="padding-bottom: 60px;">
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <form method="post" id="wishlistForm"  action="#">
+                            <div class="container">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th width="8%" style="text-align: right;"><input type="checkbox" id="checkAll"></th>
+                                            <th colspan="2" width="*"><small>상품명</small></th>
+                                            <th width="50%" style="text-align: right; padding-right: 35px;"><small>가격</small></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listBody">
+                                        <tr th:if="${#lists.isEmpty(list)}">
+                                            <td colspan="4" style="text-align: center;">위시리스트가 비어있습니다.</td>
+                                        </tr>
+                                        <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${item.id}" th:each="item : ${list}">
+                                            <td style="vertical-align: middle; text-align: right;"><input type="checkbox"  id="listId" name="listId" th:value="${item.id}"></td>
+                                            <td style="vertical-align: middle; text-align: right;">
+                                                <a th:href="@{'/products/' + ${item.product.id}}">
+                                                    <img class="img-thumbnail" width="60" height="60" th:src="@{${item.product.imagePath}}">
+                                                </a>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: left; font-family: Consolas, 돋움;">
+                                                <a th:href="@{'/products/' + ${item.product.id}}"><h5><span th:text="${item.product.name}"></span></h5></a>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: right; padding-right: 35px;" th:text="${#numbers.formatCurrency(item.product.price)}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="form-row" style="width: 35%;">
+                                    <div class="col">
+                                        <small><strong>선택상품을</strong></small>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-dark btn-sm"><small>장바구니 담기</small></button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-dark btn-sm" id="deleteButton" name="deleteButton" ><small>삭제하기</small></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </th:block>
-
-
-
-
-</html>

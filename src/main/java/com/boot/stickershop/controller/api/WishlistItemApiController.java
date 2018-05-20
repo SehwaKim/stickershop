@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/wishlist")
 public class WishlistItemApiController {
 
     @Autowired
@@ -25,31 +25,35 @@ public class WishlistItemApiController {
     @Autowired
     ProductService productService;
 
-    @PostMapping("/add")
-    public String add(Principal principal,@RequestParam Long id){
-        User user = userService.getUserByEmail(principal.getName());
+    @PostMapping(value = "/{productId}")
+    public String add(@PathVariable(value = "productId") Long productId, Principal principal){
+        if(principal != null){
+            User user = userService.getUserByEmail(principal.getName());
+            Product product = productService.getProduct(productId);
+            WishlistItem wishlistItem = wishlistItemService.selectOneByProduct(product);
 
-        Product product = productService.getProduct(id);
-
-        WishlistItem wishlistItem = wishlistItemService.selectOneByProduct(product);
-        if(wishlistItem==null){
-            wishlistItem = new WishlistItem();
-            wishlistItem.setUser(user);
-            wishlistItem.setProduct(product);
-            wishlistItemService.addWishlist(wishlistItem);
-        } else {
-            return "이미 있음!";
+            if(wishlistItem == null){
+                wishlistItem = new WishlistItem();
+                wishlistItem.setUser(user);
+                wishlistItem.setProduct(product);
+                wishlistItemService.addWishlist(wishlistItem);
+                return "ok";
+            } else {
+                return "exist";
+            }
+        }else{
+            return "guest";
         }
-        return "add OK";
     }
 
-    @PostMapping("/delete")
-    public String delete(Principal principal, @RequestParam Long id){
-        User user = userService.getUserByEmail(principal.getName());
+    @DeleteMapping(value = "/{wishlistItemId}")
+    public int delete(@PathVariable(value = "wishlistItemId") Long id, Principal principal){
+        if(principal != null){
+            User user = userService.getUserByEmail(principal.getName());
+            wishlistItemService.deleteWishlist(id);
+        }
 
-        System.out.println("Id = "+id);
-        wishlistItemService.deleteWishlist(id);
-        return "delete OK";
+        return wishlistItemService.selectAll().size();
     }
 
     @PutMapping

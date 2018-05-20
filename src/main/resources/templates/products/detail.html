@@ -57,19 +57,19 @@
             });
         }
 
-        function addWishlist(id){
+        function addWishlistItem(productId){
             $.ajax({
-                url : '/api/users/add',
+                url : '/api/wishlist/'+productId,
                 method : 'post',
-                data : {"id" : id},
-
                 dataType: "text",
                 success : function (data) {
-                    alert(data);
-                    console.log(data);
-                },
-                error : function (err) {
-                    console.log(err.toString());
+                    if(data == "ok") {
+                        alert("위시리스트에 추가되었습니다.");
+                    }else if(data == "exist"){
+                        alert("이미 위시리스트에 존재하는 상품입니다.");
+                    }else if(data == "guest"){
+                        alert("로그인 하시면 위시리스트를 추가하실 수 있습니다.");
+                    }
                 }
             });
         }
@@ -190,7 +190,7 @@
                         <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addBasketItem(' + ${product.id} + ')'"><small>장바구니</small></button>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'"><small>위시리스트</small></button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addWishlistItem(' + ${product.id} + ')'"><small>위시리스트</small></button>
                     </div>
                 </div>
                 <div style="padding-top: 10px">

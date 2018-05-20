@@ -6,24 +6,22 @@
     <script src="/js/bower_components/jquery/dist/jquery.js"></script>
 
     <script>
-        function addWishlist(id){
+        function addWishlistItem(productId){
             $.ajax({
-                url : '/api/users/add',
+                url : '/api/wishlist/'+productId,
                 method : 'post',
-                data : {"id" : id},
-
                 dataType: "text",
                 success : function (data) {
-                    alert(data);
-                    console.log(data);
-                },
-                error : function (err) {
-                    alert.log("로그인해주세요")
-                    console.log(data);
+                    if(data == "ok") {
+                        alert("위시리스트에 추가되었습니다.");
+                    }else if(data == "exist"){
+                        alert("이미 위시리스트에 존재하는 상품입니다.");
+                    }else if(data == "guest"){
+                        alert("로그인 하시면 위시리스트를 추가하실 수 있습니다.");
+                    }
                 }
             });
         }
-
     </script>
 </th:block>
 
@@ -35,7 +33,7 @@
         <div class="row">
             <div class="card" style="width: 31%; margin-left: 15px; margin-bottom: 15px;" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
                 <div style="text-align: right; margin: 5px">
-                    <a href="javascript:void(0);" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'">
+                    <a href="javascript:void(0);" th:onclick="'javascript:addWishlistItem(' + ${product.id} + ')'">
                         <svg class="i-heart" id="heart" name="heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                             <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
                         </svg>
