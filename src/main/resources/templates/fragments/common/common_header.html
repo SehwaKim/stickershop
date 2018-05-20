@@ -141,7 +141,7 @@
     </div>
     <div class="userDiv" sec:authorize="isAuthenticated()">
         <span><small>아래의 이메일로 로그인 되었습니다.</small></span>
-        <p><a th:href="@{/users/info}"><small><strong th:text="${#authentication.name}"></strong></small></a></p>
+        <p><a th:href="@{/}"><small><strong th:text="${#authentication.name}"></strong></small></a></p>
     </div>
     <hr>
     <ul id="userList">

@@ -34,7 +34,7 @@ public class WishListItemController {
         }
         User user = userService.getUserByEmail(principal.getName());
 
-        List<WishlistItem> wishlistItems = wishlistItemService.selectAll();
+        List<WishlistItem> wishlistItems = wishlistItemService.selectAllByUserId(user.getId());
 
         model.addAttribute("list",wishlistItems);
 

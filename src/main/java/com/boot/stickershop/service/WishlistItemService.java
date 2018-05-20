@@ -12,6 +12,6 @@ public interface WishlistItemService {
     public WishlistItem addWishlist(WishlistItem item);
     public void deleteWishlist(Long id);
     public WishlistItem selectOne(Long id);
-    public List<WishlistItem> selectAll();
-    public WishlistItem selectOneByProduct(Product product);
+    public List<WishlistItem> selectAllByUserId(Long userId);
+    public WishlistItem selectOneByProductIdAndUserId(Long productId, Long userId);
 }

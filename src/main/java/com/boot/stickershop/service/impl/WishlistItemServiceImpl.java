@@ -42,13 +42,13 @@ public class WishlistItemServiceImpl implements WishlistItemService {
     }
 
     @Override
-    public List<WishlistItem> selectAll() {
-        return repository.findAll();
+    public List<WishlistItem> selectAllByUserId(Long userId) {
+        return repository.findAllByUserId(userId);
     }
 
     @Override
-    public WishlistItem selectOneByProduct(Product product) {
-        return repository.findWishlistItemByProduct(product);
+    public WishlistItem selectOneByProductIdAndUserId(Long productId, Long userId) {
+        return repository.findByProductIdAndUserId(productId, userId);
     }
 
 }

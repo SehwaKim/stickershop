@@ -25,8 +25,21 @@
         }
     </style>
     <script>
-        function addWishlist(productId) {
-            alert(productId);
+        function addWishlistItem(productId){
+            $.ajax({
+                url : '/api/wishlist/'+productId,
+                method : 'post',
+                dataType: "text",
+                success : function (data) {
+                    if(data == "ok") {
+                        alert("위시리스트에 추가되었습니다.");
+                    }else if(data == "exist"){
+                        alert("이미 위시리스트에 존재하는 상품입니다.");
+                    }else if(data == "guest"){
+                        alert("로그인 하시면 위시리스트를 추가하실 수 있습니다.");
+                    }
+                }
+            });
         }
     </script>
 </th:block>
@@ -78,10 +91,10 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="col">
-                <div class="card-columns">
-                    <div class="card" style="margin: 10px" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
+                <div class="row">
+                    <div class="card" style="width: 31%; margin: 10px" th:if="${not #lists.isEmpty(list)}" th:each="product : ${list}">
                         <div style="text-align: right; margin: 5px">
-                            <a th:href="@{/}">
+                            <a href="javascript:void(0);" th:onclick="'javascript:addWishlistItem(' + ${product.id} + ')'">
                                 <svg class="i-heart" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
                                 </svg>
@@ -101,8 +114,8 @@
                 </div>
             </div>
         </div>
-        <div style="justify-content: center; padding-top: 25px; padding-bottom: 80px;">
-            <ul class="pagination" th:if="${not #lists.isEmpty(list.getContent())}">
+        <nav style="padding-top: 50px; padding-bottom: 80px;">
+            <ul class="pagination justify-content-center" th:if="${not #lists.isEmpty(list.getContent())}">
                 <li class="page-item" th:if="${pager.hasPrev()} == true">
                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.startPage-1}, sort=${productSearch.sort}, keyword=${productSearch.keyword}, minPrice=${productSearch.minPrice}, maxPrice=${productSearch.maxPrice})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -118,6 +131,6 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </nav>
     </div>
 </th:block>

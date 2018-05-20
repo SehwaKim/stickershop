@@ -30,7 +30,7 @@ public class WishlistItemApiController {
         if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
             Product product = productService.getProduct(productId);
-            WishlistItem wishlistItem = wishlistItemService.selectOneByProduct(product);
+            WishlistItem wishlistItem = wishlistItemService.selectOneByProductIdAndUserId(product.getId(), user.getId());
 
             if(wishlistItem == null){
                 wishlistItem = new WishlistItem();
@@ -48,19 +48,9 @@ public class WishlistItemApiController {
 
     @DeleteMapping(value = "/{wishlistItemId}")
     public int delete(@PathVariable(value = "wishlistItemId") Long id, Principal principal){
-        if(principal != null){
-            User user = userService.getUserByEmail(principal.getName());
-            wishlistItemService.deleteWishlist(id);
-        }
+        User user = userService.getUserByEmail(principal.getName());
+        wishlistItemService.deleteWishlist(id);
 
-        return wishlistItemService.selectAll().size();
+        return wishlistItemService.selectAllByUserId(user.getId()).size();
     }
-
-    @PutMapping
-    public WishlistItem update(@RequestParam("id") Long id){
-        WishlistItem wishlistItem = new WishlistItem();
-        System.out.println(id);
-        return wishlistItem;
-    }
-
 }
