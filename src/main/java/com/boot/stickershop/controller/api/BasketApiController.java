@@ -80,8 +80,7 @@ public class BasketApiController {
             User user = userService.getUserByEmail(principal.getName());
             basketProductService.deleteAllByUserId(user.getId());
         }else {
-            Map<Long, Integer> basket = new HashMap<>();
-            session.setAttribute("basket", basket);
+            session.removeAttribute("basket");
         }
         return "ok";
     }

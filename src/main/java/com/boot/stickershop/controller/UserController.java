@@ -1,8 +1,11 @@
 package com.boot.stickershop.controller;
 
+import com.boot.stickershop.domain.BasketProduct;
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.UserRole;
 import com.boot.stickershop.dto.UserJoinForm;
+import com.boot.stickershop.service.BasketProductService;
+import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +19,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static com.boot.stickershop.domain.QBasketProduct.basketProduct;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    BasketProductService basketProductService;
+
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/joinform")
     public String joinform(UserJoinForm userJoinForm,ModelMap modelMap){
@@ -35,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid UserJoinForm userJoinForm, BindingResult bindingResult){
+    public String join(@Valid UserJoinForm userJoinForm, BindingResult bindingResult, HttpSession session){
         if(bindingResult.hasErrors()){
             return "users/joinform";
         }
@@ -68,7 +81,20 @@ public class UserController {
         user.addUserRole(userRole);
 
         // insert
-        userService.addUser(user);
+        User saved = userService.addUser(user);
+
+        // 세션에 존재하는 장바구니 옮기기
+        Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+        if(basket != null && basket.size() > 0){
+            for(Long productId : basket.keySet()){
+                BasketProduct basketProduct = new BasketProduct();
+                basketProduct.setUser(saved);
+                basketProduct.setProduct(productService.getProduct(productId));
+                basketProduct.setQuantity(basket.get(productId));
+                basketProductService.addBasket(basketProduct);
+            }
+            session.removeAttribute("basket");
+        }
 
         return "users/loginform";
     }
