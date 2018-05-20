@@ -2,7 +2,9 @@ package com.boot.stickershop.controller.api;
 
 import com.boot.stickershop.domain.BasketProduct;
 import com.boot.stickershop.domain.User;
+import com.boot.stickershop.dto.BasketItem;
 import com.boot.stickershop.service.BasketProductService;
+import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +21,64 @@ import java.util.Map;
 public class BasketApiController {
 
     @Autowired
-    BasketProductService basketService;
+    BasketProductService basketProductService;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProductService productService;
+
+    @PostMapping
+    public String addBasketProduct(@RequestBody BasketItem basketItem, Principal principal, HttpSession session){
+        if(principal == null){
+            if(session.getAttribute("basket") == null){
+                // 새 basket 생성
+                Map<Long, Integer> basket = new HashMap<>();
+                basket.put(basketItem.getProductId(), basketItem.getQuantity());
+                session.setAttribute("basket", basket);
+            }else {
+                // basket 이미 존재, 해당 상품이 이미 담겼는지 조사
+                Map<Long, Integer> basket = (Map) session.getAttribute("basket");
+
+                if(basket.containsKey(basketItem.getProductId())){
+                    int quantity = basket.get(basketItem.getProductId());
+                    quantity += basketItem.getQuantity();
+                    basket.put(basketItem.getProductId(), quantity);
+                    session.setAttribute("basket", basket);
+                }else{
+                    basket.put(basketItem.getProductId(), basketItem.getQuantity());
+                    session.setAttribute("basket", basket);
+                }
+            }
+        }else{
+            User user = userService.getUserByEmail(principal.getName());
+
+            BasketProduct basketProduct = basketProductService.getBasketProduct(user.getId(), basketItem.getProductId());
+            if(basketProduct != null){
+                // 수량 update
+                int quantity = basketProduct.getQuantity();
+                quantity += basketItem.getQuantity();
+                basketProduct.setQuantity(quantity);
+                basketProductService.updateBasketProduct(basketProduct);
+
+            }else{
+                // save
+                basketProduct = new BasketProduct();
+                basketProduct.setUser(user);
+                basketProduct.setProduct(productService.getProduct(basketItem.getProductId()));
+                basketProduct.setQuantity(basketItem.getQuantity());
+                basketProductService.addBasket(basketProduct);
+            }
+        }
+        return "ok";
+    }
 
     @DeleteMapping
     public String deleteAll(Principal principal, HttpSession session){
         if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
-            basketService.deleteAllByUserId(user.getId());
+            basketProductService.deleteAllByUserId(user.getId());
         }else {
             Map<Long, Integer> basket = new HashMap<>();
             session.setAttribute("basket", basket);
@@ -41,8 +91,8 @@ public class BasketApiController {
         int basketSize = 0;
         if(principal != null){
             User user = userService.getUserByEmail(principal.getName());
-            basketService.deleteByBasketId(productId);
-            basketSize = basketService.getBasket(user.getId()).size();
+            basketProductService.deleteByBasketId(productId);
+            basketSize = basketProductService.getBasket(user.getId()).size();
         }else {
             Map<Long, Integer> basket = (Map) session.getAttribute("basket");
             if(basket != null && basket.size() > 0){
@@ -60,9 +110,9 @@ public class BasketApiController {
     public void update(@RequestParam Long productId, @RequestParam Integer quantity, Principal principal, HttpSession session){
         if(principal!=null){
             User user = userService.getUserByEmail(principal.getName());
-            BasketProduct basketProduct = basketService.getBasketProduct(user.getId(), productId);
+            BasketProduct basketProduct = basketProductService.getBasketProduct(user.getId(), productId);
             basketProduct.setQuantity(quantity);
-            basketService.addBasket(basketProduct);
+            basketProductService.addBasket(basketProduct);
         }else{
             Map<Long, Integer> basket = (Map) session.getAttribute("basket");
             if(basket != null && basket.size() > 0){

@@ -35,7 +35,7 @@
         //     }
         // }
         
-        function addBasket(productId) {
+        function addBasketItem(productId) {
             var stat = $('#quantity').text();
             var quantity = parseInt(stat,10);
             var JSONObject= {
@@ -44,17 +44,15 @@
             };
             var jsonData = JSON.stringify( JSONObject );
             $.ajax({
-                url : '/api/orders/basket',
+                url : '/api/basket',
                 method : 'post',
                 data : jsonData,
-                dataType: "json",
+                dataType: "text",
                 contentType: "application/json",
                 success : function (data) {
-                    alert('등록되었습니다.. OK');
-                    console.log(data);
-                },
-                error : function (err) {
-                    console.log(err.toString());
+                    if(data == "ok"){
+                        alert("장바구니에 추가되었습니다.");
+                    }
                 }
             });
         }
@@ -188,7 +186,7 @@
                 </div>
                 <div class="form-row" style="padding-top: 25px">
                     <div class="col">
-                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addBasket(' + ${product.id} + ')'"><small>장바구니</small></button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addBasketItem(' + ${product.id} + ')'"><small>장바구니</small></button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-secondary btn-lg btn-block" th:onclick="'javascript:addWishlist(' + ${product.id} + ')'"><small>위시리스트</small></button>
