@@ -12,6 +12,37 @@
                 }
             }).open();
         }
+
+        function makeOrder(){
+            if(validationCheck()){
+                $("#orderForm").submit();
+            }
+        }
+
+        function validationCheck() {
+            if($("#receiver").val() == null || $("#receiver").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }else if($("#addr1").val() == null || $("#addr1").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }else if($("#addr2").val() == null || $("#addr2").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }else if($("#phone2").val() == null || $("#phone2").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }else if($("#phone3").val() == null || $("#phone3").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }else if($("#depositor").val() == null || $("#depositor").val() == ""){
+                alert("필수항목을 모두 입력해주십시오.");
+                return false;
+            }
+
+            return true;
+        }
+
     </script>
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -41,7 +72,7 @@
     <br><br>
     <div style="text-align: left; padding-left: 100px"><h2>주문서 작성</h2></div>
     <hr style="padding-bottom: 40px">
-    <form method="post" th:action="@{/orders}" th:object="${order}">
+    <form method="post" id="orderForm" th:action="@{/orders}" th:object="${order}">
     <div class="container-fluid" style="width: 60%;">
         <p><h4>주문내역&nbsp;&nbsp;</h4><small>상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</small><br></p>
         <table class="table" style="text-align: center;">
@@ -202,7 +233,7 @@
         </div>
         <input type="hidden" th:value="${order.payment}" th:field="*{payment}">
         <div style="padding-top: 60px; padding-bottom: 100px;">
-            <button type="submit" class="btn btn-success btn-block">결제하기</button>
+            <button type="button" onclick="makeOrder();" class="btn btn-success btn-block">결제하기</button>
         </div>
     </div>
     </form>
