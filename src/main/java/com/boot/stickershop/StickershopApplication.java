@@ -27,12 +27,12 @@ public class StickershopApplication implements WebMvcConfigurer {
 		SpringApplication.run(StickershopApplication.class, args);
 	}
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if(!registry.hasMappingForPattern("/static/**")){
-			registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-		}
-	}
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        if(!registry.hasMappingForPattern("/static/**")){
+//			registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//		}
+//	}
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

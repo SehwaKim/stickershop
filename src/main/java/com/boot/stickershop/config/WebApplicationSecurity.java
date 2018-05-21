@@ -39,7 +39,6 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/css/**").permitAll()
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/orders/**").permitAll()
