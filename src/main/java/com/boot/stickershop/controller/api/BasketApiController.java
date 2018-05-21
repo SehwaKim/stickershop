@@ -2,10 +2,12 @@ package com.boot.stickershop.controller.api;
 
 import com.boot.stickershop.domain.BasketProduct;
 import com.boot.stickershop.domain.User;
+import com.boot.stickershop.domain.WishlistItem;
 import com.boot.stickershop.dto.BasketItem;
 import com.boot.stickershop.service.BasketProductService;
 import com.boot.stickershop.service.ProductService;
 import com.boot.stickershop.service.UserService;
+import com.boot.stickershop.service.WishlistItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,9 @@ public class BasketApiController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    WishlistItemService wishlistItemService;
 
     @PostMapping
     public String addBasketProduct(@RequestBody BasketItem basketItem, Principal principal, HttpSession session){
@@ -70,6 +75,10 @@ public class BasketApiController {
                 basketProduct.setQuantity(basketItem.getQuantity());
                 basketProductService.addBasket(basketProduct);
             }
+
+            // 위시리스트 삭제
+            WishlistItem wishlistItem = wishlistItemService.selectOneByProductIdAndUserId(basketItem.getProductId(), user.getId());
+            wishlistItemService.deleteWishlist(wishlistItem.getId());
         }
         return "ok";
     }
