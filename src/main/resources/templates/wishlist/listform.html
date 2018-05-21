@@ -27,6 +27,36 @@
                 }
              });
 
+            $("#addToBasket").click(function () {
+                var checkedAny = false;
+                $("input[name=listId]:checked").each(function() {
+                    checkedAny = true;
+                    var listId = $(this).val();
+                    var productId = $("#productId_"+listId).val();
+                    var JSONObject= {
+                        "productId" : productId,
+                        "quantity" : 1
+                    };
+                    var jsonData = JSON.stringify( JSONObject );
+                    $.ajax({
+                        url : '/api/basket',
+                        method : 'post',
+                        data : jsonData,
+                        dataType: "text",
+                        contentType: "application/json",
+                        success : function (data) {
+                            document.getElementById(listId).remove();
+                            if(data == "ok"){
+                                // alert("장바구니에 추가되었습니다.");
+                            }
+                        }
+                    });
+                });
+                if(!checkedAny){
+                    alert("아이템을 선택해 주십시오.");
+                }
+            });
+
             $("#checkAll").click(function(){
                 if($("#checkAll").prop("checked")){
                     $("input[name=listId]").prop("checked", true);
@@ -61,7 +91,10 @@
                                             <td colspan="4" style="text-align: center;">위시리스트가 비어있습니다.</td>
                                         </tr>
                                         <tr th:if="${not #lists.isEmpty(list)}" th:attrappend="id=${item.id}" th:each="item : ${list}">
-                                            <td style="vertical-align: middle; text-align: right;"><input type="checkbox"  id="listId" name="listId" th:value="${item.id}"></td>
+                                            <td style="vertical-align: middle; text-align: right;">
+                                                <input type="checkbox"  id="listId" name="listId" th:value="${item.id}">
+                                                <input type="hidden" th:attrappend="id='productId_'+${item.id}" th:value="${item.product.id}">
+                                            </td>
                                             <td style="vertical-align: middle; text-align: right;">
                                                 <a th:href="@{'/products/' + ${item.product.id}}">
                                                     <img class="img-thumbnail" width="60" height="60" th:src="@{${item.product.imagePath}}">
@@ -79,10 +112,10 @@
                                         <small><strong>선택상품을</strong></small>
                                     </div>
                                     <div class="col">
-                                        <button type="button" class="btn btn-dark btn-sm"><small>장바구니 담기</small></button>
+                                        <button type="button" class="btn btn-dark btn-sm" id="addToBasket"><small>장바구니 담기</small></button>
                                     </div>
                                     <div class="col">
-                                        <button type="button" class="btn btn-dark btn-sm" id="deleteButton" name="deleteButton" ><small>삭제하기</small></button>
+                                        <button type="button" class="btn btn-dark btn-sm" id="deleteButton" name="deleteButton"><small>삭제하기</small></button>
                                     </div>
                                 </div>
                             </div>
