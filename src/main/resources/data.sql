@@ -9,7 +9,7 @@ insert into products(id, name, price, size, sales, image_path, category_id, regt
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (3, 'Django', 0, '40 x 40 mm', 8, '/images/django.png', 2, now(), now());
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (4, 'Groovy', 0, '40 x 40 mm', 70, '/images/groovy.png', 2, now(), now());
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (5, 'Docker', 2000, '40 x 40 mm', 9, '/images/docker.png', 4, now(), now());
-insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (6, 'IntelliJ', 1300, '40 x 40 mm', 80, '/images/intellij.png', 4, now(), now());
+insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (6, 'IntelliJ', 1300, '40 x 40 mm', 80, '/images/intelliJ.png', 4, now(), now());
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (7, 'Android', 10000, '40 x 40 mm', 7, '/images/android.png', 2, now(), now());
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (8, 'Tensorflow', 20000, '40 x 40 mm', 2, '/images/tensorflow.png', 2, now(), now());
 insert into products(id, name, price, size, sales, image_path, category_id, regtime, edittime) VALUES (9, 'Git', 30000, '40 x 40 mm', 6, '/images/git.png', 4, now(), now());
