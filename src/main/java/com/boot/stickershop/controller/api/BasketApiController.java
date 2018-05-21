@@ -78,7 +78,9 @@ public class BasketApiController {
 
             // 위시리스트 삭제
             WishlistItem wishlistItem = wishlistItemService.selectOneByProductIdAndUserId(basketItem.getProductId(), user.getId());
-            wishlistItemService.deleteWishlist(wishlistItem.getId());
+            if(wishlistItem != null) {
+                wishlistItemService.deleteWishlist(wishlistItem.getId());
+            }
         }
         return "ok";
     }
