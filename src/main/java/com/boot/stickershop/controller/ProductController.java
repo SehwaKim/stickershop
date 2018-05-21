@@ -26,9 +26,9 @@ public class ProductController {
         modelMap.addAttribute("pager", pagination);
 
         if(productSearch.getKeyword() == null && productSearch.getMinPrice() == null && productSearch.getMaxPrice() == null){
-            return "/products/list";
+            return "products/list";
         }else {
-            return "/products/search";
+            return "products/search";
         }
     }
 
@@ -36,6 +36,6 @@ public class ProductController {
     public String getProductDetail(@PathVariable(value = "productId") Long productId, ModelMap modelMap){
         Product product = productService.getProduct(productId);
         modelMap.addAttribute("product", product);
-        return "/products/detail";
+        return "products/detail";
     }
 }

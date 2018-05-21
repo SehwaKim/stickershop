@@ -111,7 +111,7 @@ public class OrderController {
         if(principal == null && orderSearch.getOrderNo() == null){
             modelMap.addAttribute("isGuestAccess", true);
 
-            return "/orders/list";
+            return "orders/list";
         }
 
         if(principal != null){
@@ -155,7 +155,7 @@ public class OrderController {
         modelMap.addAttribute("list", orderPage);
         modelMap.addAttribute("pager", pagination);
 
-        return "/orders/list";
+        return "orders/list";
     }
 
     @PostMapping
@@ -232,6 +232,6 @@ public class OrderController {
 
         modelMap.addAttribute("list", list);
 
-        return "/orders/basket";
+        return "orders/basket";
     }
 }
