@@ -96,12 +96,16 @@
 
         function updateBasketlist(productId, quantity){
             var quantity = $('#product_cno_'+productId).val();
+            var price = $('#productPrice').val();
+            var totPrice = price*quantity;
             $.ajax({
                 url : '/api/basket',
                 method : 'put',
                 data : {"productId" : productId, "quantity" : quantity},
                 dataType: "text",
                 success : function (data) {
+                    $("#totPrice").text(totPrice);
+                    $("#cnt").text(quantity);
                 }
             });
         }
@@ -139,6 +143,7 @@
                         <span> = </span>
                         <span id="totPrice" th:text="${#numbers.formatCurrency(item.product.price*item.quantity)}"></span>
                         <input type="hidden" name="productId" th:value="${item.product.id}">
+                        <input type="hidden" th:id="productPrice" th:value="${item.product.price}">
                     </td>
                     <td style="vertical-align: middle" width="10%">
                         <div style="padding-bottom: 10px">
