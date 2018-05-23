@@ -122,7 +122,7 @@
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                <li class="page-item" th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                <li th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}" th:attrappend="class=(${pager.page} == ${i})? 'page-item active' : 'page-item'">
                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${i}, sort=${productSearch.sort}, keyword=${productSearch.keyword}, minPrice=${productSearch.minPrice}, maxPrice=${productSearch.maxPrice})}" th:text="${i}"></a></li>
                 <li class="page-item" th:if="${pager.hasNext()} == true">
                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.endPage+1}, sort=${productSearch.sort}, keyword=${productSearch.keyword}, minPrice=${productSearch.minPrice}, maxPrice=${productSearch.maxPrice})}" aria-label="Next">

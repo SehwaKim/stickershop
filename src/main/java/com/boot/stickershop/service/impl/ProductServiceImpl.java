@@ -22,9 +22,9 @@ public class ProductServiceImpl implements ProductService {
         PageRequest pageRequest = null;
 
         if("FAVOR".equals(productSearch.getSort().toUpperCase())){
-            pageRequest = PageRequest.of(productSearch.getPage() - 1, 18, new Sort(Sort.Direction.DESC, "sales"));
+            pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "sales"));
         }else if("RECENT".equals(productSearch.getSort().toUpperCase())){
-            pageRequest = PageRequest.of(productSearch.getPage() - 1, 18, new Sort(Sort.Direction.DESC, "regtime"));
+            pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "regtime"));
         }
 
         return productRepository.getProductsByDSL(productSearch, pageRequest);

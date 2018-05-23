@@ -80,7 +80,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         Querydsl querydsl = new Querydsl(entityManager, pathBuilder);
         JPQLQuery<Order> query = querydsl.applyPagination(pageable, jpaQuery);
         Long total = jpaQuery.fetchCount();
-        jpaQuery.orderBy(qOrder.regtime.desc()); // TODO 오래된순으로 정렬도 추가하기
+        jpaQuery.orderBy(qOrder.id.desc()); // TODO 오래된순으로 정렬도 추가하기
 
         return new PageImpl(query.fetch(), pageable, total);
     }

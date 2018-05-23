@@ -45,6 +45,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         PathBuilder<Product> product = new PathBuilder<Product>(Product.class, "product");
         Querydsl querydsl = new Querydsl(entityManager, product);
         JPQLQuery query = querydsl.applyPagination(pageable, jpaQuery);
+        query.orderBy(qProduct.id.asc());
         Long total = jpaQuery.fetchCount();
 
         return new PageImpl(query.fetch(), pageable, total);
@@ -55,7 +56,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
 
         QProduct qProduct = QProduct.product;
-        JPAQuery<Product> jpaQuery = jpaQueryFactory.selectFrom(qProduct).orderBy(qProduct.sales.desc()).limit(16);
+        JPAQuery<Product> jpaQuery = jpaQueryFactory.selectFrom(qProduct).orderBy(qProduct.sales.desc()).orderBy(qProduct.id.asc()).limit(15);
 
         return jpaQuery.fetch();
     }

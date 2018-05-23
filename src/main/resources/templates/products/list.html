@@ -52,7 +52,7 @@
                             <li><a th:href="@{/products(categoryId=2)}" style="color: GoldenRod">BackEnd</a></li>
                             <li><a th:href="@{/products(categoryId=3)}" style="color: SeaGreen">Linux</a></li>
                             <li><a th:href="@{/products(categoryId=4)}" style="color: MediumBlue">Tool</a></li>
-                            <li><a th:href="@{/products(categoryId=5)}" style="color: DeepPink">0원상품</a></li>
+                            <li><a th:href="@{/products(categoryId=5)}" style="color: DeepPink">Etc</a></li>
                         </ul>
                     </div>
                     <div class="col-9">
@@ -97,7 +97,7 @@
                                         <span class="sr-only">Previous</span>
                                     </a>
                                 </li>
-                                <li class="page-item" th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                                <li th:each="i : ${#numbers.sequence(pager.startPage, pager.endPage)}" th:attrappend="class=(${pager.page} == ${i})? 'page-item active' : 'page-item'">
                                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${i}, sort=${productSearch.sort})}" th:text="${i}"></a></li>
                                 <li class="page-item" th:if="${pager.hasNext()} == true">
                                     <a class="page-link" th:href="@{/products(categoryId=${productSearch.categoryId}, page=${pager.endPage+1}, sort=${productSearch.sort})}" aria-label="Next">
