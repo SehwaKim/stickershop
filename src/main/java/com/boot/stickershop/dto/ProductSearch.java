@@ -14,9 +14,14 @@ public class ProductSearch {
     private String keyword;
     private Integer minPrice;
     private Integer maxPrice;
+    private Boolean admin;
 
     public ProductSearch() {
         this.page = 1;
         this.sort = "favor";
+    }
+
+    public Boolean isAdmin(){
+        return admin;
     }
 }

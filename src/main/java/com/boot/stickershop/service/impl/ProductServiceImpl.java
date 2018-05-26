@@ -20,11 +20,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProductList(ProductSearch productSearch) {
         PageRequest pageRequest = null;
-
-        if("FAVOR".equals(productSearch.getSort().toUpperCase())){
-            pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "sales"));
-        }else if("RECENT".equals(productSearch.getSort().toUpperCase())){
-            pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "regtime"));
+        if(productSearch.isAdmin()){
+            if("FAVOR".equals(productSearch.getSort().toUpperCase())){
+                pageRequest = PageRequest.of(productSearch.getPage() - 1, 20, new Sort(Sort.Direction.DESC, "sales"));
+            }else if("RECENT".equals(productSearch.getSort().toUpperCase())){
+                pageRequest = PageRequest.of(productSearch.getPage() - 1, 20, new Sort(Sort.Direction.DESC, "regtime"));
+            }
+        }else{
+            if("FAVOR".equals(productSearch.getSort().toUpperCase())){
+                pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "sales"));
+            }else if("RECENT".equals(productSearch.getSort().toUpperCase())){
+                pageRequest = PageRequest.of(productSearch.getPage() - 1, 9, new Sort(Sort.Direction.DESC, "regtime"));
+            }
         }
 
         return productRepository.getProductsByDSL(productSearch, pageRequest);
