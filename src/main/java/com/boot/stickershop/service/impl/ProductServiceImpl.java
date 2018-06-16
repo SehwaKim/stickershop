@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProductList(ProductSearch productSearch) {
         PageRequest pageRequest = null;
-        if(productSearch.isAdmin()){
+        if(productSearch.isAdmin() != null && productSearch.isAdmin()){
             if("FAVOR".equals(productSearch.getSort().toUpperCase())){
                 pageRequest = PageRequest.of(productSearch.getPage() - 1, 20, new Sort(Sort.Direction.DESC, "sales"));
             }else if("RECENT".equals(productSearch.getSort().toUpperCase())){
