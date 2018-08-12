@@ -1,11 +1,11 @@
 package com.boot.stickershop.repository;
 
-import com.boot.stickershop.base.JpaQueryDslPredicateRepository;
 import com.boot.stickershop.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends JpaQueryDslPredicateRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     public User findUsersByEmail(String email);
 
     @Query("SELECT uc.user FROM UserConnection uc WHERE uc.providerId = " +

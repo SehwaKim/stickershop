@@ -13,51 +13,48 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.Querydsl;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class ProductRepositoryImpl implements ProductRepositoryCustom {
-    @Autowired
-    EntityManager entityManager;
+public class ProductRepositoryImpl extends QuerydslRepositorySupport implements ProductRepositoryCustom {
+    public ProductRepositoryImpl(){
+        super(Product.class);
+    }
 
     @Override
     public Page<Product> getProductsByDSL(ProductSearch productSearch, Pageable pageable) {
-        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
 
         QProduct qProduct = QProduct.product;
-        JPAQuery<Product> jpaQuery = jpaQueryFactory.selectFrom(qProduct);
+        JPQLQuery<Product> jpqlQuery = from(qProduct);
 
         // nullable : categoryId, keyword, minPrice, maxPrice
 
         if(productSearch.getCategoryId() != null){
-            jpaQuery.where(qProduct.productCategory.id.eq(productSearch.getCategoryId()));
+            jpqlQuery.where(qProduct.productCategory.id.eq(productSearch.getCategoryId()));
         }
 
         if(productSearch.getKeyword() != null){
-            jpaQuery.where(qProduct.name.containsIgnoreCase(productSearch.getKeyword()));
+            jpqlQuery.where(qProduct.name.containsIgnoreCase(productSearch.getKeyword()));
         }
 
         if(productSearch.getMinPrice() != null || productSearch.getMaxPrice() != null){
-            jpaQuery.where(qProduct.price.between(productSearch.getMinPrice(), productSearch.getMaxPrice()));
+            jpqlQuery.where(qProduct.price.between(productSearch.getMinPrice(), productSearch.getMaxPrice()));
         }
 
-        PathBuilder<Product> product = new PathBuilder<Product>(Product.class, "product");
-        Querydsl querydsl = new Querydsl(entityManager, product);
-        JPQLQuery query = querydsl.applyPagination(pageable, jpaQuery);
+        JPQLQuery query = getQuerydsl().applyPagination(pageable, jpqlQuery);
         query.orderBy(qProduct.id.asc());
-        Long total = jpaQuery.fetchCount();
+        Long total = jpqlQuery.fetchCount();
 
         return new PageImpl(query.fetch(), pageable, total);
     }
 
     @Override
     public List<Product> getMainProductsByDSL() {
-        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
-
         QProduct qProduct = QProduct.product;
-        JPAQuery<Product> jpaQuery = jpaQueryFactory.selectFrom(qProduct).orderBy(qProduct.sales.desc()).orderBy(qProduct.id.asc()).limit(15);
+        JPQLQuery<Product> jpqlQuery = from(qProduct).orderBy(qProduct.sales.desc()).orderBy(qProduct.id.asc()).limit(15);
 
-        return jpaQuery.fetch();
+        return jpqlQuery.fetch();
     }
 }
