@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
@@ -32,6 +33,7 @@ public class OrderServiceImpl implements OrderService{
     ProductRepository productRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Order> getOrderList(OrderSearch orderSearch) {
         PageRequest pageRequest = null;
 
@@ -45,11 +47,13 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Order getOrder(Long userId) {
         return orderRepository.findFirstByUserIdOrderByRegtimeDesc(userId);
     }
 
     @Override
+    @Transactional
     public Order insertOrder(Order order) {
         Order savedOrder = orderRepository.save(order);
 

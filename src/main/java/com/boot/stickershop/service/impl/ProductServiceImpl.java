@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Product> getProductList(ProductSearch productSearch) {
         PageRequest pageRequest = null;
         if(productSearch.isAdmin() != null && productSearch.isAdmin()){
@@ -38,11 +40,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> getProductListMain() {
         return productRepository.getMainProductsByDSL();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product getProduct(Long productId) {
         return productRepository.findProductById(productId);
     }
