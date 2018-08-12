@@ -35,18 +35,20 @@ public class WishlistItemServiceImpl implements WishlistItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public WishlistItem selectOne(Long id) {
         WishlistItem item = repository.findWishlistItemById(id);
         return item;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<WishlistItem> selectAllByUserId(Long userId) {
         return repository.findAllByUserId(userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public WishlistItem selectOneByProductIdAndUserId(Long productId, Long userId) {
         return repository.findByProductIdAndUserId(productId, userId);
     }
