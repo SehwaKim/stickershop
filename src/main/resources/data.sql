@@ -72,3 +72,28 @@ insert into order_products(id, product_id, quantity, purchase_price, regtime, or
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (6, 8, 2, 1200, now(), 2);
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (7, 2, 6, 1200, now(), 3);
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (8, 9, 1, 1200, now(), 3);
+
+insert into board_categories(id, name) values (1, 'free');
+insert into board_categories(id, name) values (2, 'game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

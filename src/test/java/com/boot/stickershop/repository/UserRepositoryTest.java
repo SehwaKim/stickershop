@@ -1,4 +1,4 @@
-package com.boot.stickershop;
+package com.boot.stickershop.repository;
 
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.repository.UserRepository;

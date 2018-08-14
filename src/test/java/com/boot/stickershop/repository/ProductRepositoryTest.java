@@ -1,4 +1,4 @@
-package com.boot.stickershop;
+package com.boot.stickershop.repository;
 
 import com.boot.stickershop.domain.Product;
 import com.boot.stickershop.domain.ProductFile;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest // spring boot slice test
 public class ProductRepositoryTest {
 	@Autowired
 	ProductRepository productRepository;
