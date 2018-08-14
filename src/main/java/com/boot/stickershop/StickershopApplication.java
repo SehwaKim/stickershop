@@ -1,6 +1,7 @@
 package com.boot.stickershop;
 
 import com.boot.stickershop.interceptor.RefererSaveInterceptor;
+import com.boot.stickershop.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,9 +22,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class StickershopApplication implements WebMvcConfigurer {
-
-	@Autowired
-	RefererSaveInterceptor refererSaveInterceptor;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StickershopApplication.class, args);
@@ -48,8 +48,13 @@ public class StickershopApplication implements WebMvcConfigurer {
 		converters.add(converter);
 	}
 
+	@Bean
+	public RefererSaveInterceptor refererSaveInterceptor(){
+		return new RefererSaveInterceptor();
+	}
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(refererSaveInterceptor);
+		registry.addInterceptor(refererSaveInterceptor());
 	}
 }
