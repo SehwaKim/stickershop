@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -64,5 +66,37 @@ public class BoardRepositoryTest {
 
         Board saveBoard = boardRepository.save(board);
         System.out.println(saveBoard.getId()); // Assert를 이용한 검증문이 들어가야한다. 눈으로 확인을 위해..
+    }
+
+    @Test
+    public void testGetBoardId1() throws Exception{
+        Board board = boardRepository.getOne(1L);
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
+    }
+
+    @Test
+    public void testGetBoardId2() throws Exception{
+        Board board = boardRepository.findBoardById(1L);
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
+    }
+
+    // 제목에 llo가 포함된 목록을 구하는 메소드를 boardRepository에 추가하시오.
+    @Test
+    public void testFindBoardByTitleContaining() throws Exception{
+        List<Board> list = boardRepository.findBoardByTitleContaining("llo");
+        for(Board b : list){
+            System.out.println(b.getTitle());
+        }
+    }
+
+    // @Query 를 이용해서 id 가 일치하는 Board를 반환하는 메소드를 BoardRepository에 추가하시오.
+
+    @Test
+    public void testGetBoardId3() throws Exception{
+        Board board = boardRepository.getBoard(1L);
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
     }
 }
