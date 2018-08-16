@@ -99,4 +99,11 @@ public class BoardRepositoryTest {
         System.out.println(board.getTitle());
         System.out.println(board.getContent());
     }
+
+    @Test
+    public void testGetBoardId4() throws Exception{
+        Board board = boardRepository.getBoardByDsl(1L);
+        System.out.println(board.getTitle());
+        System.out.println(board.getContent());
+    }
 }
