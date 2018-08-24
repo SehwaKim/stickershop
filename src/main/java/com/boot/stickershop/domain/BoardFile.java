@@ -22,6 +22,7 @@ public class BoardFile {
     private String contentType;
     private Long length;
     private LocalDateTime regtime;
+    private LocalDateTime edittime;
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
