@@ -1,19 +1,14 @@
 package com.boot.stickershop.config;
 
-import com.boot.stickershop.security.oauth2.AlreadyLoginCheckFilter;
 import com.boot.stickershop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.servlet.Filter;
 
 
 @Configuration
@@ -48,19 +43,12 @@ public class WebApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .csrf().ignoringAntMatchers("/**")
-//                .ignoringAntMatchers("/h2-console/**")
                 .and().headers().frameOptions().disable()
                 .and().formLogin()
                 .loginProcessingUrl("/users/login")
                 .loginPage("/users/login").usernameParameter("email").passwordParameter("password")
-                /*.successHandler(customAuthenticationSuccessHandler())
-                .failureHandler(customAuthenticationFailureHandler())*/
-//                .and().rememberMe().tokenRepository(simpleBoardTokenRepositoryImpl).rememberMeParameter("remember-me").tokenValiditySeconds(1209600)
+                .failureUrl("/uers/login?fail=true")
                 .and().logout().permitAll();
-                //.and()
-                //    .addFilterBefore(new AlreadyLoginCheckFilter(), BasicAuthenticationFilter.class)
-                //    .addFilterBefore((Filter) context.getBean("sso.filter"),BasicAuthenticationFilter.class);
-
 
     }
 

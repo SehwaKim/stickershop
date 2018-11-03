@@ -8,7 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,8 +29,12 @@ public class User {
     private String password;
     private LocalDateTime regtime;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<UserRole> roles = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "user_user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id") ,
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id") )
+    private Set<UserRole> roles = new HashSet<>();
+
 
     @ManyToOne
     @JoinColumn(name = "user_connection_id")
@@ -44,9 +50,6 @@ public class User {
     // 헬퍼
     public void addUserRole(UserRole role){
         this.roles.add(role);
-        if(role.getUser()!=this){
-            role.setUser(this);
-        }
     }
 
     public void addUserConnection(UserConnection userConnection){

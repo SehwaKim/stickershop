@@ -52,13 +52,16 @@ insert into products(id, name, price, size, sales, image_path, category_id, regt
 insert into product_files(id, file_name, save_file_name, content_type, length, regtime, product_id) VALUES (1, 'python2.jpg', '/images/python2.jpg', 'image/jpg', 19600, now(), 2);
 insert into product_files(id, file_name, save_file_name, content_type, length, regtime, product_id) VALUES (2, 'python3.jpg', '/images/python3.jpg', 'image/jpg', 19600, now(), 2);
 
-insert into users(id, name, email, password, regtime) VALUES (1, '테스트', 'test', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
-insert into user_roles(id, role_name, user_id) VALUES (1, 'USER', 1);
-insert into user_roles(id, role_name, user_id) VALUES (2, 'ADMIN', 1);
+insert into user_roles(id, role_name) VALUES (1, 'USER');
+insert into user_roles(id, role_name) VALUES (2, 'ADMIN');
 
+insert into users(id, name, email, password, regtime) VALUES (1, '테스트', 'test', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
 insert into users(id, name, email, password, regtime) VALUES (2, '타노스', 'test2', '{bcrypt}$2a$10$qS48/8nM2fSagy1di.whF.tutE/VZ9/wwOkGBcm.Ty8mOKLfwpv/G', now());
-insert into user_roles(id, role_name, user_id) VALUES (3, 'USER', 2);
-insert into user_roles(id, role_name, user_id) VALUES (4, 'ADMIN', 2);
+
+insert into user_user_roles(user_id, role_id) VALUES (1, 1);
+insert into user_user_roles(user_id, role_id) VALUES (1, 2);
+insert into user_user_roles(user_id, role_id) VALUES (2, 1);
+
 
 insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id, depositor) values (1, 2, 'S2018052056412', '010', '111', '222', '타조', now(), '3','111-111','지구','한국','1','김세화');
 insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, depositor) values (2, 2, 'S2018052078945', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국','김세화');

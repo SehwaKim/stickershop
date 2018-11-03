@@ -17,8 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -76,8 +78,7 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // 권한 부여
-        UserRole userRole = new UserRole();
-        userRole.setRoleName("USER");
+        UserRole userRole = userService.getUserRole("USER");
         user.addUserRole(userRole);
 
         // insert
@@ -99,7 +100,7 @@ public class UserController {
         return "users/loginform";
     }
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login(){
         return "users/loginform";
     }

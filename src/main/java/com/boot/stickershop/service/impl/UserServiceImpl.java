@@ -2,8 +2,10 @@ package com.boot.stickershop.service.impl;
 
 import com.boot.stickershop.domain.User;
 import com.boot.stickershop.domain.UserConnection;
+import com.boot.stickershop.domain.UserRole;
 import com.boot.stickershop.repository.UserConnectionRepository;
 import com.boot.stickershop.repository.UserRepository;
+import com.boot.stickershop.repository.UserRoleRepository;
 import com.boot.stickershop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     @Autowired
     private UserConnectionRepository userConnectionRepository;
@@ -31,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public User getSocialUser(String type, String providerUserId) {
         User user = userRepository.getSocialUser(type,providerUserId);
         return user;
@@ -41,5 +46,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserConnection addUserConnection(UserConnection userConnection) {
         return userConnectionRepository.save(userConnection);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserRole getUserRole(String roleName) {
+        return userRoleRepository.findUserRoleByRoleName(roleName);
     }
 }

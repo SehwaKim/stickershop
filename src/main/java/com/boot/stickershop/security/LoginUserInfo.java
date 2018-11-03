@@ -12,13 +12,7 @@ public class LoginUserInfo extends User implements Serializable {
     private String email;
 
     public LoginUserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-    }
-
-    public LoginUserInfo(String username, String password, boolean enabled, boolean accountNonExpired,
-                         boolean credentialsNonExpired, boolean accountNonLocked,
-                         Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        super(username, password, true, true, true, true, authorities);
     }
 
     public Long getId() {

@@ -28,7 +28,10 @@ public class StickershopUserDetailService implements UserDetailsService {
         for(UserRole userRole : user.getRoles()){
             list.add(new SimpleGrantedAuthority("ROLE_"+userRole.getRoleName()));
         }
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), list);
+        LoginUserInfo userDetails = new LoginUserInfo(user.getEmail(), user.getPassword(), list);
+        userDetails.setName(user.getName());
+        userDetails.setEmail(user.getEmail());
+        userDetails.setId(user.getId());
 
         return userDetails;
     }
