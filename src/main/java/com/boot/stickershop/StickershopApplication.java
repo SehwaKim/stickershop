@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import examples.boot.ServerInfo;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,7 @@ import java.util.List;
 @SpringBootApplication
 public class StickershopApplication implements WebMvcConfigurer {
 
+	// java -java java파일명 어프리케이션아규먼트 ....
 	public static void main(String[] args) {
 //		SpringApplication.run(StickershopApplication.class, args);
 		SpringApplication springApplication =
@@ -29,6 +31,14 @@ public class StickershopApplication implements WebMvcConfigurer {
 		springApplication.addListeners(new ApplicationPidFileWriter());
 		springApplication.addListeners(new StickerShopStartEventListener());
 		springApplication.run(args);
+	}
+
+	@Bean
+	public ServerInfo serverInfo(){
+		ServerInfo serverInfo = new ServerInfo();
+		serverInfo.setAddress("우리집");
+		serverInfo.setPort(100000);
+		return serverInfo;
 	}
 
 
