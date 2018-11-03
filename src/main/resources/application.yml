@@ -1,5 +1,7 @@
 
 spring:
+  pid:
+    file: stickershop.pid
   jpa:
     hibernate:
      ddl-auto: create-drop
