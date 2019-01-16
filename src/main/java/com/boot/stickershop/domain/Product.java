@@ -27,7 +27,7 @@ public class Product {
     @Column(name = "image_path")
     private String imagePath;
 
-    @ManyToOne(targetEntity = ProductCategory.class, fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity = ProductCategory.class)
     @JoinColumn(name="category_id")
     private ProductCategory productCategory;
     private LocalDateTime regtime;

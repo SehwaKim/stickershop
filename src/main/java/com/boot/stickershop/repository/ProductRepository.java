@@ -10,6 +10,6 @@ import java.util.Set;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom{
     Product findProductById(Long productId);
-    @Query("select distinct p from Product p left join fetch p.productFiles")
+    @Query("select distinct p from Product p left join fetch p.productFiles inner join fetch p.productCategory")
     List<Product> fetchProducts();
 }

@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UserRepositoryTest {
@@ -28,7 +30,8 @@ public class UserRepositoryTest {
 		user.setName("kim");
 		user.setEmail("u@gmail.com");
 		user = userRepository.save(user);
-		System.out.println(user);
+		User usersByEmail = userRepository.findUsersByEmail("u@gmail.com");
+		assertThat(user).isEqualTo(usersByEmail);
 	}
 
 }

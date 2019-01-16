@@ -64,8 +64,8 @@ insert into user_user_roles(user_id, role_id) VALUES (2, 1);
 
 
 insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id, depositor) values (1, 2, 'S2018052056412', '010', '111', '222', '타조', now(), '3','111-111','지구','한국','1','김세화');
-insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, depositor) values (2, 2, 'S2018052078945', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국','김세화');
-insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, depositor) values (3, 2, 'S2018052045632', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국','김세화');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id, depositor) values (2, 2, 'S2018052078945', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국', 1, '김세화');
+insert into orders(id, payment, order_no, phone1, phone2, phone3, receiver, regtime, status, zipcode, addr1, addr2, user_id, depositor) values (3, 2, 'S2018052045632', '010', '8757', '9087', '라쿤', now(), '3','222-234','지구','한국',1, '김세화');
 
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (1, 3, 5, 1200, now(), 1);
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (2, 5, 4, 1200, now(), 1);
@@ -75,9 +75,6 @@ insert into order_products(id, product_id, quantity, purchase_price, regtime, or
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (6, 8, 2, 1200, now(), 2);
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (7, 2, 6, 1200, now(), 3);
 insert into order_products(id, product_id, quantity, purchase_price, regtime, order_id) VALUES (8, 9, 1, 1200, now(), 3);
-
-insert into board_categories(id, name) values (1, 'free');
-insert into board_categories(id, name) values (2, 'game');
 
 
 

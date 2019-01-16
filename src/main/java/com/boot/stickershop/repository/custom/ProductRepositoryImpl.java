@@ -27,7 +27,7 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
     public Page<Product> getProductsByDSL(ProductSearch productSearch, Pageable pageable) {
 
         QProduct qProduct = QProduct.product;
-        JPQLQuery<Product> jpqlQuery = from(qProduct);
+        JPQLQuery<Product> jpqlQuery = from(qProduct).leftJoin(qProduct.productFiles).fetchJoin().innerJoin(qProduct.productCategory).fetchJoin();
 
         // nullable : categoryId, keyword, minPrice, maxPrice
 
@@ -53,7 +53,9 @@ public class ProductRepositoryImpl extends QuerydslRepositorySupport implements 
     @Override
     public List<Product> getMainProductsByDSL() {
         QProduct qProduct = QProduct.product;
-        JPQLQuery<Product> jpqlQuery = from(qProduct).orderBy(qProduct.sales.desc()).orderBy(qProduct.id.asc()).limit(15);
+        JPQLQuery<Product> jpqlQuery = from(qProduct).leftJoin(qProduct.productFiles).fetchJoin().innerJoin(qProduct.productCategory).fetchJoin();
+
+        jpqlQuery.orderBy(qProduct.sales.desc()).orderBy(qProduct.id.asc()).limit(15);
 
         return jpqlQuery.fetch();
     }
